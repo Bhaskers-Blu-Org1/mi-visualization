@@ -22,8 +22,11 @@ Additionally it depends on the following external libraries:
 
 Main modules
 ------------
-   *  - core types and classes (image, tensor, matrix, vector etc.)
+   *  - visualization_opengl contains window manager and several types of windows, as well as base classes usefull for building applications using OpenGL. 
 
+Tests
+------------
+   *  - image_encoder_test image encoder (with OpenGL-based visualization) test application 
 
 Maintainer
 ----------
