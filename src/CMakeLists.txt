@@ -5,6 +5,16 @@ include(CheckCXXCompilerFlag)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # =======================================================================
+# Add CMAKE variables.
+# =======================================================================
+
+set(BUILD_TEST_IMAGE_ENCODER ON CACHE BOOL "Build the image encoder (with OpenGL-based visualization) test application")
+
+# Default length of SDR.
+set(DEFAULT_SDR_LENGTH 1024 CACHE STRING "Default length of SDR")
+add_definitions(-DDEFAULT_SDR_LENGTH=${DEFAULT_SDR_LENGTH})
+
+# =======================================================================
 # Set compiler flags.
 # =======================================================================
 
@@ -32,11 +42,37 @@ file(GLOB visualization_opengl_src
 	)
 
 add_library(visualization_opengl SHARED ${visualization_opengl_src})
-target_link_libraries(visualization_opengl logger configuration application core_types data_utils  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
-
+target_link_libraries(visualization_opengl logger configuration application core_types data_utils  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${Boost_LIBRARIES})
 
 # =======================================================================
 # Install target libraries.
 # =======================================================================
 
 install(TARGETS visualization_opengl LIBRARY DESTINATION lib)
+
+
+# =======================================================================
+# Build executables - image encoder test.
+# =======================================================================
+
+if(${BUILD_TEST_IMAGE_ENCODER})
+	# Create exeutable.
+	add_executable(image_encoder_test opengl/tests/image_encoder_test.cpp)
+	# Link it with shared libraries.
+	target_link_libraries(image_encoder_test 
+		logger
+		application
+		core_types
+		data_io
+		auto_encoders
+		configuration
+		visualization_opengl
+		${OPENGL_LIBRARIES} ${GLUT_LIBRARY}
+		${Boost_LIBRARIES}
+		)
+	
+	# install test to bin directory
+	install(TARGETS image_encoder_test RUNTIME DESTINATION bin)
+	
+endif(${BUILD_TEST_IMAGE_ENCODER})
+

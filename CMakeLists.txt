@@ -17,7 +17,20 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Wall")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 # =======================================================================
-# FIND GLUT
+# Find Boost package
+# =======================================================================
+find_package(Boost 1.58 REQUIRED COMPONENTS system thread random)
+# Try to include Boost as system directory to suppress it's warnings
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
+
+# =======================================================================
+# Find OpenBLAS package
+# =======================================================================
+find_package( OpenBLAS REQUIRED )
+include_directories(${OpenBLAS_INCLUDE_DIR})
+
+# =======================================================================
+# Find GLUT package
 # =======================================================================
 find_package(GLUT REQUIRED)
 include_directories(${GLUT_INCLUDE_DIRS})
@@ -28,7 +41,7 @@ if(NOT GLUT_FOUND)
 endif(NOT GLUT_FOUND)
 
 # =======================================================================
-# FIND OPENGL
+# Find OPENGL package
 # =======================================================================
 find_package(OpenGL REQUIRED)
 include_directories(${OpenGL_INCLUDE_DIRS})
@@ -48,7 +61,7 @@ message("Found MI Toolchain libs: ${MIToolchain_LIBRARIES} ")
 # Find MIC Algorithms
 # =======================================================================
 find_package(MIAlgorithms REQUIRED)
-message("Found MI Algorithms libs: ${MIAlgorithm_LIBRARIES} ")
+message("Found MI Algorithms libs: ${MIAlgorithms_LIBRARIES} ")
 
 
 add_subdirectory(src)
