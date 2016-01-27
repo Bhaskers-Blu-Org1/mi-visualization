@@ -17,6 +17,7 @@ External dependencies
 ------------
 Additionally it depends on the following external libraries:
    * Boost - library of free (open source) peer-reviewed portable C++ source libraries.
+   * OpenBlas - an optimized BLAS library based on GotoBLAS2 1.13 BSD version (Matrix<T> dependency).
    * OpenGL - a cross-language, cross-platform application programming interface for rendering 2D and 3D vector graphics.
 
 Main modules
