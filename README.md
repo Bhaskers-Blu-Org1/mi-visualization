@@ -22,11 +22,11 @@ Additionally it depends on the following external libraries:
 
 Main modules
 ------------
-   *  - visualization_opengl contains window manager and several types of windows, as well as base classes usefull for building applications using OpenGL. 
+   *  visualization_opengl contains window manager and several types of windows, as well as base classes usefull for building applications using OpenGL. 
 
 Applications
 ------------
-   *  - image_encoder_test image encoder (with OpenGL-based visualization) test application 
+   *  image_encoder_test image encoder (with OpenGL-based visualization) test application 
 
 Maintainer
 ----------

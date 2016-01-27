@@ -5,6 +5,15 @@ include(CheckCXXCompilerFlag)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # =======================================================================
+# Set compiler/linker flags.
+# =======================================================================
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+
+# Check, whether all necessary libraries are linked
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl") 
+
+
+# =======================================================================
 # Add CMAKE variables.
 # =======================================================================
 
@@ -13,15 +22,6 @@ set(BUILD_TEST_IMAGE_ENCODER ON CACHE BOOL "Build the image encoder (with OpenGL
 # Default length of SDR.
 set(DEFAULT_SDR_LENGTH 1024 CACHE STRING "Default length of SDR")
 add_definitions(-DDEFAULT_SDR_LENGTH=${DEFAULT_SDR_LENGTH})
-
-# =======================================================================
-# Set compiler flags.
-# =======================================================================
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-
-# Check, whether all necessary libraries are linked
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl") 
 
 # =======================================================================
 # Build MI Visualization.
@@ -42,7 +42,7 @@ file(GLOB visualization_opengl_src
 	)
 
 add_library(visualization_opengl SHARED ${visualization_opengl_src})
-target_link_libraries(visualization_opengl logger configuration application core_types data_utils  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${Boost_LIBRARIES})
+target_link_libraries(visualization_opengl logger configuration application types data_utils  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${Boost_LIBRARIES})
 
 # =======================================================================
 # Install target libraries.
@@ -62,7 +62,7 @@ if(${BUILD_TEST_IMAGE_ENCODER})
 	target_link_libraries(image_encoder_test 
 		logger
 		application
-		core_types
+		types
 		data_io
 		auto_encoders
 		configuration

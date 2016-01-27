@@ -21,7 +21,6 @@ using namespace mic::logger;
 
 #include <application/ApplicationState.hpp>
 
-#ifdef USE_OPENGL
 #include <opengl/visualization/WindowManager.hpp>
 #include <opengl/visualization/WindowImage2D.hpp>
 using namespace mic::opengl::visualization;
@@ -30,8 +29,6 @@ using namespace mic::opengl::visualization;
 WindowImage2D* w2d_input;
 /// Window for displaying input image reconstruction.
 WindowImage2D* w2d_reconstruction;
-
-#endif
 
 
 
@@ -50,11 +47,10 @@ void image_encoder_and_visualization_test (void) {
 	mic::auto_encoders::DummyGrayscaleImageEncoder ie;
 	mic::types::floatSDR image_sdr;
 
-#ifdef USE_OPENGL
 	// Set images to display.
 	w2d_input->setImagePointer(current_image);
 	w2d_reconstruction->setImagePointer(reconstructed_image);
-#endif
+
 	// Load dataset.
 	mic::data_io::MNISTImageImporter importer;
 	// Manually set paths. DEPRICATED!
@@ -122,21 +118,17 @@ int main(int argc, char* argv[]) {
 
 
 
-#ifdef USE_OPENGL
 	// Initialize GLUT! :]
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
 	w2d_input = new WindowImage2D("Input image", 512, 512, 0, 0);
 	w2d_reconstruction = new WindowImage2D("Reconstructed image", 512, 512, 512, 0);
-#endif
 
 	boost::thread test_thread(boost::bind(&image_encoder_and_visualization_test));
 
-#ifdef USE_OPENGL
 	// Start visualization thread.
 	VGL_MANAGER->startVisualizationLoop();
-#endif
 
 	// End test thread.
 	test_thread.join();
