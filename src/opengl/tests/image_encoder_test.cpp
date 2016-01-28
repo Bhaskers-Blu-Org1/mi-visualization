@@ -21,6 +21,8 @@ using namespace mic::logger;
 
 #include <application/ApplicationState.hpp>
 
+#include <configuration/ParameterServer.hpp>
+
 #include <opengl/visualization/WindowManager.hpp>
 #include <opengl/visualization/WindowImage2D.hpp>
 using namespace mic::opengl::visualization;
@@ -29,7 +31,8 @@ using namespace mic::opengl::visualization;
 WindowImage2D* w2d_input;
 /// Window for displaying input image reconstruction.
 WindowImage2D* w2d_reconstruction;
-
+/// MNIST importer.
+mic::data_io::MNISTImageImporter* importer;
 
 
 /*!
@@ -51,15 +54,6 @@ void image_encoder_and_visualization_test (void) {
 	w2d_input->setImagePointer(current_image);
 	w2d_reconstruction->setImagePointer(reconstructed_image);
 
-	// Load dataset.
-	mic::data_io::MNISTImageImporter importer;
-	// Manually set paths. DEPRICATED!
-	importer.setDataFilename("/Users/tkornut/Documents/workspace/machine-intelligence-core/data/mnist/train-images-idx3-ubyte");
-	importer.setLabelsFilename("/Users/tkornut/Documents/workspace/machine-intelligence-core/data/mnist/train-labels-idx1-ubyte");
-
-	if (!importer.importData())
-		return;
-
  	// Main application loop.
 	while (!APP_STATE->Quit()) {
 
@@ -74,7 +68,7 @@ void image_encoder_and_visualization_test (void) {
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 				// Select random image-label pair.
-				mnist_pair_t sample = importer.getRandomSample();
+				mnist_pair_t sample = importer->getRandomSample();
 
 				// Copy image to pointer.
 				copy_image( sample.first.get(), current_image.get());
@@ -116,7 +110,24 @@ int main(int argc, char* argv[]) {
 	LOGGER->addOutput(new ConsoleOutput());
 	LOG(LINFO) << "Logger initialized. Starting application";
 
+	// Parse parameters.
+	PARAM_SERVER->parseApplicationParameters(argc, argv);
 
+	// Load dataset.
+	importer = new (mic::data_io::MNISTImageImporter);
+	// Manually set paths. DEPRICATED!
+	//importer->setDataFilename("/Users/tkornut/Documents/workspace/machine-intelligence-core/data/mnist/train-images-idx3-ubyte");
+	//importer->setLabelsFilename("/Users/tkornut/Documents/workspace/machine-intelligence-core/data/mnist/train-labels-idx1-ubyte");
+
+	// Set parameters of all property-tree derived objects - USER independent part.
+	PARAM_SERVER->loadPropertiesFromConfiguration();
+
+	// Initialize property-dependent variables of all registered property-tree objects - USER dependent part.
+	PARAM_SERVER->initializePropertyDependentVariables();
+
+	// Import data from datasets.
+	if (!importer->importData())
+		return -1;
 
 	// Initialize GLUT! :]
 	VGL_MANAGER->initializeGLUT(argc, argv);
