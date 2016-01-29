@@ -11,7 +11,7 @@ namespace mic {
 namespace opengl {
 namespace application {
 
-ContinuousLearningApplication::ContinuousLearningApplication(std::string node_name_) : ConsoleOpenGLApplication(node_name_),
+ContinuousLearningApplication::ContinuousLearningApplication(std::string node_name_) : OpenGLApplication(node_name_),
 		learning_iterations_to_test_ratio("learning_iterations_to_test_ratio", 50),
 		number_of_averaged_test_measures("number_of_averaged_test_measures", 5)
 {
@@ -23,45 +23,28 @@ ContinuousLearningApplication::ContinuousLearningApplication(std::string node_na
 	learning_iteration = 0;
 }
 
-void ContinuousLearningApplication::processingThread(void) {
+bool ContinuousLearningApplication::performSingleStep(void) {
 
- 	// Main application loop.
-	while (!APP_STATE->Quit()) {
+	// Check the iteration number.
+	if ((iteration % learning_iterations_to_test_ratio) == 0) {
+		APP_STATE->setLearningModeOff();
+	} else {
+		APP_STATE->setLearningModeOn();
+	}//: else
 
-		// If not paused.
-		if (!APP_STATE->isPaused()) {
-			// If single step mode - pause after the step.
-			if (APP_STATE->isSingleStepModeOn())
-				APP_STATE->pressPause();
+	// If learning mode.
+	if (APP_STATE->isLearningModeOn())  {
+		// Perform learning.
+		 return performLearningStep();
+	} else {
+		// Perform testing.
+		return performTestingStep();
+	}//: else
 
-			// Enter critical section - with the use of scoped lock from AppState!
-			APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
-
-			// Check iteration number.
-			if ((iteration % learning_iterations_to_test_ratio) == 0) {
-				APP_STATE->setLearningModeOff();
-			} else {
-				APP_STATE->setLearningModeOn();
-			}//: else
-
-			// If learning mode.
-			if (APP_STATE->isLearningModeOn())  {
-				// Perform learning.
-				performLearning();
-			} else {
-				// Perform testing.
-				performTesting();
-			}//: else
-
-		 	iteration++;
-		} //: if! is paused & end of critical section
-
-		// Sleep.
-		APP_SLEEP();
-	}//: while
+	//return true;
 }
 
-void ContinuousLearningApplication::performTesting() {
+bool ContinuousLearningApplication::performTestingStep() {
 
 	// Perform testing - two phases.
 	collectTestStatistics();
@@ -75,6 +58,8 @@ void ContinuousLearningApplication::performTesting() {
 	}//: if iteration
 
 	learning_iteration++;
+
+	return true;
 } //: if test mode (!learning)
 
 

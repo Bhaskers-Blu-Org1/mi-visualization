@@ -23,19 +23,19 @@ namespace application {
  * Introduces the execution phases that are typical for all learning/classification applications, imposes fine code granulation.
  * \author tkornuta
  */
-class ConsoleOpenGLApplication: public mic::application::Application {
+class OpenGLApplication: public mic::application::Application {
 public:
 
 	/*!
 	 * Default Constructor. Sets the application/node name.
 	 * @param node_name_ Name of the application/node (in configuration file).
 	 */
-	ConsoleOpenGLApplication(std::string node_name_);
+	OpenGLApplication(std::string node_name_);
 
 	/*!
 	 * Virtual destructor. Empty for now.
 	 */
-	virtual ~ConsoleOpenGLApplication() { };
+	virtual ~OpenGLApplication() { };
 
 	/*!
 	 * Initializes application. Abstract method. By default it should: initialize GLUT and all required OpenGL windows.
@@ -53,10 +53,15 @@ public:
 protected:
 
 	/*!
-	 * \brief Function realizing the processing thread. Now empty - but will be overridden by derived classes!
+	 * \brief Function realizing the processing thread. Implements basic quit/pause/single step functionality. In each step it calls the performSingleStep() method. Can be overridden by derived classes.
 	 * \author tkornuta
 	 */
-	virtual void processingThread(void) { };
+	virtual void processingThread(void);
+
+	/*!
+	 * Performs single step of computations - abstract, to be overridden.
+	 */
+	virtual bool performSingleStep() = 0;
 
 };
 

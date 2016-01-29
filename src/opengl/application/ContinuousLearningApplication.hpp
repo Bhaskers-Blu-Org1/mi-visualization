@@ -8,13 +8,13 @@
 #ifndef SRC_OPENGL_APPLICATION_CONTINUOUSLEARNINGAPPLICATION_HPP_
 #define SRC_OPENGL_APPLICATION_CONTINUOUSLEARNINGAPPLICATION_HPP_
 
-#include <opengl/application/ConsoleOpenGLApplication.hpp>
+#include <opengl/application/OpenGLApplication.hpp>
 
 namespace mic {
 namespace opengl {
 namespace application {
 
-class ContinuousLearningApplication : public opengl::application::ConsoleOpenGLApplication {
+class ContinuousLearningApplication : public opengl::application::OpenGLApplication {
 public:
 
 	/*!
@@ -31,21 +31,20 @@ public:
 protected:
 
 	/*!
-	 * \brief Function realizing the processing thread.
-	 * \author tkornuta
+	 * \brief Performs single step of computations - switches between learning and testing depending on the iteration number.
 	 */
-	virtual void processingThread(void);
+	virtual bool performSingleStep(void);
 
 	/*!
 	 * Perform learning - abstract, to be overridden.
 	 */
-	virtual void performLearning() = 0;
+	virtual bool performLearningStep() = 0;
 
 	/*!
 	 * Testing is divided into two phases: collection of test statistics and their population.
 	 * The former is executed in every testing step, whereas the latter only every number_of_averaged_test_measures testing steps.
 	 */
-	virtual void performTesting();
+	virtual bool performTestingStep();
 
 	/*!
 	 * Collects test statistics, executed in every testing step - virtual, empty now, to be overridden.

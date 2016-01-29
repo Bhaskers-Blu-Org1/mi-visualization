@@ -8,7 +8,7 @@
 #ifndef SRC_OPENGL_APPLICATION_TRAINTHENTESTAPPLICATION_HPP_
 #define SRC_OPENGL_APPLICATION_TRAINTHENTESTAPPLICATION_HPP_
 
-#include <opengl/application/ConsoleOpenGLApplication.hpp>
+#include <opengl/application/OpenGLApplication.hpp>
 
 namespace mic {
 namespace opengl {
@@ -20,7 +20,7 @@ namespace opengl {
  */
 namespace application {
 
-class TrainThenTestApplication : public opengl::application::ConsoleOpenGLApplication {
+class TrainThenTestApplication : public opengl::application::OpenGLApplication {
 public:
 	/*!
 	 * Default constructor. Sets the application/node name and registers properties.
@@ -35,10 +35,9 @@ public:
 
 protected:
 	/*!
-	 * \brief Function realizing the processing thread.
-	 * \author tkornuta
+	 * Performs single step of computations. Depending on the state, calls learning or testing step - switches from learning to testing then learning return false.
 	 */
-	virtual void processingThread(void);
+	virtual bool performSingleStep();
 
 	/*!
 	 * Perform learning step - abstract, to be overridden.
