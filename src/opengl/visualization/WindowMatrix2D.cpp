@@ -38,12 +38,12 @@ void WindowMatrix2D::displayHandler(void){
 	if (displayed_matrix != nullptr){
 
 		// Compute scale.
-    	float scale_x = (float)glutGet(GLUT_WINDOW_HEIGHT)/(float)(displayed_matrix->dim[0]);
-    	float scale_y = (float)glutGet(GLUT_WINDOW_WIDTH)/(float)(displayed_matrix->dim[1]);
+    	float scale_x = (float)glutGet(GLUT_WINDOW_HEIGHT)/(float)(displayed_matrix->rows());
+    	float scale_y = (float)glutGet(GLUT_WINDOW_WIDTH)/(float)(displayed_matrix->cols());
 
     	// Iterate through matrix elements.
-		for (unsigned y = 0; y < displayed_matrix->dim[0]; y++) {
-			for (unsigned x = 0; x < displayed_matrix->dim[1]; x++) {
+		for (unsigned y = 0; y < displayed_matrix->rows(); y++) {
+			for (unsigned x = 0; x < displayed_matrix->cols(); x++) {
 				// Get value.
 				float val = (*displayed_matrix)(y, x);
 
@@ -57,7 +57,7 @@ void WindowMatrix2D::displayHandler(void){
 			}//: for
 		}//: for
 
-		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, displayed_matrix->dim[1], displayed_matrix->dim[0]);
+		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, displayed_matrix->cols(), displayed_matrix->rows());
 	}//: if !null
 
 	// Swap buffers.
@@ -66,7 +66,7 @@ void WindowMatrix2D::displayHandler(void){
 	// End of critical section.
 }
 
-void WindowMatrix2D::setMatrixPointer(matrix_float_ptr_t displayed_matrix_) {
+void WindowMatrix2D::setMatrixPointer(matrixd_ptr_t displayed_matrix_) {
 	// Enter critical section.
 	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 

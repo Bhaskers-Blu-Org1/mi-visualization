@@ -11,7 +11,7 @@
 #include <opengl/visualization/Window.hpp>
 
 // Dependencies on core types.
-#include <types/matrix.h>
+#include <types/MatrixTypes.hpp>
 using namespace mic::types;
 
 namespace mic {
@@ -44,14 +44,14 @@ public:
 	 * Sets pointer to displayed matrix.
 	 * @param displayed_matrix_
 	 */
-	void setMatrixPointer(matrix_float_ptr_t displayed_matrix_);
+	void setMatrixPointer(matrixd_ptr_t displayed_matrix_);
 
 private:
 
 	/*!
 	 * Pointer to displayed matrix.
 	 */
-	matrix_float_ptr_t displayed_matrix;
+	matrixd_ptr_t displayed_matrix;
 };
 
 } /* namespace visualization */
