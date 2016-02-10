@@ -8,9 +8,6 @@
 #ifndef SRC_APPLICATIONS_CONSOLEOPENGLAPPLICATION_HPP_
 #define SRC_APPLICATIONS_CONSOLEOPENGLAPPLICATION_HPP_
 
-#include <logger/Log.hpp>
-using namespace mic::logger;
-
 #include <application/Application.hpp>
 #include <opengl/visualization/WindowManager.hpp>
 

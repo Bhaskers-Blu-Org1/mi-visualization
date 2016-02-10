@@ -5,7 +5,7 @@
  * \date Jan 15, 2016
  */
 
-#include "TrainThenTestApplication.hpp"
+#include <opengl/application/TrainThenTestApplication.hpp>
 
 namespace mic {
 namespace opengl {
@@ -19,6 +19,8 @@ TrainThenTestApplication::TrainThenTestApplication(std::string node_name_) : Ope
 }
 
 bool TrainThenTestApplication::performSingleStep(void) {
+	// Increment iteration number - at START!
+	iteration++;
 
 	// If learning mode.
 	if (APP_STATE->isLearningModeOn())  {

@@ -58,7 +58,6 @@ void OpenGLApplication::processingThread(void) {
 			if (!performSingleStep())
 				break;
 
-		 	iteration++;
 		} //: if! is paused & end of critical section
 
 		// Sleep.

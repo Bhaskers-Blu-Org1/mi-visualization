@@ -24,27 +24,25 @@ ContinuousLearningApplication::ContinuousLearningApplication(std::string node_na
 }
 
 bool ContinuousLearningApplication::performSingleStep(void) {
+	// Increment iteration number - at START!
+	iteration++;
 
-	// Check the iteration number.
-	if ((iteration % learning_iterations_to_test_ratio) == 0) {
-		APP_STATE->setLearningModeOff();
-	} else {
-		APP_STATE->setLearningModeOn();
-	}//: else
-
-	// If learning mode.
-	if (APP_STATE->isLearningModeOn())  {
+	// Check the iteration number and settings.
+	// If learning is on AND (NOT equal to learning_iterations_to_test_ratio) - learn!
+	if (((iteration % learning_iterations_to_test_ratio) != 0) && APP_STATE->isLearningModeOn()) {
 		// Perform learning.
 		 return performLearningStep();
-	} else {
+	} else { // Else - test
 		// Perform testing.
 		return performTestingStep();
 	}//: else
-
-	//return true;
 }
 
 bool ContinuousLearningApplication::performTestingStep() {
+	// Increment iteration number - at START!
+	learning_iteration++;
+
+	LOG(LDEBUG) << "iteration=" << iteration << "learning_iteration=" << learning_iteration << " learning_iteration % number_of_averaged_test_measures =" << learning_iteration % number_of_averaged_test_measures;
 
 	// Perform testing - two phases.
 	collectTestStatistics();
@@ -56,8 +54,6 @@ bool ContinuousLearningApplication::performTestingStep() {
 		// Reset learning iteration counter.
 		learning_iteration=0;
 	}//: if iteration
-
-	learning_iteration++;
 
 	return true;
 } //: if test mode (!learning)
