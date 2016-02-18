@@ -28,8 +28,8 @@ WindowChart::WindowChart(std::string name_, unsigned int height_, unsigned int w
 	//...
 
 	// Register key handlers.
-	registerKeyhandler('>', "> - zoom in (upscale chart)", &WindowChart::keyhandlerZoomIn, this);
-	registerKeyhandler('<', "< - zoom out (downscale chart)", &WindowChart::keyhandlerZoomOut, this);
+	registerKeyhandler('<', "< - zoom in (upscale chart)", &WindowChart::keyhandlerZoomIn, this);
+	registerKeyhandler('>', "> - zoom out (downscale chart)", &WindowChart::keyhandlerZoomOut, this);
 	registerKeyhandler('/', "/ - reset zoom (set zoom_factor to default: 1.0)", &WindowChart::keyhandlerZoomReset, this);
 
 	// Register window!
