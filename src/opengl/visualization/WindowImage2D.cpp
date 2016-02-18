@@ -32,7 +32,7 @@ WindowImage2D::~WindowImage2D() {
 void WindowImage2D::displayHandler(void){
 	LOG(LTRACE) << "WindowImage2D::Display handler of window " << glutGetWindow();
 	// Enter critical section.
-	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+//	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 	// Clear buffer.
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

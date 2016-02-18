@@ -40,7 +40,7 @@ WindowSequence::~WindowSequence() {
 void WindowSequence::displayHandler(void){
 	LOG(LTRACE) << "WindowSequence::Display handler of window " << glutGetWindow();
 	// Enter critical section.
-	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+//	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 	// Clear buffer.
     glClearColor(0.95f, 0.95f, 0.95f, 0.0f);

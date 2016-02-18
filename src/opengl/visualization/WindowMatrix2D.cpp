@@ -28,7 +28,7 @@ WindowMatrix2D::~WindowMatrix2D() {
 void WindowMatrix2D::displayHandler(void){
 	LOG(LTRACE) << "WindowMatrix2D::Display handler of window " << glutGetWindow();
 	// Enter critical section.
-	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+//	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 	// Clear buffer.
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -36,16 +36,20 @@ void WindowMatrix2D::displayHandler(void){
 
 	// Draw matrix 2d.
 	if (displayed_matrix != nullptr){
+		// Set temporal variables.
+		int rows = displayed_matrix->rows();
+		int cols = displayed_matrix->cols();
+    	float* data_ptr = displayed_matrix->data();
 
 		// Compute scale.
-    	float scale_x = (float)glutGet(GLUT_WINDOW_HEIGHT)/(float)(displayed_matrix->rows());
-    	float scale_y = (float)glutGet(GLUT_WINDOW_WIDTH)/(float)(displayed_matrix->cols());
+    	float scale_x = (float)glutGet(GLUT_WINDOW_HEIGHT)/(float)(rows);
+    	float scale_y = (float)glutGet(GLUT_WINDOW_WIDTH)/(float)(cols);
 
     	// Iterate through matrix elements.
-		for (unsigned y = 0; y < displayed_matrix->rows(); y++) {
-			for (unsigned x = 0; x < displayed_matrix->cols(); x++) {
+		for (size_t y = 0; y < rows; y++) {
+			for (size_t x = 0; x < cols; x++) {
 				// Get value.
-				float val = (*displayed_matrix)(y, x);
+				float val = data_ptr[x*rows + y ];
 
 				// Draw rectangle.
 		        draw_filled_rectangle(float(x) * scale_y, float(y) * scale_x, scale_x, scale_y,
@@ -57,7 +61,7 @@ void WindowMatrix2D::displayHandler(void){
 			}//: for
 		}//: for
 
-		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, displayed_matrix->cols(), displayed_matrix->rows());
+		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, cols, rows);
 	}//: if !null
 
 	// Swap buffers.

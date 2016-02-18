@@ -103,12 +103,18 @@ void WindowManager::keyboardHandler(unsigned char key, int x, int y) {
 void WindowManager::idle(void) {
 	LOG(LTRACE) <<"WindowManager::idle";
 	WindowManager* wm = VGL_MANAGER;
+
+	// Enter critical section.
+	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+
 	for(id_win_it_t it = wm->window_registry.begin(); it != wm->window_registry.end(); it++) {
 		// Activate window.
 		glutSetWindow(it->first);
 		// Update its content.
 		glutPostRedisplay();
 	}//: end
+
+	// End of critical section.
 }
 
 
