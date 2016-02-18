@@ -13,6 +13,12 @@
 
 namespace mic {
 namespace opengl {
+
+/*!
+ * \brief Namespace contains classess useful for creation of OpenGL-based applications.
+ * \author tkornuta
+ * \date Jan 11, 2016
+ */
 namespace application {
 
 /*!

@@ -5,8 +5,8 @@
  * \date Jan 15, 2016
  */
 
-#ifndef SRC_OPENGL_APPLICATION_CONTINUOUSLEARNINGAPPLICATION_HPP_
-#define SRC_OPENGL_APPLICATION_CONTINUOUSLEARNINGAPPLICATION_HPP_
+#ifndef SRC_OPENGL_APPLICATION_OPENGLCONTINUOUSLEARNINGAPPLICATION_HPP_
+#define SRC_OPENGL_APPLICATION_OPENGLCONTINUOUSLEARNINGAPPLICATION_HPP_
 
 #include <opengl/application/OpenGLApplication.hpp>
 
@@ -14,19 +14,19 @@ namespace mic {
 namespace opengl {
 namespace application {
 
-class ContinuousLearningApplication : public opengl::application::OpenGLApplication {
+class OpenGLContinuousLearningApplication : public opengl::application::OpenGLApplication {
 public:
 
 	/*!
 	 * Default constructor. Sets the application/node name and registers properties.
 	 * @param node_name_ Name of the application/node (in configuration file).
 	 */
-	ContinuousLearningApplication(std::string node_name_);
+	OpenGLContinuousLearningApplication(std::string node_name_);
 
 	/*!
 	 * Default destructor - empty.
 	 */
-	virtual ~ContinuousLearningApplication() { };
+	virtual ~OpenGLContinuousLearningApplication() { };
 
 protected:
 
@@ -71,4 +71,4 @@ protected:
 } /* namespace opengl */
 } /* namespace mic */
 
-#endif /* SRC_OPENGL_APPLICATION_CONTINUOUSLEARNINGAPPLICATION_HPP_ */
+#endif /* SRC_OPENGL_APPLICATION_OPENGLCONTINUOUSLEARNINGAPPLICATION_HPP_ */

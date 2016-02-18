@@ -5,33 +5,27 @@
  * \date Jan 15, 2016
  */
 
-#ifndef SRC_OPENGL_APPLICATION_TRAINTHENTESTAPPLICATION_HPP_
-#define SRC_OPENGL_APPLICATION_TRAINTHENTESTAPPLICATION_HPP_
+#ifndef SRC_OPENGL_APPLICATION_OPENGLTRAINTHENTESTAPPLICATION_HPP_
+#define SRC_OPENGL_APPLICATION_OPENGLTRAINTHENTESTAPPLICATION_HPP_
 
 #include <opengl/application/OpenGLApplication.hpp>
 
 namespace mic {
 namespace opengl {
-
-/*!
- * \brief Contains classess useful for creation of OpenGL-based applications.
- * \author tkornuta
- * \date Jan 11, 2016
- */
 namespace application {
 
-class TrainThenTestApplication : public opengl::application::OpenGLApplication {
+class OpenGLTrainThenTestApplication : public opengl::application::OpenGLApplication {
 public:
 	/*!
 	 * Default constructor. Sets the application/node name and registers properties.
 	 * @param node_name_ Name of the application/node (in configuration file).
 	 */
-	TrainThenTestApplication(std::string node_name_);
+	OpenGLTrainThenTestApplication(std::string node_name_);
 
 	/*!
 	 * Default destructor - empty.
 	 */
-	virtual ~TrainThenTestApplication() { };
+	virtual ~OpenGLTrainThenTestApplication() { };
 
 protected:
 	/*!
@@ -57,4 +51,4 @@ protected:
 } /* namespace opengl */
 } /* namespace mic */
 
-#endif /* SRC_OPENGL_APPLICATION_TRAINTHENTESTAPPLICATION_HPP_ */
+#endif /* SRC_OPENGL_APPLICATION_OPENGLTRAINTHENTESTAPPLICATION_HPP_ */

@@ -5,13 +5,13 @@
  * \date Jan 15, 2016
  */
 
-#include <opengl/application/ContinuousLearningApplication.hpp>
+#include <opengl/application/OpenGLContinuousLearningApplication.hpp>
 
 namespace mic {
 namespace opengl {
 namespace application {
 
-ContinuousLearningApplication::ContinuousLearningApplication(std::string node_name_) : OpenGLApplication(node_name_),
+OpenGLContinuousLearningApplication::OpenGLContinuousLearningApplication(std::string node_name_) : OpenGLApplication(node_name_),
 		learning_iterations_to_test_ratio("learning_iterations_to_test_ratio", 50),
 		number_of_averaged_test_measures("number_of_averaged_test_measures", 5)
 {
@@ -23,7 +23,7 @@ ContinuousLearningApplication::ContinuousLearningApplication(std::string node_na
 	learning_iteration = 0;
 }
 
-bool ContinuousLearningApplication::performSingleStep(void) {
+bool OpenGLContinuousLearningApplication::performSingleStep(void) {
 	// Increment iteration number - at START!
 	iteration++;
 
@@ -38,7 +38,7 @@ bool ContinuousLearningApplication::performSingleStep(void) {
 	}//: else
 }
 
-bool ContinuousLearningApplication::performTestingStep() {
+bool OpenGLContinuousLearningApplication::performTestingStep() {
 	// Increment iteration number - at START!
 	learning_iteration++;
 

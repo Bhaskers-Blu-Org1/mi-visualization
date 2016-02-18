@@ -44,14 +44,14 @@ public:
 	 * Sets pointer to displayed matrix.
 	 * @param displayed_matrix_
 	 */
-	void setMatrixPointer(matrixd_ptr_t displayed_matrix_);
+	void setMatrixPointer(mic::types::MatrixXfPtr displayed_matrix_);
 
 private:
 
 	/*!
 	 * Pointer to displayed matrix.
 	 */
-	matrixd_ptr_t displayed_matrix;
+	mic::types::MatrixXfPtr displayed_matrix;
 };
 
 } /* namespace visualization */

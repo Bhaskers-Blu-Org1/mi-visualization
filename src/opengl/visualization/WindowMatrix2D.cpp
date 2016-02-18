@@ -66,7 +66,7 @@ void WindowMatrix2D::displayHandler(void){
 	// End of critical section.
 }
 
-void WindowMatrix2D::setMatrixPointer(matrixd_ptr_t displayed_matrix_) {
+void WindowMatrix2D::setMatrixPointer(mic::types::MatrixXfPtr displayed_matrix_) {
 	// Enter critical section.
 	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
