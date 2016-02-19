@@ -67,8 +67,6 @@ if(${BUILD_TEST_IMAGE_ENCODER})
 		auto_encoders
 		configuration
 		visualization_opengl
-		${OPENGL_LIBRARIES} ${GLUT_LIBRARY}
-		${Boost_LIBRARIES}
 		)
 	
 	# install test to bin directory
