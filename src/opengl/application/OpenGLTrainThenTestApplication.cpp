@@ -19,9 +19,6 @@ OpenGLTrainThenTestApplication::OpenGLTrainThenTestApplication(std::string node_
 }
 
 bool OpenGLTrainThenTestApplication::performSingleStep(void) {
-	// Increment iteration number - at START!
-	iteration++;
-
 	// If learning mode.
 	if (APP_STATE->isLearningModeOn())  {
 		// Perform learning - until there is something to learn.

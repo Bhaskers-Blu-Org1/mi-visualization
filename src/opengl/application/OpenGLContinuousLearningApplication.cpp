@@ -24,9 +24,6 @@ OpenGLContinuousLearningApplication::OpenGLContinuousLearningApplication(std::st
 }
 
 bool OpenGLContinuousLearningApplication::performSingleStep(void) {
-	// Increment iteration number - at START!
-	iteration++;
-
 	// Check the iteration number and settings.
 	// If learning is on AND (NOT equal to learning_iterations_to_test_ratio) - learn!
 	if (((iteration % learning_iterations_to_test_ratio) != 0) && APP_STATE->isLearningModeOn()) {

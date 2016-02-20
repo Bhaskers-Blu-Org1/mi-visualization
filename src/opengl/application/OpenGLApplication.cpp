@@ -55,6 +55,7 @@ void OpenGLApplication::processingThread(void) {
 			APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 			// Perform single step and - if required - break the loop.
+			iteration++;
 			if (!performSingleStep())
 				break;
 
