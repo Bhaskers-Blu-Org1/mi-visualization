@@ -16,7 +16,7 @@
 #include <string>
 #include <map>
 
-#include "boost/tuple/tuple.hpp"
+#include <boost/tuple/tuple.hpp>
 
 namespace mic {
 namespace opengl {
@@ -82,6 +82,7 @@ public:
 	 * @param label_ Name of the container.
 	 */
 	void createDataContainer(std::string label_, mic::types::color_rgba color_ = mic::types::color_rgba(255, 255, 255, 180), float line_width_ = 1.0f);
+
 	/*!
 	 * Adds new value to the container.
 	 * @param label_ Name of the container.
