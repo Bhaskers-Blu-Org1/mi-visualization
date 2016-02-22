@@ -77,13 +77,6 @@ public:
 	 */
 	chart_registry_t data_registry;
 
-
-
-	std::vector<float> accuracyAverage;
-	std::vector<float> trainingAverage;
-	std::vector<float> reconstructionScore;
-/*	std::vector<float> p_sum;
-*/
 	/*!
 	 * Creates new data container for given label
 	 * @param label_ Name of the container.
