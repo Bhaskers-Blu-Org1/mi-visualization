@@ -24,6 +24,12 @@ WindowChart::WindowChart(std::string name_, unsigned int height_, unsigned int w
 	// Set default values of variables.
 	zoom_factor = 1.0f;
 
+	chart_width = 0.9;
+	chart_height = 0.45;
+	label_offset_x = 50;
+	label_offset_y = 20;
+	number_of_horizontal_bars = 10;
+
 	// Reset data.
 	//...
 
@@ -106,10 +112,10 @@ void WindowChart::addDataToContainer(std::string label_, float value_){
 void WindowChart::redrawMainChartWindow() {
 	LOG(LTRACE)<< "WindowChart::refreshChart";
 
-	int acc_x = (int)(width * ((1.0 - ACC_WIDTH)/2.0));
-	int acc_y = (int)(ACC_Y_OFFSET);
-	int acc_w = (int)(width * ACC_WIDTH);
-	int acc_h = (int)(height * ACC_HEIGHT);
+	int acc_x = (int)(width * ((1.0 - chart_width)/2.0));
+	int acc_y = (int)(label_offset_y);
+	int acc_w = (int)(width * chart_width);
+	int acc_h = (int)(height * chart_height);
 
 	// Draw chart boundary.
 	glLineWidth(1.0f);
@@ -117,8 +123,8 @@ void WindowChart::redrawMainChartWindow() {
 	draw_rectangle(acc_x, acc_y + acc_h, acc_h, acc_w, 0.7f, 0.7f, 0.7f, 1.0f);
 
 	// Draw  horizontal bars and print labels on both sides..
-	for (int i = -ACC_HORIZONTAL_BARS; i <= ACC_HORIZONTAL_BARS; i++) {
-		float h = (float)i/(float)ACC_HORIZONTAL_BARS;
+	for (int i = -number_of_horizontal_bars; i <= number_of_horizontal_bars; i++) {
+		float h = (float)i/(float)number_of_horizontal_bars;
 		// Print labels.
 		char value[10];
 		sprintf(value, "%d%%", (unsigned)(float)round((100.0 * h)));
@@ -139,22 +145,22 @@ void WindowChart::redrawMainChartWindow() {
 void WindowChart::redrawSingleContainer(std:: string & label_, std::vector<float> & data_, mic::types::color_rgba color_, float line_width_, unsigned short label_x_offset_, unsigned short label_y_offset_) {
 	LOG(LTRACE)<< "WindowChart::refreshSingleChart";
 
-	int acc_x = (int)(width * ((1.0 - ACC_WIDTH)/2.0));
-	int acc_y = (int)(ACC_Y_OFFSET);
-	int acc_w = (int)(width * ACC_WIDTH);
-	int acc_h = (int)(height * ACC_HEIGHT);
+	int acc_x = (int)(width * ((1.0 - chart_width)/2.0));
+	int acc_y = (int)(label_offset_y);
+	int acc_w = (int)(width * chart_width);
+	int acc_h = (int)(height * chart_height);
 
 	// Set line width.
 	glLineWidth(line_width_);
 	glBegin(GL_LINE_STRIP);
 	// Draw data.
-	for (int i = 0; i < ACC_WIDTH * (width)/(ACC_X_STEP); i++) {
+	for (int i = 0; i < chart_width * (width); i++) {
 
 		if (data_.size() - 1 - (unsigned)(int)round(i * zoom_factor) < data_.size()) {
 
 			//color_rgba c = map_value_to_color((float)(data_[data_.size() - 1 - (unsigned)(int)round(i * zoom_factor)]), 0.0f, 1.0f, COLORMAP_SEISMIC);
 			glColor4f(color_.r/255.0f, color_.g/255.0f, color_.b/255.0f, color_.a/255.0f);
-			glVertex2i(acc_x + acc_w - (int)(i) * ACC_X_STEP, acc_y + acc_h - (int)(data_[data_.size() - 1 - (unsigned)(int)(i * zoom_factor)] * acc_h));
+			glVertex2i(acc_x + acc_w - (int)(i), acc_y + acc_h - (int)(data_[data_.size() - 1 - (unsigned)(int)(i * zoom_factor)] * acc_h));
 		}
 
 	}

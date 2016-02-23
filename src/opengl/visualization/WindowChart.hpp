@@ -22,12 +22,6 @@ namespace mic {
 namespace opengl {
 namespace visualization {
 
-#define ACC_WIDTH 0.9
-#define ACC_HEIGHT 0.45
-#define ACC_Y_OFFSET 20
-#define ACC_X_STEP 1
-#define ACC_HORIZONTAL_BARS 10
-
 /*!
  * \brief Basic type storing <data, colour, line width>.
  * \author tkornuta
@@ -111,8 +105,20 @@ private:
 	/// Zoom factor - used for zoomin in and out in the chart window.
 	float zoom_factor;
 
-	void accuracy_history(void);
+	/// Chart width.
+	double chart_width;
 
+	/// Chart width.
+	double chart_height;
+
+	/// Label offset x.
+	double label_offset_x;
+
+	/// Label offset y.
+	double label_offset_y;
+
+	/// Number of horizontal bars in chart.
+	double number_of_horizontal_bars;
 
 	/*!
 	 *  Keyhandler: zoom in (upscale chart).
