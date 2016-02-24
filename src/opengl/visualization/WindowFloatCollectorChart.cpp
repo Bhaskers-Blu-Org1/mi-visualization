@@ -59,7 +59,6 @@ void WindowFloatCollectorChart::displayHandler(void) {
 		// Get access to data containers.
 		mic::data_io::DataContainers<std::string, float> containers = collector_ptr->getContainers();
 
-		std::cout << "containers.size =" << containers.size();
 		// Refresh charts one by one.
 		unsigned int label_x_offset = 10;
 		unsigned int label_y_offset = 15;
