@@ -41,5 +41,4 @@ make -j4 install
 
 Maintainer
 ----------
-
 tkornuta
