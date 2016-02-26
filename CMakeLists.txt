@@ -43,6 +43,10 @@ if(NOT OPENGL_FOUND)
     message(ERROR " OPENGL not found!")
 endif(NOT OPENGL_FOUND)
 
+# Find Eigen package
+find_package( Eigen3 REQUIRED )
+include_directories( ${EIGEN3_INCLUDE_DIR} )
+
 # Find MIC Toolchain
 find_package(MIToolchain REQUIRED)
 message("Found MI Toolchain libs: ${MIToolchain_LIBRARIES} ")
