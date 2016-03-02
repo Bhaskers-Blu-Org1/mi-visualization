@@ -66,13 +66,19 @@ void WindowFloatCollectorChart::displayHandler(void) {
 		for(mic::data_io::DataContainerIt<std::string, float> it = containers.begin(); it != containers.end(); it++, label_y_offset+=15) {
 			// Get vector.
 			std::string l =  it->first;
+
 			// Get data.
-			std::vector<float> v = (it->second)->data;
+			std::vector<float> vector = (it->second)->data;
+			// Get min-max values.
+			float min_value = (it->second)->min_value;
+			float max_value = (it->second)->max_value;
+
 			// Get display properties.
 			color_rgba c = (it->second)->color;
 			float line_width = (it->second)->line_width;
+
 			// Draw chart associated with given data container.
-			redrawSingleContainer(l, v, c, line_width, label_x_offset, label_y_offset);
+			redrawSingleContainer(l, vector, min_value, max_value, c, line_width, label_x_offset, label_y_offset);
 		}//: end
 	}//: if !null
 
@@ -123,7 +129,7 @@ void WindowFloatCollectorChart::redrawMainChartWindow() {
 }
 
 
-void WindowFloatCollectorChart::redrawSingleContainer(std:: string & label_, std::vector<float> & data_, mic::types::color_rgba color_, float line_width_, unsigned short label_x_offset_, unsigned short label_y_offset_) {
+void WindowFloatCollectorChart::redrawSingleContainer(std:: string & label_, std::vector<float> & data_, float min_value_, float max_value_, mic::types::color_rgba color_, float line_width_, unsigned short label_x_offset_, unsigned short label_y_offset_) {
 	LOG(LTRACE)<< "WindowFloatCollectorChart::refreshSingleChart";
 
 	int acc_x = (int)(width * ((1.0 - chart_width)/2.0));
@@ -134,28 +140,31 @@ void WindowFloatCollectorChart::redrawSingleContainer(std:: string & label_, std
 	// Set line width.
 	glLineWidth(line_width_);
 	glBegin(GL_LINE_STRIP);
+	float value;
 	// Draw data.
 	for (int i = 0; i < chart_width * (width); i++) {
 
 		if (data_.size() - 1 - (unsigned)(int)round(i * zoom_factor) < data_.size()) {
-
-			//color_rgba c = map_value_to_color((float)(data_[data_.size() - 1 - (unsigned)(int)round(i * zoom_factor)]), 0.0f, 1.0f, COLORMAP_SEISMIC);
+			value = data_[data_.size() - 1 - (unsigned)(int)(i * zoom_factor)];
+			// rescale value.
+			value = (value - min_value_)/(max_value_-min_value_);
 			glColor4f(color_.r/255.0f, color_.g/255.0f, color_.b/255.0f, color_.a/255.0f);
-			glVertex2i(acc_x + acc_w - (int)(i), acc_y + acc_h - (int)(data_[data_.size() - 1 - (unsigned)(int)(i * zoom_factor)] * acc_h));
+			glVertex2i(acc_x + acc_w - (int)(i), acc_y + acc_h - (int)(value * acc_h));
 		}
 
 	}
 	glEnd();
 
 	// Print label.
-	char value[100];
+	char str_value[100];
 	if (data_.size() > 0) {
-		sprintf(value, "%s: %.1f%%", label_.c_str(), (float)((100.0 * data_[data_.size() - 1])));
+		value = data_[data_.size() - 1];
+		sprintf(str_value, "%s: %.1f  (%.1f : %.1f)", label_.c_str(), value, min_value_, max_value_);
 	} else {
 		// If there are no data.
-		sprintf(value, "%s: -", label_.c_str());
+		sprintf(str_value, "%s: -", label_.c_str());
 	}
-	draw_text(acc_x + label_x_offset_, acc_y + acc_h + label_y_offset_, value, color_.r/255.0f, color_.g/255.0f, color_.b/255.0f, color_.a/255.0f, GLUT_BITMAP_HELVETICA_10);
+	draw_text(acc_x + label_x_offset_, acc_y + acc_h + label_y_offset_, str_value, color_.r/255.0f, color_.g/255.0f, color_.b/255.0f, color_.a/255.0f, GLUT_BITMAP_HELVETICA_10);
 }
 
 } /* namespace visualization */

@@ -47,12 +47,14 @@ void OpenGLEpisodicApplication::processingThread(void) {
 				finishCurrentEpisode();
 
 				// Check terminal condition.
-				if (((unsigned int)number_of_episodes != 0) && ( episode >= (unsigned int) number_of_episodes))
-					return;
-
-				// Else - start a new episode.
-				startNewEpisode();
-				iteration=0;
+				if (((long)number_of_episodes > 0) && ( episode >= (long) number_of_episodes)) {
+					APP_STATE->setQuit();
+					LOG(LINFO) << "Reached last episode (" << episode << "). Terminating application...";
+				} else {
+					// Else - start a new episode.
+					startNewEpisode();
+					iteration=0;
+				}//: else
 			}//: if singleStep
 
 		} //: if! is paused & end of critical section

@@ -59,7 +59,7 @@ protected:
 	/*!
 	 * Property: number of episodes, after which the application will end. 0 (default value) deactivates terminal condition (unlimited number of episodes).
 	 */
-	mic::configuration::Property<unsigned long> number_of_episodes;
+	mic::configuration::Property<long> number_of_episodes;
 
 };
 

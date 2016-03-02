@@ -60,12 +60,14 @@ public:
 	 * Redraws single container.
 	 * @param label_ Label of data.
 	 * @param data_ Vector containing data.
+	 * @param min_value_ Min value.
+	 * @param max_value_ Max value.
 	 * @param color_ Colour of line/label.
 	 * @param line_width_ Line width.
 	 * @param label_x_offset_ Label x offset.
 	 * @param label_y_offset_ Label y offset.
 	 */
-	void redrawSingleContainer(std:: string & label_, std::vector<float> & data_, mic::types::color_rgba color_, float line_width_, unsigned short label_x_offset_, unsigned short label_y_offset_);
+	void redrawSingleContainer(std:: string & label_, std::vector<float> & data_, float min_value_, float max_value_, mic::types::color_rgba color_, float line_width_, unsigned short label_x_offset_, unsigned short label_y_offset_);
 
 private:
 
