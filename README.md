@@ -10,7 +10,7 @@ Contains tools for building applications with OpenGL-based visualization of data
 
 MIC dependencies
 ------------
-   * MIToolchain - core library of MIC.
+   * MIToolchain - the core of MIC framework.
    * MIAlgorithms - contains basic (core) types used by MIVisualization.
 
 External dependencies
