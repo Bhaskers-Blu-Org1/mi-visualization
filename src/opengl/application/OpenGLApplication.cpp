@@ -16,9 +16,10 @@ namespace mic {
 namespace opengl {
 namespace application {
 
-OpenGLApplication::OpenGLApplication(std::string node_name_) : Application(node_name_)
+OpenGLApplication::OpenGLApplication(std::string node_name_) : Application(node_name_),
+		number_of_iterations("number_of_iterations",0)
 {
-
+	registerProperty(number_of_iterations);
 }
 
 
@@ -56,8 +57,15 @@ void OpenGLApplication::processingThread(void) {
 
 			// Perform single step and - if required - break the loop.
 			iteration++;
-			if (!performSingleStep())
+			if (!performSingleStep()) {
+				LOG(LINFO) << "Terminating application...";
+				APP_STATE->setQuit();
 				break;
+			} else if (((long)number_of_iterations > 0) && ( iteration >= (long) number_of_iterations)) {
+				LOG(LINFO) << "Reached last Iteration. Terminating application...";
+				APP_STATE->setQuit();
+				break;
+			}//: else if
 
 		} //: if! is paused & end of critical section
 

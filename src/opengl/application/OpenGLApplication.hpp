@@ -66,6 +66,11 @@ protected:
 	 */
 	virtual bool performSingleStep() = 0;
 
+	/*!
+	 * Property: number of episodes, after which the application will end. 0 (default value) deactivates terminal condition (unlimited number of episodes).
+	 */
+	mic::configuration::Property<long> number_of_iterations;
+
 };
 
 } /* namespace application */
