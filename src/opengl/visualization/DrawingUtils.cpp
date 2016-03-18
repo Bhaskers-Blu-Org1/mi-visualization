@@ -7,6 +7,7 @@
 
 #include <opengl/visualization/DrawingUtils.hpp>
 #include <cmath>
+#include <cstring>
 
 namespace mic {
 namespace opengl {
