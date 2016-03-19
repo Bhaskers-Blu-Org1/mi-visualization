@@ -26,6 +26,11 @@ find_package(Boost 1.58 REQUIRED COMPONENTS system thread random)
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 # Find GLUT package
+if (WIN32)
+  set(GLUT_INCLUDE_DIR "C:/MinGW/GLUT/glut-3.7.6-bin/")
+  set(GLUT_glut_LIBRARY "C:/MinGW/GLUT/glut-3.7.6-bin/glut32.lib")
+endif ()
+
 find_package(GLUT REQUIRED)
 include_directories(${GLUT_INCLUDE_DIRS})
 link_directories(${GLUT_LIBRARY_DIRS})

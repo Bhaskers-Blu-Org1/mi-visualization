@@ -35,8 +35,10 @@ Window::Window(std::string name_, unsigned int height_, unsigned int width_, uns
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+#ifndef _WIN32 // glBlendColor NOT SUPPORTED on windows GLUT
 	glBlendColor(1.0f, 1.0f, 1.0f, 0.6f);
 	glDisable(GL_MULTISAMPLE);
+#endif  
 
 	// Set fullscreen mode to off.
 	fullscreen_mode = false;

@@ -7,11 +7,14 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # =======================================================================
 # Set compiler/linker flags.
 # =======================================================================
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-
+if (WIN32)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/C/MinGW/GLUT/glut-3.7.6-bin -fopenmp -fpermissive -std=c++11")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}") 
+else ()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 # Check, whether all necessary libraries are linked
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}") 
-
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}") 
+endif ()
 
 # =======================================================================
 # Add CMAKE variables.
@@ -48,13 +51,40 @@ target_link_libraries(visualization_opengl logger configuration application type
 # Install target libraries.
 # =======================================================================
 
+if (WIN32)
+install(TARGETS visualization_opengl LIBRARY DESTINATION lib ARCHIVE DESTINATION lib RUNTIME DESTINATION bin)
+else ()
 install(TARGETS visualization_opengl LIBRARY DESTINATION lib)
-
+endif ()
 
 # =======================================================================
 # Build executables - image encoder test.
 # =======================================================================
 
+if (WIN32)
+set(VISUALIZATION_NAME "visualization_opengl.dll.a")
+if(${BUILD_TEST_IMAGE_ENCODER})
+	# Create exeutable.
+	add_executable(image_encoder_test opengl/tests/image_encoder_test.cpp)
+	# Link it with shared libraries.
+	target_link_libraries(image_encoder_test 
+		logger
+		application
+		types
+		data_io
+		auto_encoders
+		configuration
+    data_utils
+    ${OPENGL_LIBRARIES} 
+    ${GLUT_LIBRARY}
+    "libvisualization_opengl.dll.a"
+		)
+	
+	# install test to bin directory
+	install(TARGETS image_encoder_test RUNTIME DESTINATION bin)
+	
+endif(${BUILD_TEST_IMAGE_ENCODER})
+else ()
 if(${BUILD_TEST_IMAGE_ENCODER})
 	# Create exeutable.
 	add_executable(image_encoder_test opengl/tests/image_encoder_test.cpp)
@@ -73,4 +103,4 @@ if(${BUILD_TEST_IMAGE_ENCODER})
 	install(TARGETS image_encoder_test RUNTIME DESTINATION bin)
 	
 endif(${BUILD_TEST_IMAGE_ENCODER})
-
+endif ()

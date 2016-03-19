@@ -10,6 +10,17 @@
 
  #ifdef __APPLE__
 #include <GLUT/glut.h>
+#elif defined(_WIN32)
+#define M_PI 3.1415926535897932384626433
+#define GLUT_NO_LIB_PRAGMA
+#define GLUT_NO_WARNING_DISABLE
+#define _WCHAR_T_DEFINED
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+#include <glut.h>
 #else
 #include <GL/glut.h>
 #endif
