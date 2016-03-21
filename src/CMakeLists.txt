@@ -51,11 +51,7 @@ target_link_libraries(visualization_opengl logger configuration application type
 # Install target libraries.
 # =======================================================================
 
-if (WIN32)
 install(TARGETS visualization_opengl LIBRARY DESTINATION lib ARCHIVE DESTINATION lib RUNTIME DESTINATION bin)
-else ()
-install(TARGETS visualization_opengl LIBRARY DESTINATION lib)
-endif ()
 
 # =======================================================================
 # Build executables - image encoder test.

@@ -103,7 +103,7 @@ install(FILES ${CMAKE_BINARY_DIR}/MIVisualizationConfig.cmake DESTINATION ${CMAK
 # CPack variables used when generating binary installer
 set(CPACK_PACKAGE_NAME "MIVisualization")
 set(CPACK_PACKAGE_VENDOR "MIVisualization")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "MIVisualization - Machine Intelligence Toolchain")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "MIVisualization - Machine Intelligence Visualization")
 set(CPACK_PACKAGE_VERSION ${MIVisualization_VERSION})
 set(CPACK_PACKAGE_VERSION_MAJOR ${MIVisualization_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${MIVisualization_VERSION_MINOR})
@@ -117,7 +117,7 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "MIVisualization")
 # refers to the fact that this is the set of components that
 # will be included when CPack is instructed to put everything
 # into the binary installer (the default behavior).
-set(CPACK_COMPONENTS_ALL system_utils logger configuration application)
+set(CPACK_COMPONENTS_ALL visualization_opengl)
 
 # This must always be last!
 include(CPack)
