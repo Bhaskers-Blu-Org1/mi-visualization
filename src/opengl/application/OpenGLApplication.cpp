@@ -16,10 +16,9 @@ namespace mic {
 namespace opengl {
 namespace application {
 
-OpenGLApplication::OpenGLApplication(std::string node_name_) : Application(node_name_),
-		number_of_iterations("number_of_iterations",0)
+OpenGLApplication::OpenGLApplication(std::string node_name_) : Application(node_name_)
 {
-	registerProperty(number_of_iterations);
+	// Empty for now.
 }
 
 
