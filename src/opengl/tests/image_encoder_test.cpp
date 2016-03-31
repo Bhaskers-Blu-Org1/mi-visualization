@@ -8,12 +8,8 @@
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
 
-#include <data_utils/image_tools.hpp>
-#include <data_utils/rand.hpp>
-using namespace mic::data_utils;
-
-#include <data_io/MNISTImageImporter.hpp>
-#include <auto_encoders/DummyGrayscaleImageEncoder.hpp>
+#include <data_io/MNISTMatrixImporter.hpp>
+#include <encoders/MatrixXfMatrixXfEncoder.hpp>
 
 #include <logger/Log.hpp>
 #include <logger/ConsoleOutput.hpp>
@@ -24,15 +20,15 @@ using namespace mic::logger;
 #include <configuration/ParameterServer.hpp>
 
 #include <opengl/visualization/WindowManager.hpp>
-#include <opengl/visualization/WindowImage2D.hpp>
+#include <opengl/visualization/WindowMatrix2D.hpp>
 using namespace mic::opengl::visualization;
 
 /// Window for displaying input image.
-WindowImage2D* w2d_input;
+WindowMatrix2D* w2d_input;
 /// Window for displaying input image reconstruction.
-WindowImage2D* w2d_reconstruction;
+WindowMatrix2D* w2d_reconstruction;
 /// MNIST importer.
-mic::data_io::MNISTImageImporter* importer;
+mic::data_io::MNISTMatrixImporter* importer;
 
 
 /*!
@@ -41,18 +37,14 @@ mic::data_io::MNISTImageImporter* importer;
  */
 void image_encoder_and_visualization_test (void) {
 	// Create temp variables.
-	image_ptr_t current_image (new image());
-	image_ptr_t reconstructed_image (new image());
-
-	alloc_image(current_image.get(), GRAYSCALE, 28, 28);
-	alloc_image(reconstructed_image.get(), GRAYSCALE, 28, 28);
-
-	mic::auto_encoders::DummyGrayscaleImageEncoder ie;
-	mic::types::floatSDR image_sdr;
+	mic::types::MatrixXfPtr current_image (new mic::types::MatrixXf(28,28));
+	mic::types::MatrixXfPtr reconstructed_image (new mic::types::MatrixXf(28,28));
 
 	// Set images to display.
-	w2d_input->setImagePointer(current_image);
-	w2d_reconstruction->setImagePointer(reconstructed_image);
+	w2d_input->setMatrixPointer(current_image);
+	w2d_reconstruction->setMatrixPointer(reconstructed_image);
+
+	mic::encoders::MatrixXfMatrixXfEncoder encoder(28*28, 28, 28);
 
  	// Main application loop.
 	while (!APP_STATE->Quit()) {
@@ -68,19 +60,25 @@ void image_encoder_and_visualization_test (void) {
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 				// Select random image-label pair.
-				mnist_pair_t sample = importer->getRandomSample();
+				MatrixXfUintPair sample = importer->getRandomSample();
 
-				// Copy image to pointer.
-				copy_image( sample.first.get(), current_image.get());
+				// Copy to image pointer.
+				(*current_image) = (*(sample.first));
 
 				// Encode the selected image into SDR.
-				ie.encode(*current_image, image_sdr);
+				mic::types::MatrixXfPtr sdr = encoder.encodeSample(sample.first);
 
 				// Change a single element of SDR.
-				image_sdr[0]=255;
+				(*sdr)(2)=1;
 
 				// Decode SDR.
-				ie.decode(*reconstructed_image, image_sdr);
+				mic::types::MatrixXfPtr decoded_sample = encoder.decodeSample(sdr);
+
+				// Copy to image pointer.
+				(*reconstructed_image) = (*(decoded_sample));
+
+				// Change a single element of reconstruction.
+				(*(reconstructed_image))(0)=1;
 
 			}//: end of critical section
 
@@ -89,10 +87,6 @@ void image_encoder_and_visualization_test (void) {
 		// Sleep.
 		APP_SLEEP();
 	}//: while
-
-	// Free memory.
-	free_image(current_image.get());
-	free_image(reconstructed_image.get());
 
 }//: image_encoder_and_visualization_test
 
@@ -114,7 +108,7 @@ int main(int argc, char* argv[]) {
 	PARAM_SERVER->parseApplicationParameters(argc, argv);
 
 	// Load dataset.
-	importer = new (mic::data_io::MNISTImageImporter);
+	importer = new mic::data_io::MNISTMatrixImporter();
 	// Manually set paths. DEPRICATED!
 	//importer->setDataFilename("/Users/tkornut/Documents/workspace/machine-intelligence-core/data/mnist/train-images-idx3-ubyte");
 	//importer->setLabelsFilename("/Users/tkornut/Documents/workspace/machine-intelligence-core/data/mnist/train-labels-idx1-ubyte");
@@ -133,8 +127,8 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
-	w2d_input = new WindowImage2D("Input image", 512, 512, 0, 0);
-	w2d_reconstruction = new WindowImage2D("Reconstructed image", 512, 512, 512, 0);
+	w2d_input = new WindowMatrix2D("Input image", 512, 512, 0, 0);
+	w2d_reconstruction = new WindowMatrix2D("Reconstructed image", 512, 512, 512, 0);
 
 	boost::thread test_thread(boost::bind(&image_encoder_and_visualization_test));
 
