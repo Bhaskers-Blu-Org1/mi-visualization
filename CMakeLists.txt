@@ -2,10 +2,10 @@
 project(MIVisualization CXX)
 
 #  Set current version number.
-set (MIVisualization_VERSION_MAJOR 1)
-set (MIVisualization_VERSION_MINOR 0)
-set (MIVisualization_VERSION_PATCH 0)
-set (MIVisualization_VERSION ${MIVisualization_VERSION_MAJOR}.${MIVisualization_VERSION_MINOR}.${MIVisualization_VERSION_PATCH})
+set (MIVisualization_MAJOR_VERSION 1)
+set (MIVisualization_MINOR_VERSION 0)
+set (MIVisualization_PATCH_VERSION 0)
+set (MIVisualization_VERSION ${MIVisualization_MAJOR_VERSION}.${MIVisualization_MINOR_VERSION}.${MIVisualization_PATCH_VERSION})
 
 # CMake required version.
 cmake_minimum_required(VERSION 3.2)
@@ -62,12 +62,10 @@ find_package( Eigen3 REQUIRED )
 include_directories( ${EIGEN3_INCLUDE_DIR} )
 
 # Find MIC Toolchain
-find_package(MIToolchain REQUIRED)
-message("Found MI Toolchain libs: ${MIToolchain_LIBRARIES} ")
+find_package(MIToolchain 1.0 REQUIRED)
 
 # Find MIC Algorithms
-find_package(MIAlgorithms REQUIRED)
-message("Found MI Algorithms libs: ${MIAlgorithms_LIBRARIES} ")
+find_package(MIAlgorithms 1.0 REQUIRED)
 
 # =======================================================================
 # RPATH settings
@@ -85,47 +83,35 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 # which point to directories outside the build tree to the install RPATH
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-add_subdirectory(src)
+# =======================================================================
+# Cmake configuration
+# =======================================================================
+# Create the cached variable for sstoring all library names.
+set(MIVisualization_LIBRARIES "" CACHE INTERNAL "" FORCE)
 
+# Add subdirectories.
+add_subdirectory(src)
 add_subdirectory(configs)
 
-# =======================================================================
-# MIVisualizationConfig.cmake preparation
-# =======================================================================
+message ("-- Configured MI Visualization libraries:\n" "--   " "${MIVisualization_LIBRARIES}")
 
-# include directories
+# Set include directory
 set(CMAKE_INCLUDE_DIRS_CONFIGCMAKE "${CMAKE_INSTALL_PREFIX}/include")
-
-# lib directory
-
+# Set lib directory
 set(CMAKE_LIB_DIRS_CONFIGCMAKE "${CMAKE_INSTALL_PREFIX}/lib")
-
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/MIVisualizationConfig.cmake.in" "${CMAKE_BINARY_DIR}/MIVisualizationConfig.cmake" IMMEDIATE @ONLY)
-
-install(FILES ${CMAKE_BINARY_DIR}/MIVisualizationConfig.cmake DESTINATION ${CMAKE_INSTALL_PREFIX}/share/MIVisualization/)
+# Set variable that will store generated libraries
 
 # =======================================================================
-# CPack: binary installer generator
+# Preparation of cmake configs
 # =======================================================================
 
-# CPack variables used when generating binary installer
-set(CPACK_PACKAGE_NAME "MIVisualization")
-set(CPACK_PACKAGE_VENDOR "MIVisualization")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "MIVisualization - Machine Intelligence Visualization")
-set(CPACK_PACKAGE_VERSION ${MIVisualization_VERSION})
-set(CPACK_PACKAGE_VERSION_MAJOR ${MIVisualization_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${MIVisualization_VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${MIVisualization_VERSION_PATCH})
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "MIVisualization")
+# Configure *Config.cmake and *ConfigVersion.cmake
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/MIVisualizationConfig.cmake.in" "${CMAKE_BINARY_DIR}/MIVisualizationConfig.cmake" @ONLY)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/MIVisualizationConfigVersion.cmake.in" "${CMAKE_BINARY_DIR}/MIVisualizationConfigVersion.cmake" @ONLY)
 
-# License file
-#set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-
-# Tell CPack all of the components to install. The "ALL"
-# refers to the fact that this is the set of components that
-# will be included when CPack is instructed to put everything
-# into the binary installer (the default behavior).
-set(CPACK_COMPONENTS_ALL visualization_opengl)
-
-# This must always be last!
-include(CPack)
+# Install the *Config.cmake and *ConfigVersion.cmake
+install(FILES
+  "${CMAKE_BINARY_DIR}/MIVisualizationConfig.cmake"
+  "${CMAKE_BINARY_DIR}/MIVisualizationConfigVersion.cmake"
+  DESTINATION "${CMAKE_INSTALL_PREFIX}/share/MIVisualization/")
+  

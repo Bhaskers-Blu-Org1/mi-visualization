@@ -47,11 +47,14 @@ file(GLOB visualization_opengl_src
 add_library(visualization_opengl SHARED ${visualization_opengl_src})
 target_link_libraries(visualization_opengl logger configuration application types data_utils  ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${Boost_LIBRARIES})
 
+# Add to variable storing all libraries/targets.
+set(MIVisualization_LIBRARIES ${MIVisualization_LIBRARIES} "visualization_opengl" CACHE INTERNAL "" FORCE)
+
 # =======================================================================
 # Install target libraries.
 # =======================================================================
 
-install(TARGETS visualization_opengl LIBRARY DESTINATION lib ARCHIVE DESTINATION lib RUNTIME DESTINATION bin)
+install(TARGETS ${MIVisualization_LIBRARIES} LIBRARY DESTINATION lib ARCHIVE DESTINATION lib RUNTIME DESTINATION bin)
 
 # =======================================================================
 # Build executables - image encoder test.
@@ -90,7 +93,7 @@ if(${BUILD_TEST_IMAGE_ENCODER})
 		application
 		types
 		data_io
-		auto_encoders
+		encoders
 		configuration
 		visualization_opengl
 		)

@@ -44,7 +44,7 @@ void image_encoder_and_visualization_test (void) {
 	w2d_input->setMatrixPointer(current_image);
 	w2d_reconstruction->setMatrixPointer(reconstructed_image);
 
-	mic::encoders::MatrixXfMatrixXfEncoder encoder(28*28, 28, 28);
+	mic::encoders::MatrixXfMatrixXfEncoder encoder(28, 28);
 
  	// Main application loop.
 	while (!APP_STATE->Quit()) {
@@ -60,13 +60,13 @@ void image_encoder_and_visualization_test (void) {
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 				// Select random image-label pair.
-				MatrixXfUintPair sample = importer->getRandomSample();
+				mic::types::MNISTSample sample = importer->getRandomSample();
 
-				// Copy to image pointer.
-				(*current_image) = (*(sample.first));
+				// Copy image data from one pointer to the other.
+				(*current_image) = (*(sample.data()));
 
 				// Encode the selected image into SDR.
-				mic::types::MatrixXfPtr sdr = encoder.encodeSample(sample.first);
+				mic::types::MatrixXfPtr sdr = encoder.encodeSample(sample.data());
 
 				// Change a single element of SDR.
 				(*sdr)(2)=1;

@@ -2,21 +2,16 @@
 # Include directories to add to the user project.
 # ==============================================================================
 
-# Provide the include directories to the caller
-set(MIVisualization_INCLUDE_DIRS @CMAKE_INCLUDE_DIRS_CONFIGCMAKE@)
+# Provide the include directory to the caller
+SET(MIVisualization_INCLUDE_DIRS @CMAKE_INCLUDE_DIRS_CONFIGCMAKE@)
+INCLUDE_DIRECTORIES(@CMAKE_INCLUDE_DIRS_CONFIGCMAKE@)
 
-include_directories(${MIVisualization_INCLUDE_DIRS})
+# Provide the libs directory to the caller
+SET(MIVisualization_LIB_DIR @CMAKE_LIB_DIRS_CONFIGCMAKE@)
+LINK_DIRECTORIES(${MIVisualization_LIB_DIR})
 
-# ==============================================================================
-# Link directories to add to the user project.
-# ==============================================================================
+# Provide the variable containing list of libraries to the caller
+SET(MIVisualization_LIBRARIES "@MIVisualization_LIBRARIES@")
 
-# Provide the libs directory anyway, it may be needed in some cases.
-set(MIVisualization_LIB_DIR @CMAKE_LIB_DIRS_CONFIGCMAKE@)
-
-link_directories(${MIVisualization_LIB_DIR})
-
-# ==============================================================================
-# Set the LIBRARIES variable.
-# ==============================================================================
-set(MIVisualization_LIBRARIES visualization_opengl)
+message("-- MI Visualization version: ${MIVisualization_VERSION}")
+message("-- Found the following MI Visualization libraries:\n--   ${MIVisualization_LIBRARIES} ")
