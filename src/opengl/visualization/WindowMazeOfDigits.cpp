@@ -75,12 +75,12 @@ void WindowMazeOfDigits::displayHandler(void){
 				} else {
 					unsigned short digit = (*displayed_maze)({x,y, (size_t)MazeOfDigitsChannels::Digits});
 					switch(digit){
-					case 0: r = 0.0; g = 0.0; b = 1.0; break;
-					case 1: r = 0.0; g = 0.0; b = 0.8; break;
-					case 2: r = 0.0; g = 0.0; b = 0.6; break;
-					case 3: r = 0.0; g = 0.0; b = 0.4; break;
-					case 4: r = 0.0; g = 1.0; b = 0.2; break;
-					case 5: r = 1.0; g = 1.0; b = 0.0; break;
+					case 0: r = 0.0; g = 0.0; b = 0.3; break;
+					case 1: r = 0.0; g = 0.0; b = 0.6; break;
+					case 2: r = 0.0; g = 0.0; b = 0.9; break;
+					case 3: r = 0.0; g = 0.3; b = 1.0; break;
+					case 4: r = 0.0; g = 0.6; b = 0.6; break;
+					case 5: r = 0.0; g = 0.9; b = 0.3; break;
 					case 6: r = 1.0; g = 0.75; b = 0.0; break;
 					case 7: r = 1.0; g = 0.5; b = 0.0; break;
 					case 8: r = 1.0; g = 0.25; b = 0.0; break;
