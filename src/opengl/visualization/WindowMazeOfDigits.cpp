@@ -28,6 +28,7 @@ WindowMazeOfDigits::~WindowMazeOfDigits() {
 
 void WindowMazeOfDigits::displayHandler(void){
 	LOG(LTRACE) << "WindowMazeOfDigits::Display handler of window " << glutGetWindow();
+
 	// Enter critical section.
 	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
@@ -37,36 +38,27 @@ void WindowMazeOfDigits::displayHandler(void){
 
 	// Draw matrix 2d.
 	if (displayed_maze != nullptr){
-		// Set temporal variables.
-		int cols = displayed_maze->dim(0);
-		int rows = displayed_maze->dim(1);
-    	//float* data_ptr = displayed_maze->data();
+		// Get dimensions.
+		size_t w_tensor = displayed_maze->dim(0);
+		size_t h_tensor = displayed_maze->dim(1);
+		size_t w_window = glutGet(GLUT_WINDOW_WIDTH);
+		size_t h_window = glutGet(GLUT_WINDOW_HEIGHT);
 
-		// Compute scale.
-    	float scale_x = (float)glutGet(GLUT_WINDOW_HEIGHT)/(float)(cols);
-    	float scale_y = (float)glutGet(GLUT_WINDOW_WIDTH)/(float)(rows);
+		// Compute scales.
+		float w_scale = (float) w_window / w_tensor;
+		float h_scale = (float) h_window / h_tensor;
+    	float scale_min = (w_scale < h_scale) ? w_scale : h_scale;
 
-/*		// Check object occupancy.
-		if ((*grid_)({x,y, (size_t)MazeOfDigitsChannels::Agent}) != 0) {
-			// Display agent.
-			s += "<A>";
-		} else if ((*grid_)({x,y, (size_t)MazeOfDigitsChannels::Walls}) != 0) {
-			// Display wall.
-			s += " # ";
-		} else
-			// Display pit.
-			s +=  " " + std::to_string((unsigned short)(*grid_)({x,y, (size_t)MazeOfDigitsChannels::Digits})) + " ";
-*/
+/*		std::cout<< " width_tensor= "<< w_tensor << " height_tensor= "<< h_tensor<<std::endl;
+		std::cout<< " width_window= "<< w_window<< " height_window= "<< h_window <<std::endl;
+		std::cout<< " w_scale= "<< w_scale << " h_scale= "<< h_scale<< std::endl;*/
 
-    	// Iterate through maze of ditigs elements.
-		for (size_t y = 0; y < rows; y++) {
-			for (size_t x = 0; x < cols; x++) {
+
+    	// Iterate through maze of digits elements.
+		for (size_t y = 0; y < h_tensor; y++) {
+			for (size_t x = 0; x < w_tensor; x++) {
+
 				// Get value.
-//				float val = data_ptr[x*rows + y ] * 25;
-
-//				LOG(LERROR) << " x= " << x << " y= " << y << " cols= " << cols << " rows= " << rows;
-//				LOG(LERROR) << " dims(0)= " << displayed_maze->dim(0) << " dims(1)= " << displayed_maze->dim(1);
-
 				float r, g, b;
 
 				// Check cell.
@@ -89,21 +81,22 @@ void WindowMazeOfDigits::displayHandler(void){
 				}//: else
 
 				// Draw rectangle.
-		        draw_filled_rectangle(float(x) * scale_y, float(y) * scale_x, scale_x, scale_y, r,g, b, (float)1.0f);
+		        draw_filled_rectangle(float(x) * w_scale, float(y) * h_scale, h_scale, w_scale, r,g, b, (float)1.0f);
 
 		        // Check agent position.
 				if ((*displayed_maze)({x,y, (size_t)MazeOfDigitsChannels::Agent})) {
+					// Draw circle.
 					r = 0.0; g = 0.0; b = 0.0;
-					draw_circle((float(x) + 0.5)* scale_y, (float(y) + 0.5)* scale_x, scale_x/4, 4.0, r, g, b, (float)1.0f);
+					draw_circle((float(x) + 0.5)* w_scale, (float(y) + 0.5)* h_scale, scale_min/4, 4.0, r, g, b, (float)1.0f);
 					r = 1.0; g = 1.0; b = 1.0;
-					draw_circle((float(x) + 0.5)* scale_y, (float(y) + 0.5)* scale_x, scale_x/4, 2.0, r, g, b, (float)1.0f);
+					draw_circle((float(x) + 0.5)* w_scale, (float(y) + 0.5)* h_scale, scale_min/4, 2.0, r, g, b, (float)1.0f);
 				}
 
 
 			}//: for
 		}//: for
 
-		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, cols, rows);
+		draw_grid(0.7f, 0.7f, 0.7f, 0.3f, w_tensor, h_tensor);
 	}//: if !null
 
 	// Swap buffers.
