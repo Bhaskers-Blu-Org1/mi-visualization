@@ -96,7 +96,7 @@ void WindowMazeOfDigits::displayHandler(void){
 			}//: for
 		}//: for
 
-		draw_grid(0.7f, 0.7f, 0.7f, 0.3f, w_tensor, h_tensor);
+		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, w_tensor, h_tensor);
 	}//: if !null
 
 	// Swap buffers.
