@@ -76,7 +76,7 @@ void WindowMazeOfDigits::displayHandler(void){
 					case 6: r = 1.0; g = 0.75; b = 0.0; break;
 					case 7: r = 1.0; g = 0.5; b = 0.0; break;
 					case 8: r = 1.0; g = 0.25; b = 0.0; break;
-					case 9: r = 1.0; g = 0.0; b = 0.0; break;
+					case 9: r = 1.0; g = 1.0; b = 1.0; break;
 					}
 				}//: else
 
