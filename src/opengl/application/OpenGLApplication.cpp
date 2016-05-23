@@ -32,6 +32,7 @@ void OpenGLApplication::run() {
 
 	// Wait for the processing thread to end.
 	processing_thread.join();
+  std::cout << "Processing thread done" << std::endl;
 	LOG(LINFO) << "Processing thread terminated...";
 
 }
@@ -71,6 +72,7 @@ void OpenGLApplication::processingThread(void) {
 		// Sleep.
 		APP_SLEEP();
 	}//: while
+	LOG(LINFO) << "We're outside the processing loop now...";
 }
 
 

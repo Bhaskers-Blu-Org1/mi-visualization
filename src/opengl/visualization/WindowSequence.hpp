@@ -12,75 +12,84 @@
 #ifndef SRC_VISUALIZATION_OPENGL_WINDOWSEQUENCE_HPP_
 #define SRC_VISUALIZATION_OPENGL_WINDOWSEQUENCE_HPP_
 
+
 namespace mic {
-namespace opengl {
-namespace visualization {
+  namespace opengl {
+    namespace visualization {
 
 #define MAIN_FRAME_X_MARGIN 40
 #define MAIN_FRAME_Y_MARGIN 30
 #define MAIN_FRAME_Y_LABELS 25
 #define ERROR_FRAME_HEIGHT 100
-#define GRAPH_0_FRAME_HEIGHT 100
-#define GRAPH_1_FRAME_HEIGHT 100
-#define GRAPH_2_FRAME_HEIGHT 100
+#define BUFFER_HEIGHT 25
+#define GRAPH_0_FRAME_HEIGHT 2
+#define GRAPH_1_FRAME_HEIGHT 2
+#define GRAPH_2_FRAME_HEIGHT 150
+
+      /*!
+       * \brief OpenGL-based window responsible for for plotting a temporal (i.e. time-varying) sequence of digits.
+       * WORK IN PROGRESS.
+       * \author tkornuta/krocki
+       */
+      class WindowSequence : public Window {
+      public:
+
+        /*!
+         * Constructor.
+         */
+        WindowSequence(std::string name_ = "Chart", unsigned int height_ = 1024, unsigned int width_ = 768, unsigned int position_x_ = 0, unsigned int position_y_ = 0);
+
+        /*!
+         * Destructor.
+         */
+        virtual ~WindowSequence();
+
+        /*!
+         * Refreshes the content of the window.
+         */
+        void displayHandler(void);
+        void allocate_sliders(int slider_length);
+
+        std::vector<float> input_data;
+        std::vector<float> predicted_data;
+        std::vector<float> reconstructed_data;
+        std::vector<float> spatial_error;
+        std::vector<float> prediction_error;
+        int current_iteration;
+        float *reconstructed_slider;
+        float *current_slider;
+        float *next_slider;
+        float *predicted_slider;
 
 
-/*!
- * \brief OpenGL-based window responsible for for plotting a temporal (i.e. time-varying) sequence of digits.
- * WORK IN PROGRESS.
- * \author tkornuta/krocki
- */
-class WindowSequence : public Window {
-public:
+      private:
+        float alpha;
+        float text_alpha;
+        float graph_line_width;
 
-	/*!
-	 * Constructor.
-	 */
-	WindowSequence(std::string name_ = "Chart", unsigned int height_ = 1024, unsigned int width_ = 768, unsigned int position_x_ = 0, unsigned int position_y_ = 0);
+        float data_point_spacing_x;
+        float t0_time_position;
 
-	/*!
-	 * Destructor.
-	 */
-	virtual ~WindowSequence();
+        int absolute_t0_time_position;
+        int range_main_x;
+        int range_main_y;
+        int input_slider_length;
 
-	/*!
-	 * Refreshes the content of the window.
-	 */
-	void displayHandler(void);
+        float visible_min_range;
+        float visible_max_range;
+        float visible_range;
 
-	std::vector<float> 	input_data;
-	std::vector<float> 	predicted_data;
-	std::vector<float> 	reconstructed_data;
-	std::vector<float> 	spatial_error;
-	std::vector<float> 	prediction_error;
-
-
-private:
-	float alpha;
-	float text_alpha;
-	float graph_line_width;
-
-	float data_point_spacing_x;
-	float t0_time_position;
-
-	int absolute_t0_time_position;
-	int range_main_x;
-	int range_main_y;
-
-	float visible_min_range;
-	float visible_max_range;
-	float visible_range;
-
-	void draw_outer_frame(void);
-	void draw_main_frame(void);
-	void draw_input_series(std::vector<float> series, int x_offset, bool display_text, int text_offset_x, int text_offset_y, float r, float g, float b, float a, mark m);
-	void draw_error_series(std::vector<float> series, float r, float g, float b, float a);
-
-
-};
-
-} /* namespace visualization */
-} /* namespace opengl */
+        void draw_outer_frame(void);
+        void draw_main_frame(void);
+        void draw_input_series(std::vector<float> series, int x_offset, bool display_text, int text_offset_x, int text_offset_y, float r, float g, float b, float a, mark m);
+        void draw_error_series(std::vector<float> series, float r, float g, float b, float a);
+        void draw_iteration_labels(void);
+        void add_key_entry(int whichFrame, const char *display_text, float x_location, float y_height, float r, float g, float b, float a, mark m);
+        void draw_error_labels(void);
+        void draw_reconstructions(float alpha);
+      };
+    } /* namespace visualization */
+  } /* namespace opengl */
 } /* namespace mic */
 
 #endif /* SRC_VISUALIZATION_OPENGL_WINDOWSEQUENCE_HPP_ */
