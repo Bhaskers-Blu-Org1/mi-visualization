@@ -112,7 +112,7 @@ void WindowFloatCollectorChart::redrawMainChartWindow() {
 	draw_rectangle(acc_x, acc_y + acc_h, acc_h, acc_w, 0.7f, 0.7f, 0.7f, 1.0f);
 
 	// Draw  horizontal bars and print labels on both sides..
-	for (int i = -number_of_horizontal_bars; i <= number_of_horizontal_bars; i++) {
+	for (int i = 0; i <= number_of_horizontal_bars; i++) {
 		float h = (float)i/(float)number_of_horizontal_bars;
 		// Print labels.
 		char value[10];
@@ -159,7 +159,7 @@ void WindowFloatCollectorChart::redrawSingleContainer(std:: string & label_, std
 	char str_value[100];
 	if (data_.size() > 0) {
 		value = data_[data_.size() - 1];
-		sprintf(str_value, "%s: %.1f  (%.1f : %.1f)", label_.c_str(), value, min_value_, max_value_);
+		sprintf(str_value, "%s: %.2f  (%.2f : %.2f)", label_.c_str(), value, min_value_, max_value_);
 	} else {
 		// If there are no data.
 		sprintf(str_value, "%s: -", label_.c_str());
