@@ -281,7 +281,7 @@ namespace mic {
         current_slider = (float *) malloc(slider_length * sizeof (float));
         next_slider = (float *) malloc(slider_length * sizeof (float));
         predicted_slider = (float *) malloc(slider_length * sizeof (float));
-        
+
         for (int k = 0; k < input_slider_length; k++) {
           reconstructed_slider[k] = 0.0;
           current_slider[k] = 0.0;
@@ -357,6 +357,14 @@ namespace mic {
         glEnd();
       }
 
+      void WindowSequence::vanishWindow(int height_, int width_) {
+        height = height_;
+        width = width_;
+        // Resize window.
+        glutReshapeWindow(width, height);
+        // Place it in the previous position.
+        glutPositionWindow(position_x, position_y);
+      }
     } /* namespace visualization */
   } /* namespace opengl */
 } /* namespace mic */

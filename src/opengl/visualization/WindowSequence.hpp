@@ -49,6 +49,7 @@ namespace mic {
          */
         void displayHandler(void);
         void allocate_sliders(int slider_length);
+        void vanishWindow(int height_, int width_);
 
         std::vector<float> input_data;
         std::vector<float> predicted_data;
