@@ -73,6 +73,8 @@ void OpenGLApplication::processingThread(void) {
 		APP_SLEEP();
 	}//: while
 	LOG(LINFO) << "We're outside the processing loop now...";
+  performFinalStep();
+	LOG(LINFO) << "Final step complete...";
 }
 
 
