@@ -85,8 +85,31 @@ void WindowMNISTDigit::displayHandler(void){
 			}//: for
 		}//: for
 
+		// Draw grid on top.
 		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, w_tensor, h_tensor);
+
+		// Draw saccadic path.
+		glLineWidth(2.0);
+		if ((saccadic_path != nullptr) && (saccadic_path->size() > 1)){
+
+			for(size_t i=1; i <saccadic_path->size(); i++) {
+				// Get points.
+				Position2D prev = (*saccadic_path)[i-1];
+				Position2D next = (*saccadic_path)[i];
+
+				float r = 0.1 + 0.9*((float)i/saccadic_path->size());
+				glColor4f(0.0f, r, 0.0f, 1.0f);
+				// Draw line between those two.
+				glBegin(GL_LINES);
+				glVertex2i((float(prev.x) + 0.5) * w_scale, (float(prev.y) + 0.5) * h_scale);
+				glVertex2i((float(next.x) + 0.5) * w_scale, (float(next.y) + 0.5) * h_scale);
+				glEnd();
+
+			}//: for
+
+		}//: if !null
 	}//: if !null
+
 
 	// Swap buffers.
 	glutSwapBuffers();
@@ -99,6 +122,14 @@ void WindowMNISTDigit::setDigitPointer(mic::types::TensorXfPtr displayed_digit_)
 	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 	(displayed_digit) = (displayed_digit_);
+	// End of critical section.
+}
+
+void WindowMNISTDigit::setPathPointer(std::shared_ptr<std::vector <mic::types::Position2D> > saccadic_path_) {
+	// Enter critical section.
+	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+
+	saccadic_path = saccadic_path_;
 	// End of critical section.
 }
 
