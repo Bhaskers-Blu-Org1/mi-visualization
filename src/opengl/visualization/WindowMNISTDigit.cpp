@@ -89,7 +89,6 @@ void WindowMNISTDigit::displayHandler(void){
 		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, w_tensor, h_tensor);
 
 		// Draw saccadic path.
-		glLineWidth(2.0);
 		if ((saccadic_path != nullptr) && (saccadic_path->size() > 1)){
 
 			for(size_t i=1; i <saccadic_path->size(); i++) {
@@ -97,13 +96,17 @@ void WindowMNISTDigit::displayHandler(void){
 				Position2D prev = (*saccadic_path)[i-1];
 				Position2D next = (*saccadic_path)[i];
 
-				float r = 0.1 + 0.9*((float)i/saccadic_path->size());
-				glColor4f(0.0f, r, 0.0f, 1.0f);
 				// Draw line between those two.
+				float g = 0.1 + 0.9*((float)i/saccadic_path->size());
+				glColor4f(0.0f, g, 0.0f, 1.0f);
+				glLineWidth(2.0);
 				glBegin(GL_LINES);
 				glVertex2i((float(prev.x) + 0.5) * w_scale, (float(prev.y) + 0.5) * h_scale);
 				glVertex2i((float(next.x) + 0.5) * w_scale, (float(next.y) + 0.5) * h_scale);
 				glEnd();
+
+				//if (i != saccadic_path->size()-1)
+				//	draw_circle((float(next.x) + 0.5)* w_scale, (float(next.y) + 0.5)* h_scale, 1.0, 1.0, 0.0, g, 0.0, 1.0);
 
 			}//: for
 

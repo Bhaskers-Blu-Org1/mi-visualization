@@ -105,7 +105,33 @@ void WindowMazeOfDigits::displayHandler(void){
 			}//: for
 		}//: for
 
+		// Draw grid on top.
 		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, w_tensor, h_tensor);
+
+		// Draw saccadic path.
+		if ((saccadic_path != nullptr) && (saccadic_path->size() > 1)){
+
+			for(size_t i=1; i <saccadic_path->size(); i++) {
+				// Get points.
+				Position2D prev = (*saccadic_path)[i-1];
+				Position2D next = (*saccadic_path)[i];
+
+				// Draw line between those two.
+				float g = 0.1 + 0.9*((float)i/saccadic_path->size());
+				glColor4f(0.0f, g, 0.0f, 1.0f);
+				glLineWidth(2.0);
+				glBegin(GL_LINES);
+				glVertex2i((float(prev.x) + 0.5) * w_scale, (float(prev.y) + 0.5) * h_scale);
+				glVertex2i((float(next.x) + 0.5) * w_scale, (float(next.y) + 0.5) * h_scale);
+				glEnd();
+
+				//if (i != saccadic_path->size()-1)
+				//	draw_circle((float(next.x) + 0.5)* w_scale, (float(next.y) + 0.5)* h_scale, 1.0, 1.0, 0.0, g, 0.0, 1.0);
+
+			}//: for
+
+		}//: if !null
+
 	}//: if !null
 
 	// Swap buffers.
@@ -121,6 +147,15 @@ void WindowMazeOfDigits::setMazePointer(mic::types::TensorXfPtr displayed_maze_)
 	(displayed_maze) = (displayed_maze_);
 	// End of critical section.
 }
+
+void WindowMazeOfDigits::setPathPointer(std::shared_ptr<std::vector <mic::types::Position2D> > saccadic_path_) {
+	// Enter critical section.
+	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+
+	saccadic_path = saccadic_path_;
+	// End of critical section.
+}
+
 
 } /* namespace visualization */
 } /* namespace opengl */
