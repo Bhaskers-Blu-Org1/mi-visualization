@@ -24,15 +24,15 @@ namespace visualization {
  */
 enum class MNISTDigitChannels : std::size_t
 {
-	Goals = 0, ///< Channel storing goal(s)
-	Pixels = 1, ///< Channel storing image intensities (this is a grayscale image)
+	Pixels = 0, ///< Channel storing image intensities (this is a grayscale image)
+	Goals = 1, ///< Channel storing goal(s)
 	Agent = 2, ///< Channel storing the agent position
 	Count = 3 ///< Number of channels
 };
 
 
 /*!
- * \brief OpenGL-based window responsible for displaying an MNIST digit with a moving agent on top.
+ * \brief OpenGL-based window responsible for displaying a MNIST digit with a moving agent on top.
  * \author tkornuta
  */
 class WindowMNISTDigit: public Window {

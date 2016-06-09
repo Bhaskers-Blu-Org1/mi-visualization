@@ -61,11 +61,19 @@ void WindowMNISTDigit::displayHandler(void){
 				float r, g, b;
 				r = g = b = (*displayed_digit)({x,y, (size_t)MNISTDigitChannels::Pixels});
 
-
 				// Draw rectangle.
 		        draw_filled_rectangle(float(x) * w_scale, float(y) * h_scale, h_scale, w_scale, r, g, b, (float)1.0f);
 
-		        // Check agent position.
+		        // Draw goal.
+				if ((*displayed_digit)({x,y, (size_t)MNISTDigitChannels::Goals})) {
+					// Draw circle.
+					r = 0.0; g = 0.0; b = 0.0;
+					draw_cross((float(x) + 0.5)* w_scale, (float(y) + 0.5)* h_scale, scale_min/4, 4.0, r, g, b, (float)1.0f);
+					r = 1.0; g = 0.0; b = 0.0;
+					draw_cross((float(x) + 0.5)* w_scale, (float(y) + 0.5)* h_scale, scale_min/4, 2.0, r, g, b, (float)1.0f);
+				}
+
+		        // Draw agent.
 				if ((*displayed_digit)({x,y, (size_t)MNISTDigitChannels::Agent})) {
 					// Draw circle.
 					r = 0.0; g = 0.0; b = 0.0;
@@ -73,7 +81,6 @@ void WindowMNISTDigit::displayHandler(void){
 					r = 1.0; g = 1.0; b = 1.0;
 					draw_circle((float(x) + 0.5)* w_scale, (float(y) + 0.5)* h_scale, scale_min/4, 2.0, r, g, b, (float)1.0f);
 				}
-
 
 			}//: for
 		}//: for
