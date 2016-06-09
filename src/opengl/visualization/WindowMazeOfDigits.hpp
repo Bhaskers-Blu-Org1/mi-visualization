@@ -54,8 +54,7 @@ public:
 	void displayHandler(void);
 
 	/*!
-	 * Sets pointer to displayed matrix.
-	 * @param displayed_matrix_
+	 * Sets pointer to displayed maze.
 	 */
 	void setMazePointer(mic::types::TensorXfPtr displayed_maze_);
 
