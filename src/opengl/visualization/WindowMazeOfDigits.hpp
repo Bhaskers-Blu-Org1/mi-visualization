@@ -12,6 +12,7 @@
 
 // Dependencies on core types.
 #include <types/TensorTypes.hpp>
+#include <types/Position2D.hpp>
 using namespace mic::types;
 
 namespace mic {
@@ -54,12 +55,16 @@ public:
 	void displayHandler(void);
 
 	/*!
-	 * Sets pointer to displayed matrix.
-	 * @param displayed_matrix_
+	 * Sets pointer to displayed maze.
 	 */
 	void setMazePointer(mic::types::TensorXfPtr displayed_maze_);
 
   void mouseHandler(int button, int state, int x, int y) {};
+
+	/*!
+	 * Sets pointer to displayed digit.
+	 */
+	void setPathPointer(std::shared_ptr<std::vector <mic::types::Position2D> > saccadic_path_);
 
 private:
 
@@ -67,6 +72,10 @@ private:
 	 * Pointer to displayed matrix.
 	 */
 	mic::types::TensorXfPtr displayed_maze;
+
+	/// Saccadic path to be displayed - a sequence of consecutive agent positions.
+	std::shared_ptr<std::vector <mic::types::Position2D> > saccadic_path;
+
 };
 
 } /* namespace visualization */

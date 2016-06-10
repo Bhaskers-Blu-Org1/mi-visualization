@@ -1,33 +1,32 @@
 /*!
- * \file WindowMazeOfDigits.cpp
+ * \file WindowMNISTDigit.cpp
  * \brief 
  * \author tkornut
- * \date May 9, 2016
+ * \date Jun 8, 2016
  */
 
-
-#include <opengl/visualization/WindowMazeOfDigits.hpp>
+#include <opengl/visualization/WindowMNISTDigit.hpp>
 #include <opengl/visualization/WindowManager.hpp>
 
 namespace mic {
 namespace opengl {
 namespace visualization {
 
-WindowMazeOfDigits::WindowMazeOfDigits(std::string name_, unsigned int height_, unsigned int width_, unsigned int position_x_, unsigned int position_y_) :
+WindowMNISTDigit::WindowMNISTDigit(std::string name_, unsigned int height_, unsigned int width_, unsigned int position_x_, unsigned int position_y_) :
 	Window(name_, height_, width_, position_x_, position_y_)
 {
 	// NULL pointer.
-	displayed_maze = nullptr;
+	displayed_digit = nullptr;
 }
 
 
-WindowMazeOfDigits::~WindowMazeOfDigits() {
+WindowMNISTDigit::~WindowMNISTDigit() {
 	// TODO Auto-generated destructor stub
 }
 
 
-void WindowMazeOfDigits::displayHandler(void){
-	LOG(LTRACE) << "WindowMazeOfDigits::Display handler of window " << glutGetWindow();
+void WindowMNISTDigit::displayHandler(void){
+	LOG(LTRACE) << "WindowMNISTDigit::Display handler of window " << glutGetWindow();
 
 	// Enter critical section.
 	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
@@ -37,10 +36,10 @@ void WindowMazeOfDigits::displayHandler(void){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw matrix 2d.
-	if (displayed_maze != nullptr){
+	if (displayed_digit != nullptr){
 		// Get dimensions.
-		size_t w_tensor = displayed_maze->dim(0);
-		size_t h_tensor = displayed_maze->dim(1);
+		size_t w_tensor = displayed_digit->dim(0);
+		size_t h_tensor = displayed_digit->dim(1);
 		size_t w_window = glutGet(GLUT_WINDOW_WIDTH);
 		size_t h_window = glutGet(GLUT_WINDOW_HEIGHT);
 
@@ -60,31 +59,13 @@ void WindowMazeOfDigits::displayHandler(void){
 
 				// Get value.
 				float r, g, b;
-
-				// Check cell.
-				if ((*displayed_maze)({x,y, (size_t)MazeOfDigitsChannels::Walls})) {
-					r = 0.0; g = 0.0; b = 0.0;
-				} else {
-					unsigned short digit = (*displayed_maze)({x,y, (size_t)MazeOfDigitsChannels::Digits});
-					switch(digit){
-					case 0: r = 0.0; g = 0.0; b = 0.3; break;
-					case 1: r = 0.0; g = 0.0; b = 0.6; break;
-					case 2: r = 0.0; g = 0.0; b = 0.9; break;
-					case 3: r = 0.0; g = 0.3; b = 1.0; break;
-					case 4: r = 0.0; g = 0.6; b = 0.6; break;
-					case 5: r = 0.0; g = 0.9; b = 0.3; break;
-					case 6: r = 1.0; g = 0.75; b = 0.0; break;
-					case 7: r = 1.0; g = 0.5; b = 0.0; break;
-					case 8: r = 1.0; g = 0.25; b = 0.0; break;
-					case 9: r = 1.0; g = 1.0; b = 1.0; break;
-					}
-				}//: else
+				r = g = b = (*displayed_digit)({x,y, (size_t)MNISTDigitChannels::Pixels});
 
 				// Draw rectangle.
-		        draw_filled_rectangle(float(x) * w_scale, float(y) * h_scale, h_scale, w_scale, r,g, b, (float)1.0f);
+		        draw_filled_rectangle(float(x) * w_scale, float(y) * h_scale, h_scale, w_scale, r, g, b, (float)1.0f);
 
 		        // Draw goal.
-				if ((*displayed_maze)({x,y, (size_t)MazeOfDigitsChannels::Goals})) {
+				if ((*displayed_digit)({x,y, (size_t)MNISTDigitChannels::Goals})) {
 					// Draw circle.
 					r = 0.0; g = 0.0; b = 0.0;
 					draw_cross((float(x) + 0.5)* w_scale, (float(y) + 0.5)* h_scale, scale_min/4, 4.0, r, g, b, (float)1.0f);
@@ -93,14 +74,13 @@ void WindowMazeOfDigits::displayHandler(void){
 				}
 
 		        // Draw agent.
-				if ((*displayed_maze)({x,y, (size_t)MazeOfDigitsChannels::Agent})) {
+				if ((*displayed_digit)({x,y, (size_t)MNISTDigitChannels::Agent})) {
 					// Draw circle.
 					r = 0.0; g = 0.0; b = 0.0;
 					draw_circle((float(x) + 0.5)* w_scale, (float(y) + 0.5)* h_scale, scale_min/4, 4.0, r, g, b, (float)1.0f);
 					r = 1.0; g = 1.0; b = 1.0;
 					draw_circle((float(x) + 0.5)* w_scale, (float(y) + 0.5)* h_scale, scale_min/4, 2.0, r, g, b, (float)1.0f);
 				}
-
 
 			}//: for
 		}//: for
@@ -131,8 +111,8 @@ void WindowMazeOfDigits::displayHandler(void){
 			}//: for
 
 		}//: if !null
-
 	}//: if !null
+
 
 	// Swap buffers.
 	glutSwapBuffers();
@@ -140,22 +120,21 @@ void WindowMazeOfDigits::displayHandler(void){
 	// End of critical section.
 }
 
-void WindowMazeOfDigits::setMazePointer(mic::types::TensorXfPtr displayed_maze_) {
+void WindowMNISTDigit::setDigitPointer(mic::types::TensorXfPtr displayed_digit_) {
 	// Enter critical section.
 	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
-	(displayed_maze) = (displayed_maze_);
+	(displayed_digit) = (displayed_digit_);
 	// End of critical section.
 }
 
-void WindowMazeOfDigits::setPathPointer(std::shared_ptr<std::vector <mic::types::Position2D> > saccadic_path_) {
+void WindowMNISTDigit::setPathPointer(std::shared_ptr<std::vector <mic::types::Position2D> > saccadic_path_) {
 	// Enter critical section.
 	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 	saccadic_path = saccadic_path_;
 	// End of critical section.
 }
-
 
 } /* namespace visualization */
 } /* namespace opengl */
