@@ -60,6 +60,7 @@ protected:
 	 * \author tkornuta
 	 */
 	virtual void processingThread(void);
+	virtual void performInitialStep(void) = 0;
 	virtual void performFinalStep(void) = 0;
 
 };

@@ -44,6 +44,7 @@ void OpenGLApplication::processingThread(void) {
 	APP_STATE->setLearningModeOn();
 
  	// Main application loop.
+  performInitialStep();
 	while (!APP_STATE->Quit()) {
 
 		// If not paused.

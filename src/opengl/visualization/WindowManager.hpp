@@ -72,6 +72,11 @@ public:
 	 */
 	static void displayHandler(void);
 
+  	/*!
+	 * Refreshes the content of the window.
+	 */
+	static void mouseHandler(int button, int state, int x, int y);
+
 	/*!
 	 * Changes size of the window.
 	 * @param width_ New width.

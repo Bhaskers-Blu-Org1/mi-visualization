@@ -48,6 +48,8 @@ public:
 	 */
 	void setImagePointer(image_ptr_t displayed_image_);
 
+  void mouseHandler(int button, int state, int x, int y) {};
+
 private:
 
 	/*!

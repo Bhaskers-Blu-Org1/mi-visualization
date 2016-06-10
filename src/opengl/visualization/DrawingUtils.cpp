@@ -171,7 +171,6 @@ namespace mic {
           case SQUARE:
             draw_square(x, y, size, line_width, r, g, b, a);
             break;
-            
           case NO_MARK:
           case NO_LINE:
             break;

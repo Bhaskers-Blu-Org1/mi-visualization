@@ -135,6 +135,8 @@ private:
 	 */
 	void keyhandlerZoomReset(void);
 
+  void mouseHandler(int button, int state, int x, int y) {};
+
 };
 
 } /* namespace visualization */

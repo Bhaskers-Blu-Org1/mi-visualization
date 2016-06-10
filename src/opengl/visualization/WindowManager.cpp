@@ -81,6 +81,14 @@ void WindowManager::displayHandler(void) {
 	}//: if
 }
 
+void WindowManager::mouseHandler(int button, int state, int x, int y) {
+	LOG(LDEBUG) <<"Mouse handler of " << glutGetWindow() << " window";
+  Window* w = VGL_MANAGER->findWindow(glutGetWindow());
+	if (w != NULL) {
+		w->mouseHandler(button, state, x, y);
+	}//: if
+}
+
 
 void WindowManager::reshapeHandler(int width_, int height_) {
 	LOG(LDEBUG) <<"Reshape handler of " << glutGetWindow() << " window";

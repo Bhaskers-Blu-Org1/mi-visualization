@@ -69,6 +69,11 @@ public:
 	 */
 	virtual void displayHandler(void) = 0;
 
+  	/*!
+	 * Refreshes the content of the window - abstract method.
+	 */
+	virtual void mouseHandler(int button, int state, int x, int y) = 0;
+
 	/*!
 	 * Changes size of the window.
 	 * @param width_ New width.
