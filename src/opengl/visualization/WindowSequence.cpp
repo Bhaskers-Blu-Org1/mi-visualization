@@ -277,16 +277,21 @@ namespace mic {
       void WindowSequence::allocate_sliders(int slider_length) {
         input_slider_length = slider_length;
 
-        reconstructed_slider = (float *) malloc(slider_length * sizeof (float));
-        current_slider = (float *) malloc(slider_length * sizeof (float));
-        next_slider = (float *) malloc(slider_length * sizeof (float));
-        predicted_slider = (float *) malloc(slider_length * sizeof (float));
+//        reconstructed_slider = (float *) malloc(slider_length * sizeof (float));
+//        current_slider = (float *) malloc(slider_length * sizeof (float));
+//        next_slider = (float *) malloc(slider_length * sizeof (float));
+//        predicted_slider = (float *) malloc(slider_length * sizeof (float));
+
+        reconstructed_slider = (uint8_t *) malloc(slider_length * sizeof (uint8_t));
+        current_slider = (uint8_t *) malloc(slider_length * sizeof (uint8_t));
+        next_slider = (uint8_t *) malloc(slider_length * sizeof (uint8_t));
+        predicted_slider = (uint8_t *) malloc(slider_length * sizeof (uint8_t));
 
         for (int k = 0; k < input_slider_length; k++) {
-          reconstructed_slider[k] = 0.0;
-          current_slider[k] = 0.0;
-          next_slider[k] = 0.0;
-          predicted_slider[k] = 0.0;
+          reconstructed_slider[k] = 0;
+          current_slider[k] = 0;
+          next_slider[k] = 0;
+          predicted_slider[k] = 0;
         }
       }
 
@@ -294,7 +299,7 @@ namespace mic {
         float valueHere, maximum = 0.0f, minimum = 0.0f;
 
         for (int k = 0; k < input_slider_length; k++) {
-          valueHere = reconstructed_slider[k];
+          valueHere = (float)reconstructed_slider[k];
           if (valueHere > maximum) maximum = valueHere;
           if (valueHere < minimum) minimum = valueHere;
         }
@@ -302,7 +307,7 @@ namespace mic {
         glColor4f(0.0f, 0.4f, 0.0f, alpha);
         glBegin(GL_LINE_STRIP);
         for (int k = 0; k < input_slider_length; k++) {
-          valueHere = reconstructed_slider[k];
+          valueHere = (float)reconstructed_slider[k];
           if (maximum > minimum) valueHere = (valueHere - minimum) / (maximum - minimum);
           glVertex2i(-1 + MAIN_FRAME_X_MARGIN + (int) range_main_x * ((float) k / (float) input_slider_length), -1 + height - ((int) (valueHere * GRAPH_2_FRAME_HEIGHT) + MAIN_FRAME_Y_MARGIN));
         }
@@ -310,7 +315,7 @@ namespace mic {
 
         maximum = 0.0f;
         for (int k = 0; k < input_slider_length; k++) {
-          valueHere = predicted_slider[k];
+          valueHere =(float)predicted_slider[k];
           if (valueHere > maximum) maximum = valueHere;
           if (valueHere < minimum) minimum = valueHere;
         }
@@ -318,7 +323,7 @@ namespace mic {
         glColor4f(0.0f, 0.0f, 0.9f, alpha);
         glBegin(GL_LINE_STRIP);
         for (int k = 0; k < input_slider_length; k++) {
-          valueHere = predicted_slider[k];
+          valueHere = (float)predicted_slider[k];
           if (maximum > minimum) valueHere = (valueHere - minimum) / (maximum - minimum);
           glVertex2i(-1 + MAIN_FRAME_X_MARGIN + (int) range_main_x * ((float) k / (float) input_slider_length), -1 + height - ((int) (valueHere * GRAPH_2_FRAME_HEIGHT) + MAIN_FRAME_Y_MARGIN));
         }
@@ -326,7 +331,7 @@ namespace mic {
 
         maximum = 0.0f;
         for (int k = 0; k < input_slider_length; k++) {
-          valueHere = next_slider[k];
+          valueHere = (float)next_slider[k];
           if (valueHere > maximum) maximum = valueHere;
           if (valueHere < minimum) minimum = valueHere;
         }
@@ -334,7 +339,7 @@ namespace mic {
         glColor4f(0.9f, 0.0f, 0.9f, alpha);
         glBegin(GL_LINE_STRIP);
         for (int k = 0; k < input_slider_length; k++) {
-          valueHere = next_slider[k];
+          valueHere = (float)next_slider[k];
           if (maximum > minimum) valueHere = (valueHere - minimum) / (maximum - minimum);
           glVertex2i(1 + MAIN_FRAME_X_MARGIN + (int) range_main_x * ((float) k / (float) input_slider_length), 1 + height - ((int) (valueHere * GRAPH_2_FRAME_HEIGHT) + MAIN_FRAME_Y_MARGIN));
         }
@@ -342,7 +347,7 @@ namespace mic {
 
         maximum = 0.0f;
         for (int k = 0; k < input_slider_length; k++) {
-          valueHere = current_slider[k];
+          valueHere = (float)current_slider[k];
           if (valueHere > maximum) maximum = valueHere;
           if (valueHere < minimum) minimum = valueHere;
         }
@@ -350,7 +355,7 @@ namespace mic {
         glColor4f(0.9f, 0.0f, 0.0f, alpha);
         glBegin(GL_LINE_STRIP);
         for (int k = 0; k < input_slider_length; k++) {
-          valueHere = current_slider[k];
+          valueHere = (float)current_slider[k];
           if (maximum > minimum) valueHere = (valueHere - minimum) / (maximum - minimum);
           glVertex2i(1 + MAIN_FRAME_X_MARGIN + (int) range_main_x * ((float) k / (float) input_slider_length), 1 + height - ((int) (valueHere * GRAPH_2_FRAME_HEIGHT) + MAIN_FRAME_Y_MARGIN));
         }

@@ -57,10 +57,14 @@ namespace mic {
         std::vector<float> spatial_error;
         std::vector<float> prediction_error;
         int current_iteration;
-        float *reconstructed_slider;
-        float *current_slider;
-        float *next_slider;
-        float *predicted_slider;
+//        float *reconstructed_slider;
+//        float *current_slider;
+//        float *next_slider;
+//        float *predicted_slider;
+        uint8_t *reconstructed_slider;
+        uint8_t *current_slider;
+        uint8_t *next_slider;
+        uint8_t *predicted_slider;
 
 
       private:
