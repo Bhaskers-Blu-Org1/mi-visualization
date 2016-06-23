@@ -276,12 +276,7 @@ namespace mic {
 
       void WindowSequence::allocate_sliders(int slider_length) {
         input_slider_length = slider_length;
-
-//        reconstructed_slider = (float *) malloc(slider_length * sizeof (float));
-//        current_slider = (float *) malloc(slider_length * sizeof (float));
-//        next_slider = (float *) malloc(slider_length * sizeof (float));
-//        predicted_slider = (float *) malloc(slider_length * sizeof (float));
-
+        
         reconstructed_slider = (uint8_t *) malloc(slider_length * sizeof (uint8_t));
         current_slider = (uint8_t *) malloc(slider_length * sizeof (uint8_t));
         next_slider = (uint8_t *) malloc(slider_length * sizeof (uint8_t));
