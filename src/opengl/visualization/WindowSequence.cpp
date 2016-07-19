@@ -14,6 +14,7 @@ namespace mic {
 
       WindowSequence::WindowSequence(std::string name_, unsigned int height_, unsigned int width_, unsigned int position_x_, unsigned int position_y_) :
       Window(name_, height_, width_, position_x_, position_y_) {
+        disabled = true; // make sure we don't draw anything until the parameters are self-consistent
         // Set variables.
         alpha = 0.8f;
         text_alpha = 1.0f;
@@ -37,6 +38,7 @@ namespace mic {
       }
 
       void WindowSequence::displayHandler(void) {
+        if (disabled) return; // don't let the windows get displayed until we set the RIGHT parameters!
         LOG(LTRACE) << "WindowSequence::Display handler of window " << glutGetWindow();
         // Enter critical section.
         //	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
@@ -360,6 +362,7 @@ namespace mic {
       void WindowSequence::vanishWindow(int height_, int width_) {
         height = height_;
         width = width_;
+        LOG(LSTATUS) << "Vanishing window to " << height << " x " << width;
         // Resize window.
         glutReshapeWindow(width, height);
         // Place it in the previous position.
