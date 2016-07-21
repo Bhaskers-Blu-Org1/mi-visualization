@@ -68,7 +68,7 @@ namespace mic {
         LOG(LDEBUG) << "Display handler of " << glutGetWindow() << " window";
         // If opengl "finished" - throw exception to break the GLUT loop!
         if (APP_STATE->Quit()) {
-          throw std::exception();
+          //throw std::exception();
         }
 
         //printf("Display handler of %d window!\n", glutGetWindow());
