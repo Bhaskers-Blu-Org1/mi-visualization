@@ -40,7 +40,7 @@ void WindowMNISTDigit::displayHandler(void){
 		// Get dimensions.
 		size_t w_tensor = displayed_digit->dim(0);
 		size_t h_tensor = displayed_digit->dim(1);
-		size_t d_tensor = displayed_digit->dim(2);
+		//size_t d_tensor = displayed_digit->dim(2);
 		size_t w_window = glutGet(GLUT_WINDOW_WIDTH);
 		size_t h_window = glutGet(GLUT_WINDOW_HEIGHT);
 

@@ -61,7 +61,7 @@ namespace mic {
               APP_STATE->setQuit();
               break;
             }
-            else if (((long) number_of_iterations > 0) && (iteration >= (long) number_of_iterations)) {
+            else if (((long) number_of_iterations > 0) && ((long)iteration >= (long) number_of_iterations)) {
               LOG(LINFO) << "Reached last Iteration. Terminating application...";
               APP_STATE->setQuit();
               break;

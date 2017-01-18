@@ -37,8 +37,8 @@ void WindowMatrix2D::displayHandler(void){
 	// Draw matrix 2d.
 	if (displayed_matrix != nullptr){
 		// Set temporal variables.
-		int rows = displayed_matrix->rows();
-		int cols = displayed_matrix->cols();
+		size_t rows = displayed_matrix->rows();
+		size_t cols = displayed_matrix->cols();
     	float* data_ptr = displayed_matrix->data();
 
 		// Compute scale.

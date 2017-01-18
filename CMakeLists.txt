@@ -3,19 +3,15 @@ project(MIVisualization CXX)
 
 #  Set current version number.
 set (MIVisualization_MAJOR_VERSION 1)
-set (MIVisualization_MINOR_VERSION 0)
+set (MIVisualization_MINOR_VERSION 1)
 set (MIVisualization_PATCH_VERSION 0)
 set (MIVisualization_VERSION ${MIVisualization_MAJOR_VERSION}.${MIVisualization_MINOR_VERSION}.${MIVisualization_PATCH_VERSION})
 
 # CMake required version.
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 2.8)
 
 # Add C++11 dependency.
-if (WIN32)
-  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Wall -Ic:/progra~1/boost/boost_1_60_0")
-else ()
-  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Wall")
-endif ()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fopenmp -Wall")
 
 
 # =======================================================================
@@ -27,18 +23,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 # Find Boost package
 find_package(Boost 1.54 REQUIRED COMPONENTS system thread random)
 # Try to include Boost as system directory to suppress it's warnings
-if (WIN32)
-  include_directories(SYSTEM )
-else ()
-  include_directories(SYSTEM ${Boost_INCLUDE_DIR})
-endif ()
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 # Find GLUT package
-if (WIN32)
-  set(GLUT_INCLUDE_DIR "C:/MinGW/GLUT/glut-3.7.6-bin/")
-  set(GLUT_glut_LIBRARY "C:/MinGW/GLUT/glut-3.7.6-bin/glut32.lib")
-endif ()
-
 find_package(GLUT REQUIRED)
 include_directories(${GLUT_INCLUDE_DIRS})
 link_directories(${GLUT_LIBRARY_DIRS})
@@ -62,10 +49,10 @@ find_package( Eigen3 REQUIRED )
 include_directories( ${EIGEN3_INCLUDE_DIR} )
 
 # Find MIC Toolchain
-find_package(MIToolchain 1.0 REQUIRED)
+find_package(MIToolchain 1.1 REQUIRED)
 
 # Find MIC Algorithms
-find_package(MIAlgorithms 1.0 REQUIRED)
+find_package(MIAlgorithms 1.1 REQUIRED)
 
 # =======================================================================
 # RPATH settings

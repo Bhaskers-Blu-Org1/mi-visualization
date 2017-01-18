@@ -47,7 +47,7 @@ void OpenGLEpisodicApplication::processingThread(void) {
 				finishCurrentEpisode();
 
 				// Check terminal condition.
-				if (((long)number_of_episodes > 0) && ( episode >= (long) number_of_episodes)) {
+				if (((long)number_of_episodes > 0) && ( (long)episode >= (long) number_of_episodes)) {
 					APP_STATE->setQuit();
 					LOG(LINFO) << "Reached last episode (" << episode << "). Terminating application...";
 				} else {
