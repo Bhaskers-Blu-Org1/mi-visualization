@@ -27,7 +27,8 @@ Window::Window(std::string name_, unsigned int height_, unsigned int width_, uns
     glutDisplayFunc(VGL_MANAGER->displayHandler);
     glutReshapeFunc(VGL_MANAGER->reshapeHandler);
     glutKeyboardFunc(VGL_MANAGER->keyboardHandler);
-
+    glutMouseFunc(VGL_MANAGER->mouseHandler);
+    
     // Set OpenGl antialiasing parameters.
     glEnable(GL_LINE_SMOOTH);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);

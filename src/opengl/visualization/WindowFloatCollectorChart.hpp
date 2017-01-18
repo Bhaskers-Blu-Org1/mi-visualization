@@ -113,6 +113,8 @@ private:
 		zoom_factor = 1.0f;
 	}
 
+  void mouseHandler(int button, int state, int x, int y) {};
+
 };
 
 //typedef WindowDataCollectorChart<std::string, float> WindowFloatCollectorChart;

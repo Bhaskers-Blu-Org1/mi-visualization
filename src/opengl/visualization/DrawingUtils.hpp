@@ -38,7 +38,8 @@ namespace visualization {
  * \brief Different types of marks drawn on chars.
  * \author krocki
  */
-typedef enum {CIRCLE, PLUS, CROSS, SQUARE} mark;
+//typedef enum {CIRCLE, PLUS, CROSS, SQUARE} mark;
+typedef enum {CIRCLE, PLUS, CROSS, SQUARE, NO_MARK, NO_LINE, ONE_CIRCLE} mark;
 
 /*!
  * \brief Class offering methods for drawing in OpenGL windows.

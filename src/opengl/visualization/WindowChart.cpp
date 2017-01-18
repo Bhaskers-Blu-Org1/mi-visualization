@@ -194,7 +194,6 @@ void WindowChart::keyhandlerZoomReset(void) {
 }
 
 
-
 } /* namespace visualization */
 } /* namespace opengl */
 } /* namespace mic */
