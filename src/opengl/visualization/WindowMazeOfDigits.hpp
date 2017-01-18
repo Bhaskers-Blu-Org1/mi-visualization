@@ -25,8 +25,8 @@ namespace visualization {
  */
 enum class MazeOfDigitsChannels : std::size_t
 {
-	Goals = 0, ///< Channel storing goal(s)
-	Digits = 1, ///< Channel storing digits
+	Digits = 0, ///< Channel storing digits
+	Goals = 1, ///< Channel storing goal(s)
 	Walls = 2, ///< Channel storing walls(s)
 	Agent = 3, ///< Channel storing the agent position
 	Count = 4 ///< Number of channels

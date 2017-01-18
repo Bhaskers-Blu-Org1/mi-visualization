@@ -40,6 +40,7 @@ void WindowMNISTDigit::displayHandler(void){
 		// Get dimensions.
 		size_t w_tensor = displayed_digit->dim(0);
 		size_t h_tensor = displayed_digit->dim(1);
+		size_t d_tensor = displayed_digit->dim(2);
 		size_t w_window = glutGet(GLUT_WINDOW_WIDTH);
 		size_t h_window = glutGet(GLUT_WINDOW_HEIGHT);
 
@@ -91,6 +92,30 @@ void WindowMNISTDigit::displayHandler(void){
 		// Draw saccadic path.
 		if ((saccadic_path != nullptr) && (saccadic_path->size() > 1)){
 
+			draw_circle((float((*saccadic_path)[0].x) + 0.5)* w_scale, (float((*saccadic_path)[0].y) + 0.5)* h_scale, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0);
+
+			// White contour.
+			for(size_t i=1; i <saccadic_path->size(); i++) {
+				// Get points.
+				Position2D prev = (*saccadic_path)[i-1];
+				Position2D next = (*saccadic_path)[i];
+
+				// Draw line between those two.
+				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+				glLineWidth(4.0);
+				glBegin(GL_LINES);
+				glVertex2i((float(prev.x) + 0.5) * w_scale, (float(prev.y) + 0.5) * h_scale);
+				glVertex2i((float(next.x) + 0.5) * w_scale, (float(next.y) + 0.5) * h_scale);
+				glEnd();
+
+				//if (i != saccadic_path->size()-1)
+				draw_circle((float(next.x) + 0.5)* w_scale, (float(next.y) + 0.5)* h_scale, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0);
+
+			}//: for
+
+			// Green path.
+			glLineWidth(2.0);
+			glBegin(GL_LINES);
 			for(size_t i=1; i <saccadic_path->size(); i++) {
 				// Get points.
 				Position2D prev = (*saccadic_path)[i-1];
@@ -99,16 +124,14 @@ void WindowMNISTDigit::displayHandler(void){
 				// Draw line between those two.
 				float g = 0.1 + 0.9*((float)i/saccadic_path->size());
 				glColor4f(0.0f, g, 0.0f, 1.0f);
-				glLineWidth(2.0);
-				glBegin(GL_LINES);
 				glVertex2i((float(prev.x) + 0.5) * w_scale, (float(prev.y) + 0.5) * h_scale);
 				glVertex2i((float(next.x) + 0.5) * w_scale, (float(next.y) + 0.5) * h_scale);
-				glEnd();
 
 				//if (i != saccadic_path->size()-1)
 				//	draw_circle((float(next.x) + 0.5)* w_scale, (float(next.y) + 0.5)* h_scale, 1.0, 1.0, 0.0, g, 0.0, 1.0);
 
 			}//: for
+			glEnd();
 
 		}//: if !null
 	}//: if !null
