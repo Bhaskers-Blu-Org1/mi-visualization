@@ -1,5 +1,5 @@
 # Project name
-project(MIVisualization CXX)
+project(MIVisualization CXX C)
 
 #  Set current version number.
 set (MIVisualization_MAJOR_VERSION 1)
