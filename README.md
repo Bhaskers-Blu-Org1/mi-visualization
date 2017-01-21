@@ -26,7 +26,7 @@ Additionally it depends on the following external libraries:
 
 On Linux (Ubuntu 14.04): 
 
-    sudo apt-get install git cmake cmake-curses-gui doxygen libboost1.54-all-dev libeigen3-dev freeglut3-dev
+    sudo apt-get install git cmake cmake-curses-gui doxygen libboost1.54-all-dev libeigen3-dev freeglut3-dev libxmu-dev libxi-dev
 
 ## Main modules
 

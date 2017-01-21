@@ -39,6 +39,8 @@ matrix:
             - libboost-all-dev
             - libeigen3-dev
             - freeglut3-dev
+            - libxmu-dev
+            - libxi-dev
             - g++-4.8
             - doxygen
             - doxygen-doc
@@ -64,7 +66,7 @@ matrix:
 #        - COMPILER=clang++
 #      addons:
 #        apt:
-#          packages: ['libboost-all-dev', 'libeigen3-dev', 'freeglut3-dev']
+#          packages: ['libboost-all-dev', 'libeigen3-dev', 'freeglut3-dev', 'libxmu-dev', 'libxi-dev']
 
    # 3. Ubuntu 14.04 clang++
     - os: linux
@@ -76,7 +78,7 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.5']
-          packages: ['libboost-all-dev', 'libeigen3-dev', 'freeglut3-dev']
+          packages: ['libboost-all-dev', 'libeigen3-dev', 'freeglut3-dev', 'libxmu-dev', 'libxi-dev']
 
 #   # 4. Ubuntu 14.04 clang-3.8 - doesn't work - not supporting openMP
 #    - os: linux
@@ -84,7 +86,7 @@ matrix:
 #      addons:
 #        apt:
 #          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
-#          packages: ['clang-3.8', 'libboost-all-dev', 'libeigen3-dev', 'freeglut3-dev']
+#          packages: ['clang-3.8', 'libboost-all-dev', 'libeigen3-dev', 'freeglut3-dev', 'libxmu-dev', 'libxi-dev']
 #      env: COMPILER=clang++-3.8
 
 
