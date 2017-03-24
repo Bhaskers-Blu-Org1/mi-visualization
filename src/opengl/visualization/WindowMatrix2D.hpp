@@ -46,8 +46,6 @@ public:
 	 */
 	void setMatrixPointer(mic::types::MatrixXfPtr displayed_matrix_);
 
-  void mouseHandler(int button, int state, int x, int y) {};
-
 private:
 
 	/*!

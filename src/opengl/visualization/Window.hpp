@@ -70,9 +70,9 @@ public:
 	virtual void displayHandler(void) = 0;
 
   	/*!
-	 * Refreshes the content of the window - abstract method.
+	 * Mouse handler - virtual method, to be overridden if necessary.
 	 */
-	virtual void mouseHandler(int button, int state, int x, int y) = 0;
+	virtual void mouseHandler(int button, int state, int x, int y) { };
 
 	/*!
 	 * Changes size of the window.

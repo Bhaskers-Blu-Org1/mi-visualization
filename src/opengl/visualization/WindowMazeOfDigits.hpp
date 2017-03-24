@@ -59,8 +59,6 @@ public:
 	 */
 	void setMazePointer(mic::types::TensorXfPtr displayed_maze_);
 
-  void mouseHandler(int button, int state, int x, int y) {};
-
 	/*!
 	 * Sets pointer to displayed digit.
 	 */
