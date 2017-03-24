@@ -89,7 +89,6 @@ namespace mic {
         void add_key_entry(int whichFrame, const char *display_text, float x_location, float y_height, float r, float g, float b, float a, mark m);
         void draw_error_labels(void);
         void draw_reconstructions(float alpha);
-        void mouseHandler(int button, int state, int x, int y) {};
 
       };
     } /* namespace visualization */

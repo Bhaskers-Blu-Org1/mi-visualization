@@ -111,6 +111,9 @@ int main(int argc, char* argv[]) {
 	// Parse parameters.
 	PARAM_SERVER->parseApplicationParameters(argc, argv);
 
+	// Initilize application state ("touch it") ;)
+	APP_STATE;
+
 	// Load dataset.
 	importer = new mic::data_io::MNISTMatrixImporter();
 

@@ -27,7 +27,7 @@ namespace mic {
 
         // Start main OpenGL loop.
         VGL_MANAGER->startVisualizationLoop();
-        LOG(LINFO) << "OpenGL thread terminated... waiting for the threads to join";
+        LOG(LINFO) << "OpenGL thread terminated. Waiting for the threads to join...";
 
         // Wait for the processing thread to end.
         processing_thread.join();
