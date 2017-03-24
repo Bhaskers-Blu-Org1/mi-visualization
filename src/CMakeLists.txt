@@ -56,50 +56,25 @@ set(MIVisualization_LIBRARIES ${MIVisualization_LIBRARIES} "visualization_opengl
 
 install(TARGETS ${MIVisualization_LIBRARIES} LIBRARY DESTINATION lib ARCHIVE DESTINATION lib RUNTIME DESTINATION bin)
 
-## =======================================================================
-## Build executables - image encoder test.
-## =======================================================================
-#
-#if (WIN32)
-#set(VISUALIZATION_NAME "visualization_opengl.dll.a")
-#if(${BUILD_TEST_IMAGE_ENCODER})
-#	# Create exeutable.
-#	add_executable(image_encoder_test opengl/tests/image_encoder_test.cpp)
-#	# Link it with shared libraries.
-#	target_link_libraries(image_encoder_test 
-#		logger
-#		application
-#		types
-#		data_io
-#		auto_encoders
-#		configuration
-#    data_utils
-#    ${OPENGL_LIBRARIES} 
-#    ${GLUT_LIBRARY}
-#    "libvisualization_opengl.dll.a"
-#		)
-#	
-#	# install test to bin directory
-#	install(TARGETS image_encoder_test RUNTIME DESTINATION bin)
-#	
-#endif(${BUILD_TEST_IMAGE_ENCODER})
-#else ()
-#if(${BUILD_TEST_IMAGE_ENCODER})
-#	# Create exeutable.
-#	add_executable(image_encoder_test opengl/tests/image_encoder_test.cpp)
-#	# Link it with shared libraries.
-#	target_link_libraries(image_encoder_test 
-#		logger
-#		application
-#		types
-#		data_io
-#		encoders
-#		configuration
-#		visualization_opengl
-#		)
-#	
-#	# install test to bin directory
-#	install(TARGETS image_encoder_test RUNTIME DESTINATION bin)
-#	
-#endif(${BUILD_TEST_IMAGE_ENCODER})
-#endif ()
+# =======================================================================
+# Build executables - image encoder test.
+# =======================================================================
+
+if(${BUILD_TEST_IMAGE_ENCODER})
+	# Create exeutable.
+	add_executable(image_encoder_test opengl/tests/image_encoder_test.cpp)
+	# Link it with shared libraries.
+	target_link_libraries(image_encoder_test 
+		logger
+		application
+		types
+		data_io
+		encoders
+		configuration
+		visualization_opengl
+		)
+	
+	# install test to bin directory
+	install(TARGETS image_encoder_test RUNTIME DESTINATION bin)
+	
+endif(${BUILD_TEST_IMAGE_ENCODER})

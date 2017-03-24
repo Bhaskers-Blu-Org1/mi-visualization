@@ -65,10 +65,12 @@ namespace mic {
       }
 
       void WindowManager::displayHandler(void) {
-        LOG(LDEBUG) << "Display handler of " << glutGetWindow() << " window";
+        LOG(LTRACE) << "Display handler of " << glutGetWindow() << " window";
+
         // If opengl "finished" - throw exception to break the GLUT loop!
         if (APP_STATE->Quit()) {
-          //throw std::exception();
+          //LOG(LERROR) << "ESC pressed - throwing an exception!";
+          throw std::exception();
         }
 
         //printf("Display handler of %d window!\n", glutGetWindow());
@@ -79,7 +81,7 @@ namespace mic {
       }
 
       void WindowManager::mouseHandler(int button, int state, int x, int y) {
-        LOG(LDEBUG) << "Mouse handler of " << glutGetWindow() << " window";
+        LOG(LTRACE) << "Mouse handler of " << glutGetWindow() << " window";
         Window* w = VGL_MANAGER->findWindow(glutGetWindow());
         if (w != NULL) {
           w->mouseHandler(button, state, x, y);
@@ -87,7 +89,7 @@ namespace mic {
       }
 
       void WindowManager::reshapeHandler(int width_, int height_) {
-        LOG(LDEBUG) << "Reshape handler of " << glutGetWindow() << " window";
+        LOG(LTRACE) << "Reshape handler of " << glutGetWindow() << " window";
         Window* w = VGL_MANAGER->findWindow(glutGetWindow());
         if (w != NULL) {
           w->reshapeHandler(width_, height_);
@@ -95,7 +97,7 @@ namespace mic {
       }
 
       void WindowManager::keyboardHandler(unsigned char key, int x, int y) {
-        LOG(LDEBUG) << "Keyboard handler of " << glutGetWindow() << " window";
+        LOG(LTRACE) << "Keyboard handler of " << glutGetWindow() << " window";
         Window* w = VGL_MANAGER->findWindow(glutGetWindow());
         if (w != NULL) {
           w->keyboardHandler(key);
@@ -106,9 +108,6 @@ namespace mic {
         LOG(LTRACE) << "WindowManager::idle";
         WindowManager* wm = VGL_MANAGER;
 
-        // Enter critical section.
-        APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
-
         for (id_win_it_t it = wm->window_registry.begin(); it != wm->window_registry.end(); it++) {
           // Activate window.
           glutSetWindow(it->first);
@@ -116,17 +115,13 @@ namespace mic {
           glutPostRedisplay();
         }//: end
 
-        // End of critical section.
       }
 
       void WindowManager::terminateWindows(void) {
-        LOG(LSTATUS) << "WindowManager::terminateWindows";
-        WindowManager* wm = VGL_MANAGER;
+        LOG(LTRACE) << "WindowManager::terminateWindows";
+        /*WindowManager* wm = VGL_MANAGER;
 
-        // Enter critical section.
-        APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
-
-        for (id_win_it_t it = wm->window_registry.begin(); it != wm->window_registry.end(); it++) {
+         for (id_win_it_t it = wm->window_registry.begin(); it != wm->window_registry.end(); it++) {
           LOG(LSTATUS) << "Window " << it->first << " being destroyed...";
           // Activate window.
           glutSetWindow(it->first);
@@ -134,9 +129,9 @@ namespace mic {
           glutDestroyWindow(it->first);
         }//: end
 
-        LOG(LSTATUS) << "WindowManager::terminateWindows - done destroying windows";
+        LOG(LERROR) << "WindowManager::terminateWindows - done destroying windows";*/
         
-        boost::mutex::scoped_lock unlock(APP_STATE->dataSynchronizationMutex());
+        //boost::mutex::scoped_lock unlock(APP_STATE->dataSynchronizationMutex());
       }
 
       WindowManager::WindowManager() {
@@ -161,22 +156,19 @@ namespace mic {
         LOG(LTRACE) << "WindowManager::startVisualizationLoop";
         // Change application state.
         APP_STATE->startUsingOpenGL();
-        //	try
-        //	{
-        // Run main OpenGL loop (sadly, it must be executed in the same i.e. MAIN program thread).
-        glutMainLoop();
-        //	}
-        //	catch(...)
-        //	{
-        LOG(LSTATUS) << "Exiting glutMainLoop";
-        LOG(LDEBUG) << "Exiting glutMainLoop";
-        //	}
+        try
+        {
+        	// Run main OpenGL loop (sadly, it must be executed in the same i.e. MAIN program thread).
+            LOG(LTRACE) << "glutMainLoop()";
+        	glutMainLoop();
+        }
+       	catch(...)
+        {
+       		LOG(LTRACE) << "Exiting glutMainLoop";
+        }
         // Change application state.
         APP_STATE->stopUsingOpenGL();
       }
-
-
-
 
     } /* namespace visualization */
   } /* namespace opengl */

@@ -23,6 +23,9 @@ Window::Window(std::string name_, unsigned int height_, unsigned int width_, uns
     // Create window.
     id = glutCreateWindow(name.c_str());
 
+    // Note: glutSetOption is only available with freeglut
+    // glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+
     // Register main handlers.
     glutDisplayFunc(VGL_MANAGER->displayHandler);
     glutReshapeFunc(VGL_MANAGER->reshapeHandler);

@@ -60,8 +60,18 @@ protected:
 	 * \author tkornuta
 	 */
 	virtual void processingThread(void);
-	virtual void performInitialStep(void) = 0;
-	virtual void performFinalStep(void) = 0;
+
+	/*!
+	 * \brief The initial step - empty, to be overridden.
+	 * \author gwburr
+	 */
+	virtual void performInitialStep(void) { };
+
+	/*!
+	 * \brief The initial step - empty, to be overridden.
+	 * \author gwburr
+	 */
+	virtual void performFinalStep(void) { };
 
 };
 

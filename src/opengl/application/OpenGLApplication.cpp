@@ -27,12 +27,11 @@ namespace mic {
 
         // Start main OpenGL loop.
         VGL_MANAGER->startVisualizationLoop();
-        LOG(LINFO) << "OpenGL thread terminated...";
+        LOG(LINFO) << "OpenGL thread terminated... waiting for the threads to join";
 
         // Wait for the processing thread to end.
         processing_thread.join();
-        std::cout << "Processing thread done" << std::endl;
-        LOG(LINFO) << "Processing thread terminated...";
+        LOG(LINFO) << "Threads joined";
 
       }
 
@@ -41,8 +40,12 @@ namespace mic {
         // Start from learning.
         APP_STATE->setLearningModeOn();
 
-        // Main application loop.
+        // Perform the initial step.
+        LOG(LINFO) << "Performing the initial step...";
         performInitialStep();
+
+        // Main application loop.
+        LOG(LINFO) << "Starting the main loop...";
         while (!APP_STATE->Quit()) {
 
           // If not paused.
@@ -70,16 +73,18 @@ namespace mic {
           } //: if! is paused & end of critical section
 
           // Sleep.
-          APP_SLEEP();
         }//: while
-        LOG(LINFO) << "We're outside the processing loop now...";
-        performFinalStep();
-        LOG(LINFO) << "Final step complete...";
-//        mic::opengl::visualization::WindowManager* wm = VGL_MANAGER;
-//        wm->terminateWindows();
-        //  wm->exit_signal = true;
-      }
 
+        LOG(LINFO) << "Performing the final step...";
+        // Perform the final step.
+        performFinalStep();
+        LOG(LINFO) << "Final step complete";
+
+        // Wait until OpenGL will "stop"...
+//        while (APP_STATE->usingOpenGL())
+//            APP_SLEEP();
+        // ... and then quit - not required, because we will wait anyway at thread.join()
+      }
 
     } /* namespace applications */
   } /* namespace opengl */

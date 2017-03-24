@@ -88,6 +88,10 @@ void image_encoder_and_visualization_test (void) {
 		APP_SLEEP();
 	}//: while
 
+    // Wait until OpenGL will "stop"...
+//    while (APP_STATE->usingOpenGL())
+//        APP_SLEEP();
+    // ... and then exit.
 }//: image_encoder_and_visualization_test
 
 
@@ -109,9 +113,6 @@ int main(int argc, char* argv[]) {
 
 	// Load dataset.
 	importer = new mic::data_io::MNISTMatrixImporter();
-	// Manually set paths. DEPRICATED!
-	//importer->setDataFilename("/Users/tkornut/Documents/workspace/machine-intelligence-core/data/mnist/train-images-idx3-ubyte");
-	//importer->setLabelsFilename("/Users/tkornut/Documents/workspace/machine-intelligence-core/data/mnist/train-labels-idx1-ubyte");
 
 	// Set parameters of all property-tree derived objects - USER independent part.
 	PARAM_SERVER->loadPropertiesFromConfiguration();
@@ -135,7 +136,8 @@ int main(int argc, char* argv[]) {
 	// Start visualization thread.
 	VGL_MANAGER->startVisualizationLoop();
 
+	LOG(LINFO) << "Waiting for threads to join...";
 	// End test thread.
 	test_thread.join();
-	LOG(LINFO) << "Threads joined. Ending application";
+	LOG(LINFO) << "Threads joined - ending application";
 }//: main
