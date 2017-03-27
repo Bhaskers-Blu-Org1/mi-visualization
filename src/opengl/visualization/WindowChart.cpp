@@ -51,7 +51,7 @@ WindowChart::~WindowChart() {
 void WindowChart::displayHandler(void){
 	LOG(LTRACE) << "WindowChart::Display handler of window " << glutGetWindow();
 	// Enter critical section.
-//	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 	// Clear buffer.
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);

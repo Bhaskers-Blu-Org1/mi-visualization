@@ -399,13 +399,13 @@ namespace mic {
 
       void DrawingUtils::draw_text(float x, float y, char* string, float r, float g, float b, float a, void* font) {
 
-        int len, i;
+        size_t len, i;
 
         glColor4f(r, g, b, a);
 
         glRasterPos2i((int) x, (int) y);
 
-        len = (int) strlen(string);
+        len = (size_t) strlen(string);
 
         for (i = 0; i < len; i++)
           glutBitmapCharacter(font, string[i]);

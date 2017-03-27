@@ -44,7 +44,7 @@ WindowFloatCollectorChart::WindowFloatCollectorChart(std::string name_, unsigned
 void WindowFloatCollectorChart::displayHandler(void) {
 	LOG(LTRACE) << "WindowFloatCollectorChart::Display handler of window " << glutGetWindow();
 	// Enter critical section.
-//	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 	// Clear buffer.
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -141,13 +141,19 @@ void WindowFloatCollectorChart::redrawSingleContainer(std:: string & label_, std
 	glLineWidth(line_width_);
 	glBegin(GL_LINE_STRIP);
 	float value;
+	// Special case: division by 0. Place values in the "middle" (0.5).
+	float diff = max_value_ - min_value_;
+	if (diff == 0.0){
+		diff = 0.5;
+		min_value_ = 0.0;
+	}
 	// Draw data.
 	for (int i = 0; i < chart_width * (width); i++) {
 
-		if (data_.size() - 1 - (unsigned)(int)round(i * zoom_factor) < data_.size()) {
-			value = data_[data_.size() - 1 - (unsigned)(int)(i * zoom_factor)];
-			// rescale value.
-			value = (value - min_value_)/(max_value_-min_value_);
+		if (data_.size() - 1 - (size_t)round(i * zoom_factor) < data_.size()) {
+			value = data_[data_.size() - 1 - (size_t)(i * zoom_factor)];
+			// Scale the value.
+			value = (value - min_value_)/(diff);
 			glColor4f(color_.r/255.0f, color_.g/255.0f, color_.b/255.0f, color_.a/255.0f);
 			glVertex2i(acc_x + acc_w - (int)(i), acc_y + acc_h - (int)(value * acc_h));
 		}
@@ -156,7 +162,7 @@ void WindowFloatCollectorChart::redrawSingleContainer(std:: string & label_, std
 	glEnd();
 
 	// Print label.
-	char str_value[100];
+	char str_value[100] = "-";
 	if (data_.size() > 0) {
 		value = data_[data_.size() - 1];
 		sprintf(str_value, "%s: %.2f  (%.2f : %.2f)", label_.c_str(), value, min_value_, max_value_);
