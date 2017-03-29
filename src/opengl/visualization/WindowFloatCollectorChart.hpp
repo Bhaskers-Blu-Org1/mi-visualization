@@ -12,9 +12,6 @@
 
 #include <types/image_types.hpp>
 
-#include <data_utils/colormap.hpp>
-using namespace mic::data_utils;
-
 #include <data_io/DataCollector.hpp>
 
 namespace mic {
