@@ -1,6 +1,6 @@
 /*!
  * \file WindowMatrix2D.hpp
- * \brief 
+ * \brief Window displaying 2d matrix (e.g. a grayscale image).
  * \author tkornut
  * \date Dec 22, 2015
  */
@@ -41,17 +41,36 @@ public:
 	void displayHandler(void);
 
 	/*!
+	 * Sets displayed matrix.
+	 * @param displayed_matrix_
+	 */
+	void setMatrixSynchronized(mic::types::MatrixXf & displayed_matrix_);
+
+	/*!
+	 * Sets displayed matrix. Unsynchronized i.e. must be used inside of manually synchronized section.
+	 * @param displayed_matrix_
+	 */
+	void setMatrixUnsynchronized(mic::types::MatrixXf & displayed_matrix_);
+
+
+	/*!
 	 * Sets pointer to displayed matrix.
 	 * @param displayed_matrix_
 	 */
-	void setMatrixPointer(mic::types::MatrixXfPtr displayed_matrix_);
+	void setMatrixPointerSynchronized(mic::types::MatrixXfPtr displayed_matrix_ptr_);
+
+	/*!
+	 * Sets pointer to displayed matrix. Unsynchronized i.e. must be used inside of manually synchronized section.
+	 * @param displayed_matrix_
+	 */
+	void setMatrixPointerUnsynchronized(mic::types::MatrixXfPtr displayed_matrix_ptr_);
 
 private:
 
 	/*!
 	 * Pointer to displayed matrix.
 	 */
-	mic::types::MatrixXfPtr displayed_matrix;
+	mic::types::MatrixXfPtr displayed_matrix_ptr;
 };
 
 } /* namespace visualization */

@@ -16,7 +16,7 @@ WindowMatrix2D::WindowMatrix2D(std::string name_, unsigned int height_, unsigned
 	Window(name_, height_, width_, position_x_, position_y_)
 {
 	// NULL pointer.
-	displayed_matrix = nullptr;
+	displayed_matrix_ptr = nullptr;
 }
 
 
@@ -35,11 +35,11 @@ void WindowMatrix2D::displayHandler(void){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw matrix 2d.
-	if (displayed_matrix != nullptr){
+	if (displayed_matrix_ptr != nullptr){
 		// Set temporal variables.
-		size_t rows = displayed_matrix->rows();
-		size_t cols = displayed_matrix->cols();
-    	float* data_ptr = displayed_matrix->data();
+		size_t rows = displayed_matrix_ptr->rows();
+		size_t cols = displayed_matrix_ptr->cols();
+    	float* data_ptr = displayed_matrix_ptr->data();
 
 		// Compute scale.
     	float scale_x = (float)glutGet(GLUT_WINDOW_HEIGHT)/(float)(rows);
@@ -70,13 +70,42 @@ void WindowMatrix2D::displayHandler(void){
 	// End of critical section.
 }
 
-void WindowMatrix2D::setMatrixPointer(mic::types::MatrixXfPtr displayed_matrix_) {
+
+
+void WindowMatrix2D::setMatrixSynchronized(mic::types::MatrixXf & displayed_matrix_) {
 	// Enter critical section.
 	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
-	displayed_matrix = displayed_matrix_;
+	// Initialize the pointer.
+	if (displayed_matrix_ptr == nullptr) // int Rows_, int Cols_
+		displayed_matrix_ptr = MAKE_MATRIX_PTR(float, displayed_matrix_);
+	else
+		*displayed_matrix_ptr = displayed_matrix_;
 	// End of critical section.
 }
+
+void WindowMatrix2D::setMatrixUnsynchronized(mic::types::MatrixXf & displayed_matrix_) {
+	// Initialize the pointer.
+	if (displayed_matrix_ptr == nullptr) // int Rows_, int Cols_
+		displayed_matrix_ptr = MAKE_MATRIX_PTR(float, displayed_matrix_);
+	else
+		*displayed_matrix_ptr = displayed_matrix_;
+}
+
+
+
+void WindowMatrix2D::setMatrixPointerSynchronized(mic::types::MatrixXfPtr displayed_matrix_ptr_) {
+	// Enter critical section.
+	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+
+	displayed_matrix_ptr = displayed_matrix_ptr_;
+	// End of critical section.
+}
+
+void WindowMatrix2D::setMatrixPointerUnsynchronized(mic::types::MatrixXfPtr displayed_matrix_ptr_) {
+	displayed_matrix_ptr = displayed_matrix_ptr_;
+}
+
 
 } /* namespace visualization */
 } /* namespace opengl */

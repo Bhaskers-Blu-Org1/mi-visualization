@@ -19,7 +19,7 @@ namespace opengl {
 namespace visualization {
 
 /*!
- * \brief OpenGL-based window reposponsible for displaying data collected in DataCollector objects in the form of a chart.
+ * \brief OpenGL-based window responsible for displaying data collected in DataCollector objects in the form of a chart.
  * \tparam LABEL_TYPE Template parameter denoting the label type.
  * \tparam DATA_TYPE Template parameter denoting basic used datatype.
  * \author tkornuta

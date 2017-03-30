@@ -20,11 +20,9 @@ endif ()
 # Add CMAKE variables.
 # =======================================================================
 
-set(BUILD_TEST_IMAGE_ENCODER ON CACHE BOOL "Build the image encoder (with OpenGL-based visualization) test application")
-
 # Default length of SDR.
-set(DEFAULT_SDR_LENGTH 1024 CACHE STRING "Default length of SDR")
-add_definitions(-DDEFAULT_SDR_LENGTH=${DEFAULT_SDR_LENGTH})
+#set(DEFAULT_SDR_LENGTH 1024 CACHE STRING "Default length of SDR")
+#add_definitions(-DDEFAULT_SDR_LENGTH=${DEFAULT_SDR_LENGTH})
 
 # =======================================================================
 # Build MI Visualization.
@@ -57,14 +55,16 @@ set(MIVisualization_LIBRARIES ${MIVisualization_LIBRARIES} "visualization_opengl
 install(TARGETS ${MIVisualization_LIBRARIES} LIBRARY DESTINATION lib ARCHIVE DESTINATION lib RUNTIME DESTINATION bin)
 
 # =======================================================================
-# Build executables - image encoder test.
+# Build executables - grayscale image visualization test.
 # =======================================================================
 
-if(${BUILD_TEST_IMAGE_ENCODER})
-	# Create exeutable.
-	add_executable(image_encoder_test opengl/tests/image_encoder_test.cpp)
+set(BUILD_TEST_GRAYSCALE_IMAGE_VISUALIZATION ON CACHE BOOL "Build the grayscale image visualization test application")
+
+if(${BUILD_TEST_GRAYSCALE_IMAGE_VISUALIZATION})
+	# Create executable.
+	add_executable(window_grayscale_image_test opengl/tests/window_grayscale_image_test.cpp)
 	# Link it with shared libraries.
-	target_link_libraries(image_encoder_test 
+	target_link_libraries(window_grayscale_image_test 
 		logger
 		application
 		types
@@ -75,6 +75,31 @@ if(${BUILD_TEST_IMAGE_ENCODER})
 		)
 	
 	# install test to bin directory
-	install(TARGETS image_encoder_test RUNTIME DESTINATION bin)
+	install(TARGETS window_grayscale_image_test RUNTIME DESTINATION bin)
 	
-endif(${BUILD_TEST_IMAGE_ENCODER})
+endif(${BUILD_TEST_GRAYSCALE_IMAGE_VISUALIZATION})
+
+# =======================================================================
+# Build executables - grayscale batch visualization test.
+# =======================================================================
+
+set(BUILD_TEST_GRAYSCALE_BATCH_VISUALIZATION ON CACHE BOOL "Build the grayscale batch visualization test application")
+
+if(${BUILD_TEST_GRAYSCALE_BATCH_VISUALIZATION})
+	# Create executable.
+	add_executable(window_grayscale_batch_test opengl/tests/window_grayscale_batch_test.cpp)
+	# Link it with shared libraries.
+	target_link_libraries(window_grayscale_batch_test 
+		logger
+		application
+		types
+		data_io
+		encoders
+		configuration
+		visualization_opengl
+		)
+	
+	# install test to bin directory
+	install(TARGETS window_grayscale_batch_test RUNTIME DESTINATION bin)
+	
+endif(${BUILD_TEST_GRAYSCALE_BATCH_VISUALIZATION})
