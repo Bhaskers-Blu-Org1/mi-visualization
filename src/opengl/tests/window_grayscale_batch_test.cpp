@@ -31,7 +31,7 @@ WindowGrayscaleBatch* w_batch;
  */
 void test_thread_body (void) {
 
-	// Generate a batch that will be used for returning sub-batches of size 5.
+	// Generate a batch that will be used for returning minibatches of size 5.
 	mic::types::MNISTBatch batch(5);
 	for(size_t i=0; i< 15; i++) {
 		// Generate "data".
@@ -60,7 +60,7 @@ void test_thread_body (void) {
 			{ // Enter critical section - with the use of scoped lock from AppState!
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
-				// Select random image-label pair.
+				// Select next minibatch.
 				mic::types::MNISTBatch bt = batch.getNextBatch();
 				std::cout << bt.size() << std::endl;
 
@@ -74,10 +74,6 @@ void test_thread_body (void) {
 		APP_SLEEP();
 	}//: while
 
-    // Wait until OpenGL will "stop"...
-//    while (APP_STATE->usingOpenGL())
-//        APP_SLEEP();
-    // ... and then exit.
 }//: image_encoder_and_visualization_test
 
 

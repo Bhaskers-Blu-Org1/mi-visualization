@@ -52,12 +52,10 @@ void WindowGrayscaleBatch::displayHandler(void){
 		// Get image sizes.
 		size_t rows = batch_data[0]->rows();
 		size_t cols = batch_data[0]->cols();
-		std::cout << cols << " x " << rows << std::endl;
+
 		// Set opengl scale related variables.
     	float scale_x = (float)glutGet(GLUT_WINDOW_WIDTH)/(float)(cols * batch_width);
     	float scale_y = (float)glutGet(GLUT_WINDOW_HEIGHT)/(float)(rows * batch_height);
-		std::cout << scale_x << " x " << scale_y << std::endl;
-
 
     	// Iterate through batch elements.
 		for (size_t by=0; by < batch_height; by++)
@@ -86,8 +84,9 @@ void WindowGrayscaleBatch::displayHandler(void){
 
 			}//: for images in batch
 
-					draw_grid(0.5f, 0.3f, 0.3f, 0.3f, batch_width * cols, batch_height * rows);
-					draw_grid(0.8f, 0.3f, 0.3f, 0.3f, batch_width, batch_height);
+		// Draw grids dividing the cells and batch samples.
+		draw_grid(0.5f, 0.3f, 0.3f, 0.3f, batch_width * cols, batch_height * rows);
+		draw_grid(0.8f, 0.3f, 0.3f, 0.3f, batch_width, batch_height);
 	}//: if !null
 
 	// Swap buffers.

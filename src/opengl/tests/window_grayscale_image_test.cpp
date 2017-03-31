@@ -72,10 +72,6 @@ void test_thread_body (void) {
 		APP_SLEEP();
 	}//: while
 
-    // Wait until OpenGL will "stop"...
-//    while (APP_STATE->usingOpenGL())
-//        APP_SLEEP();
-    // ... and then exit.
 }//: image_encoder_and_visualization_test
 
 
