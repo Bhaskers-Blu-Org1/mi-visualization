@@ -44,7 +44,6 @@ void WindowGrayscaleBatch::displayHandler(void){
 		// Calculate batch "dimensions".
 		size_t batch_width = ceil(sqrt(batch_ptr->size()));
 		size_t batch_height = ceil((float)batch_ptr->size()/batch_width);
-		std::cout << batch_width << " x " << batch_height << std::endl;
 
 		// Get vector.
 		auto batch_data = batch_ptr->data();
@@ -69,8 +68,8 @@ void WindowGrayscaleBatch::displayHandler(void){
 			   	// Iterate through matrix elements.
 				for (size_t y = 0; y < rows; y++) {
 					for (size_t x = 0; x < cols; x++) {
-						// Get value.
-						float val = data_ptr[y*cols + x];
+						// Get value - REVERSED! as Eigen::Matrix by default is column-major!!
+						float val = data_ptr[x*rows + y];
 
 						// Draw rectangle - (x, y, height, width, color)!!
 						draw_filled_rectangle(float(bx*cols+x) * scale_x, float(by*rows+y) * scale_y, scale_y, scale_x,

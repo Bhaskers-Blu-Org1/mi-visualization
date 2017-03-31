@@ -48,8 +48,8 @@ void WindowMatrix2D::displayHandler(void){
     	// Iterate through matrix elements.
 		for (size_t y = 0; y < rows; y++) {
 			for (size_t x = 0; x < cols; x++) {
-				// Get value.
-				float val = data_ptr[x*rows + y ];
+				// Get value - REVERSED! as Eigen::Matrix by default is column-major!!
+				float val = data_ptr[x*rows + y];
 
 				// Draw rectangle.
 		        draw_filled_rectangle(float(x) * scale_y, float(y) * scale_x, scale_x, scale_y,

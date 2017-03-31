@@ -60,9 +60,8 @@ void test_thread_body (void) {
 			{ // Enter critical section - with the use of scoped lock from AppState!
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
-				// Select next minibatch.
+				// Retrieve the next minibatch.
 				mic::types::MNISTBatch bt = batch.getNextBatch();
-				std::cout << bt.size() << std::endl;
 
 				// Set sample to be displayed.
 				w_batch->setBatchUnsynchronized(bt);
@@ -93,7 +92,7 @@ int main(int argc, char* argv[]) {
 	// Initialize GLUT! :]
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
-	// Create two visualization windows - in the same, main thread :]
+	// Create batch visualization window.
 	w_batch = new WindowGrayscaleBatch("Grayscale batch", 512, 512, 0, 0);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));

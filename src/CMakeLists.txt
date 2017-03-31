@@ -94,8 +94,6 @@ if(${BUILD_TEST_GRAYSCALE_BATCH_VISUALIZATION})
 		application
 		types
 		data_io
-		encoders
-		configuration
 		visualization_opengl
 		)
 	
