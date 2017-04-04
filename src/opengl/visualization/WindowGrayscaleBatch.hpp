@@ -45,33 +45,21 @@ public:
 	 * Sets displayed batch.
 	 * @param displayed_matrix_
 	 */
-	void setBatchSynchronized(mic::types::MNISTBatch & batch_);
+	void setBatchDataSynchronized(std::vector <std::shared_ptr<mic::types::MatrixXf> >  & batch_data_);
 
 	/*!
 	 * Sets displayed batch. Unsynchronized i.e. must be used inside of manually synchronized section.
 	 * @param displayed_matrix_
 	 */
-	void setBatchUnsynchronized(mic::types::MNISTBatch & batch_);
+	void setBatchDataUnsynchronized(std::vector <std::shared_ptr<mic::types::MatrixXf> > & batch_);
 
-
-	/*!
-	 * Sets pointer to displayed batch.
-	 * @param displayed_matrix_
-	 */
-	void setBatchPtrSynchronized(mic::types::MNISTBatchPtr batch_ptr_);
-
-	/*!
-	 * Sets pointer to displayed batch. Unsynchronized i.e. must be used inside of manually synchronized section.
-	 * @param displayed_matrix_
-	 */
-	void setBatchPtrUnsynchronized(mic::types::MNISTBatchPtr batch_ptr_);
 
 private:
 
 	/*!
 	 * Pointer to displayed batch.
 	 */
-	mic::types::MNISTBatchPtr batch_ptr;
+	std::vector <std::shared_ptr<mic::types::MatrixXf> > batch_data;
 };
 
 } /* namespace visualization */
