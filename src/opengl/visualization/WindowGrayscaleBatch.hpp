@@ -26,9 +26,9 @@ namespace visualization {
 class WindowGrayscaleBatch: public Window {
 public:
 	/*!
-	 * Constructor. NULLs the image pointer.
+	 * Constructor. Sets window width, height and position (x,y).
 	 */
-	WindowGrayscaleBatch(std::string name_ = "WindowGrayscaleBatch", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0);
+	WindowGrayscaleBatch(std::string name_ = "WindowGrayscaleBatch", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0, bool draw_batch_grid_ = true, bool draw_smaple_grid_ = false);
 
 	/*!
 	 * Destructor.
@@ -60,6 +60,12 @@ private:
 	 * Pointer to displayed batch.
 	 */
 	std::vector <std::shared_ptr<mic::types::MatrixXf> > batch_data;
+
+	/// Flag determining whether to draw batch grid.
+	bool draw_batch_grid;
+
+	/// Flag determining whether to draw sample grid.
+	bool draw_sample_grid;
 };
 
 } /* namespace visualization */
