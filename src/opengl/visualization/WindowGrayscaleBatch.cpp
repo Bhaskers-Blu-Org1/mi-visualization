@@ -71,12 +71,15 @@ void WindowGrayscaleBatch::displayHandler(void){
 					for (size_t x = 0; x < cols; x++) {
 						// Get value - REVERSED! as Eigen::Matrix by default is column-major!!
 						float val = data_ptr[x*rows + y];
+						// Color weights.
+						float red = (val < 0.0) ? -val : 0.0f;
+						float blue = (val > 0.0) ? val : 0.0f;
 
 						// Draw rectangle - (x, y, height, width, color)!!
 						draw_filled_rectangle(float(bx*cols+x) * scale_x, float(by*rows+y) * scale_y, scale_y, scale_x,
-						(float)val,
-						(float)val,
-						(float)val,
+						(float)red,
+						(float)0.0f,
+						(float)blue,
 						(float)1.0f);
 
 					}//: for
