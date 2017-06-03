@@ -28,7 +28,7 @@ public:
 	/*!
 	 * Constructor. Sets window width, height and position (x,y).
 	 */
-	WindowGrayscaleBatch(std::string name_ = "WindowGrayscaleBatch", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0, bool draw_batch_grid_ = true, bool draw_smaple_grid_ = false);
+	WindowGrayscaleBatch(std::string name_ = "WindowGrayscaleBatch", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0, bool draw_batch_grid_ = true, bool draw_sample_grid_ = false);
 
 	/*!
 	 * Destructor.

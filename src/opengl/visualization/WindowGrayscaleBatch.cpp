@@ -17,9 +17,9 @@ namespace mic {
 namespace opengl {
 namespace visualization {
 
-WindowGrayscaleBatch::WindowGrayscaleBatch(std::string name_, unsigned int height_, unsigned int width_, unsigned int position_x_, unsigned int position_y_, bool draw_batch_grid_, bool draw_smaple_grid_) :
+WindowGrayscaleBatch::WindowGrayscaleBatch(std::string name_, unsigned int height_, unsigned int width_, unsigned int position_x_, unsigned int position_y_, bool draw_batch_grid_, bool draw_sample_grid_) :
 	Window(name_, height_, width_, position_x_, position_y_),
-	draw_batch_grid(draw_batch_grid_), draw_sample_grid(draw_smaple_grid_)
+	draw_batch_grid(draw_batch_grid_), draw_sample_grid(draw_sample_grid_)
 {
 	// NULL batch.
 	//batch_ptr = nullptr;
@@ -88,7 +88,7 @@ void WindowGrayscaleBatch::displayHandler(void){
 		if (draw_sample_grid)
 			draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * cols, batch_height * rows);
 		if (draw_batch_grid)
-			draw_grid(0.8f, 0.3f, 0.3f, 0.3f, batch_width, batch_height);
+			draw_grid(0.8f, 0.3f, 0.3f, 0.4f, batch_width, batch_height, 4.0);
 	}//: if !null
 
 	// Swap buffers.

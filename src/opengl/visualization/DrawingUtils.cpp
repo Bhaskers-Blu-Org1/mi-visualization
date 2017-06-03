@@ -125,7 +125,7 @@ namespace mic {
 
       }
 
-      void DrawingUtils::draw_grid(float r, float g, float b, float a, float cells_h, float cells_v) {
+      void DrawingUtils::draw_grid(float r, float g, float b, float a, float cells_h, float cells_v, float line_width_) {
 
         GLint h = glutGet(GLUT_WINDOW_HEIGHT);
         GLint w = glutGet(GLUT_WINDOW_WIDTH);
@@ -134,6 +134,7 @@ namespace mic {
         float scale_y = (float) h / (float) (cells_v);
 
         glColor4f(r, g, b, a);
+        glLineWidth(line_width_);
         glBegin(GL_LINES);
 
         for (unsigned i = 1; i < cells_h; i++) {

@@ -99,8 +99,9 @@ public:
 	 * @param a
 	 * @param cells_h
 	 * @param cells_v
+	 * @param line_width_  Width of the grid line (DEFAULT = 1.0)
 	 */
-	void draw_grid(float r, float g, float b, float a, float cells_h, float cells_v);
+	void draw_grid(float r, float g, float b, float a, float cells_h, float cells_v, float line_width_ = 1.0);
 
 	/*!
 	 * Draws mark.
