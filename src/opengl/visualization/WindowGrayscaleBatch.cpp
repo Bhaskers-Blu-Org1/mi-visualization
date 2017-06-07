@@ -72,8 +72,8 @@ void WindowGrayscaleBatch::displayHandler(void){
 						// Get value - REVERSED! as Eigen::Matrix by default is column-major!!
 						float val = data_ptr[x*rows + y];
 						// Color weights.
-						float red = (val < 0.0) ? -val : 0.0f;
-						float blue = (val > 0.0) ? val : 0.0f;
+						float red = (val > 0.0) ? val : 0.0f;
+						float blue = (val < 0.0) ? -val : 0.0f;
 
 						// Draw rectangle - (x, y, height, width, color)!!
 						draw_filled_rectangle(float(bx*cols+x) * scale_x, float(by*rows+y) * scale_y, scale_y, scale_x,
