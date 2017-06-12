@@ -32,12 +32,12 @@ WindowGrayscaleBatch<float>* w_batch;
 void test_thread_body (void) {
 
 	// Generate a batch that will be used for returning minibatches of size 5.
-	mic::types::MNISTBatch batch(5);
-	for(size_t i=0; i< 15; i++) {
+	mic::types::MNISTBatch batch(6);
+	for(size_t i=0; i< 18; i++) {
 		// Generate "data".
-		MatrixXfPtr data (new MatrixXf(3, 5));
+		MatrixXfPtr data (new MatrixXf(3, 6));
 		data->setZero();
-		(*data)(i)=-1;
+		(*data)(i)=(float)(i-9.0)/18.0;
 		batch.data().push_back(data);
 
 		// Generate "label".

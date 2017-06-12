@@ -31,22 +31,22 @@ class WindowGrayscaleBatch: public Window {
 public:
 
 	/*!
-	 * Display mode of the grayscale (singlechannel) window.
+	 * Normalization of the grayscale (single channel) images.
 	 */
 	enum Normalization {
-		Norm_None, //< Displays original image(s) (negative values simply won't be visible).
+		Norm_None, //< Displays original image(s), without any mormalization (negative values simply won't be visible).
 		Norm_Positive, //< Displays image(s) normalized to <0,1>.
 		Norm_HotCold //< Displays image(s) in a hot-cold normalization <-1,1>.
 	};
 
 	/*!
-	 *
+	 * Types of grids to be displayed.
 	 */
 	enum Grid {
-		Grid_None,
-		Grid_Sample,
-		Grid_Batch,
-		Grid_Both
+		Grid_None, //< No grid
+		Grid_Sample, //< Displays only grid dividing sample cells.
+		Grid_Batch, //< Displays grid dividing samples.
+		Grid_Both //< Displays both sample and batch grids.
 	};
 
 	/*!
@@ -133,9 +133,6 @@ public:
 
 							// Color depending on the visualization.
 							switch(normalization) {
-							case Normalization::Norm_None:
-								red = green = blue = val;
-								break;
 							case Normalization::Norm_Positive:
 								red = green = blue = (val - min)/diff;
 								break;
@@ -143,6 +140,12 @@ public:
 								red = (val > 0.0) ? val/max : 0.0f;
 								green = 0.0f;
 								blue = (val < 0.0) ? val/min : 0.0f;
+								break;
+							// None is default.
+							case Normalization::Norm_None:
+							default:
+								red = green = blue = val;
+								break;
 							}//: switch
 
 							// Draw rectangle - (x, y, height, width, color)!!
@@ -169,7 +172,9 @@ public:
 				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * cols, batch_height * rows);
 				draw_grid(0.8f, 0.3f, 0.3f, 0.4f, batch_width, batch_height, 4.0);
 				break;
+			// None is default.
 			case Grid::Grid_None:
+			default:
 				break;
 			}//: switch
 		}//: if !null
