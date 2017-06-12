@@ -23,7 +23,7 @@ using namespace mic::logger;
 using namespace mic::opengl::visualization;
 
 /// Window displaying the image.
-WindowGrayscaleBatch* w_batch;
+WindowGrayscaleBatch<float>* w_batch;
 
 /*!
  * \brief Function for testing ImageEncoder/WindowImage2D classes.
@@ -37,7 +37,7 @@ void test_thread_body (void) {
 		// Generate "data".
 		MatrixXfPtr data (new MatrixXf(3, 5));
 		data->setZero();
-		(*data)(i)=1;
+		(*data)(i)=-1;
 		batch.data().push_back(data);
 
 		// Generate "label".
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create batch visualization window.
-	w_batch = new WindowGrayscaleBatch("Grayscale batch", 512, 512, 0, 0);
+	w_batch = new WindowGrayscaleBatch<float>("Grayscale batch", WindowGrayscaleBatch<float>::Norm_HotCold, WindowGrayscaleBatch<float>::Grid_Both, 0, 0, 512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 

@@ -36,7 +36,7 @@ void test_thread_body (void) {
 		// Generate "data".
 		MatrixXfPtr data (new MatrixXf(3, 5));
 		data->setZero();
-		(*data)(i)=1;
+		(*data)(i)=-1;
 		batch.data().push_back(data);
 
 		// Generate "label".
