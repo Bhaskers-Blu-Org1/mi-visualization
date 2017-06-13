@@ -44,7 +44,7 @@ public:
 	 * @param position_x_ X coordinate of the upper left window corner.
 	 * @param position_y_ Y coordinate of the upper left window corner.
 	 */
-	Window(std::string name_ = "OpenGlWindow", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0);
+	Window(std::string name_ = "OpenGlWindow", unsigned int position_x_ = 0, unsigned int position_y_ = 0, unsigned int width_ = 512, unsigned int height_ = 512);
 
 	/*!
 	 * Destructor.
@@ -88,26 +88,6 @@ protected:
 	std::string name;
 
 	/*!
-	 * Window height.
-	 */
-	unsigned int height;
-
-	/*!
-	 * Window width.
-	 */
-	unsigned int width;
-
-	/*!
-	 * Window height before entered the full-screen mode.
-	 */
-	unsigned int previous_height;
-
-	/*!
-	 * Window width before entered the full-screen mode.
-	 */
-	unsigned int previous_width;
-
-	/*!
 	 * Window left corner position x.
 	 */
 	unsigned int position_x;
@@ -116,6 +96,26 @@ protected:
 	 * Window left corner position y.
 	 */
 	unsigned int position_y;
+
+	/*!
+	 * Window width.
+	 */
+	unsigned int width;
+
+	/*!
+	 * Window height.
+	 */
+	unsigned int height;
+
+	/*!
+	 * Window width before entered the full-screen mode.
+	 */
+	unsigned int previous_width;
+
+	/*!
+	 * Window height before entered the full-screen mode.
+	 */
+	unsigned int previous_height;
 
 	/*!
 	 * Window ID assigned by OpenGl.

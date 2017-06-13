@@ -12,8 +12,8 @@ namespace mic {
 namespace opengl {
 namespace visualization {
 
-Window::Window(std::string name_, unsigned int height_, unsigned int width_, unsigned int position_x_, unsigned int position_y_) :
-		name(name_), height(height_), width(width_), position_x(position_x_), position_y(position_y_)
+Window::Window(std::string name_, unsigned int position_x_, unsigned int position_y_, unsigned int width_, unsigned int height_) :
+		name(name_), position_x(position_x_), position_y(position_y_), width(width_), height(height_)
 {
 	// Initialize window and display modes.
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
