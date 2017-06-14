@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create batch visualization window.
-	w_batch = new WindowGrayscaleBatch<float>("Grayscale batch", WindowGrayscaleBatch<float>::Norm_HotCold, WindowGrayscaleBatch<float>::Grid_Both, 0, 0, 512, 512);
+	w_batch = new WindowGrayscaleBatch<float>("Grayscale batch", Grayscale::Norm_HotCold, Grayscale::Grid_Both, 0, 0, 512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 

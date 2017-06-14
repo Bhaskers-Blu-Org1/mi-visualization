@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
-	w_batch = new WindowMatrix2D("Grayscale image", 512, 512, 0, 0);
+	w_batch = new WindowMatrix2D("Grayscale image", 0, 0, 512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 
