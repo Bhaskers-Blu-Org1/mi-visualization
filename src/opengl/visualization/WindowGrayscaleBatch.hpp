@@ -36,7 +36,8 @@ public:
 	enum Normalization {
 		Norm_None, //< Displays original image(s), without any mormalization (negative values simply won't be visible).
 		Norm_Positive, //< Displays image(s) normalized to <0,1>.
-		Norm_HotCold //< Displays image(s) in a hot-cold normalization <-1,1>.
+		Norm_HotCold, //< Displays image(s) in a hot-cold normalization <-1,1> i.e. red are positive and blue are negative values.
+		Norm_InversedHotCold //< Displays image(s) in a inversed hot-cold normalization <-1,1> i.e. red are negative and blue are positive values.
 	};
 
 	/*!
@@ -140,6 +141,11 @@ public:
 								red = (val > 0.0) ? val/max : 0.0f;
 								green = 0.0f;
 								blue = (val < 0.0) ? val/min : 0.0f;
+								break;
+							case Normalization::Norm_InversedHotCold:
+								blue = (val > 0.0) ? val/max : 0.0f;
+								green = 0.0f;
+								red = (val < 0.0) ? val/min : 0.0f;
 								break;
 							// None is default.
 							case Normalization::Norm_None:

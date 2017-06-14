@@ -29,7 +29,9 @@ public:
 	/*!
 	 * Constructor. NULLs the pointer to probability data.
 	 */
-	WindowProbability(std::string name_ = "WindowProbability", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0);
+	WindowProbability(std::string name_ = "WindowProbability",
+			unsigned int position_x_ = 0, unsigned int position_y_ = 0,
+			unsigned int width_ = 512, unsigned int height_ = 512);
 
 	/*!
 	 * Destructor.

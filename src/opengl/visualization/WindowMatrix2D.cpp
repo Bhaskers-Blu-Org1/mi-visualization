@@ -12,8 +12,10 @@ namespace mic {
 namespace opengl {
 namespace visualization {
 
-WindowMatrix2D::WindowMatrix2D(std::string name_, unsigned int height_, unsigned int width_, unsigned int position_x_, unsigned int position_y_) :
-	Window(name_, height_, width_, position_x_, position_y_)
+WindowMatrix2D::WindowMatrix2D(std::string name_,
+		unsigned int position_x_, unsigned int position_y_,
+		unsigned int width_ , unsigned int height_) :
+	Window(name_, position_x_, position_y_, width_, height_)
 {
 	// NULL pointer.
 	displayed_matrix_ptr = nullptr;

@@ -27,7 +27,9 @@ public:
 	/*!
 	 * Constructor. NULLs the image pointer.
 	 */
-	WindowMatrix2D(std::string name_ = "Matrix2D", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0);
+	WindowMatrix2D(std::string name_ = "Matrix2D",
+			unsigned int position_x_ = 0, unsigned int position_y_ = 0,
+			unsigned int width_ = 512, unsigned int height_ = 512);
 
 	/*!
 	 * Destructor.

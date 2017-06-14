@@ -41,7 +41,9 @@ public:
 	/*!
 	 * Constructor. NULLs the image pointer.
 	 */
-	WindowMazeOfDigits(std::string name_ = "MazeOfDigits", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0);
+	WindowMazeOfDigits(std::string name_ = "MazeOfDigits",
+			unsigned int position_x_ = 0, unsigned int position_y_ = 0,
+			unsigned int width_ = 512, unsigned int height_ = 512);
 
 	/*!
 	 * Destructor.

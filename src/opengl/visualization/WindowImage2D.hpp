@@ -29,7 +29,9 @@ public:
 	/*!
 	 * Constructor. NULLs the image pointer.
 	 */
-	WindowImage2D(std::string name_ = "Image2D", unsigned int height_ = 512, unsigned int width_ = 512, unsigned int position_x_ = 0, unsigned int position_y_ = 0);
+	WindowImage2D(std::string name_ = "Image2D",
+			unsigned int position_x_ = 0, unsigned int position_y_ = 0,
+			unsigned int width_ = 512, unsigned int height_ = 512);
 
 	/*!
 	 * Destructor.

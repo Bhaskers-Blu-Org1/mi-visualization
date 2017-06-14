@@ -44,7 +44,9 @@ public:
 	 * @param position_x_ X coordinate of the upper left window corner.
 	 * @param position_y_ Y coordinate of the upper left window corner.
 	 */
-	Window(std::string name_ = "OpenGlWindow", unsigned int position_x_ = 0, unsigned int position_y_ = 0, unsigned int width_ = 512, unsigned int height_ = 512);
+	Window(std::string name_ = "OpenGlWindow",
+			unsigned int position_x_ = 0, unsigned int position_y_ = 0,
+			unsigned int width_ = 512, unsigned int height_ = 512);
 
 	/*!
 	 * Destructor.
