@@ -104,26 +104,21 @@ public:
 			size_t batch_width = ceil(sqrt(batch_data.size()));
 			size_t batch_height = ceil((eT)batch_data.size()/batch_width);
 
-			// Get tensor dimensions.
-			size_t height = batch_data[0]->dim(0);
-			size_t width = batch_data[0]->dim(1);
-			size_t depth = batch_data[0]->dim(2);
-			assert(depth >= 3); // for now: other dimensions will be skipped.
+			// Tensor dimensions.
+			size_t height;
+			size_t width;
+			size_t depth;
 
-			// Set opengl scale related variables...
+			// Opengl scale.
 	    	eT scale_x, scale_y;
 
-			// ... depending on the channel display mode.
+			// Set scale depending on the channel display mode.
 			switch(channel_display) {
 			case ChannelDisplay::Chan_Separate:
-		    	scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(width * batch_width * 3);
-		    	scale_y = (eT)glutGet(GLUT_WINDOW_HEIGHT)/(eT)(height * batch_height);
 				break;
 			// RGB is default.
 			case ChannelDisplay::Chan_RGB:
 			default:
-		    	scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(width * batch_width);
-		    	scale_y = (eT)glutGet(GLUT_WINDOW_HEIGHT)/(eT)(height * batch_height);
 				break;
 			}//: switch
 
@@ -133,12 +128,24 @@ public:
 					// Check if we do not excess size.
 					if ((by*batch_width + bx) >= batch_data.size())
 						break;
+
 					// Get pointer to a given tensor.
 					eT* data_ptr = batch_data[by*batch_width + bx]->data();
+
+					// Get dimensions.
+					height = batch_data[by*batch_width + bx]->dim(0);
+					width = batch_data[by*batch_width + bx]->dim(1);
+					depth = batch_data[by*batch_width + bx]->dim(2);
+					assert(depth >= 3); // for now: other dimensions will be skipped.
 
 					// Draw depending on the channel display mode.
 					switch(channel_display) {
 					case ChannelDisplay::Chan_Separate:
+
+						// Calculate scale.
+				    	scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(width * batch_width * 3);
+				    	scale_y = (eT)glutGet(GLUT_WINDOW_HEIGHT)/(eT)(height * batch_height);
+
 					   	// Iterate through matrix elements.
 						for (size_t y = 0; y < height; y++) {
 							for (size_t x = 0; x < width; x++) {
@@ -148,21 +155,21 @@ public:
 								eT blue = data_ptr[y*width + x + 2*(height*width)];
 
 								// Draw red rectangle - (x, y, height, width, color)!!
-								draw_filled_rectangle(eT(bx*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								draw_filled_rectangle(eT(3*bx*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
 								(eT)red,
 								(eT)0.0,
 								(eT)0.0,
 								(eT)1.0f);
 
 								// Draw green rectangle - (x, y, height, width, color)!!
-								draw_filled_rectangle(eT((bx+1)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								draw_filled_rectangle(eT((3*bx+1)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
 								(eT)0.0,
 								(eT)green,
 								(eT)0.0,
 								(eT)1.0f);
 
 								// Draw blue rectangle - (x, y, height, width, color)!!
-								draw_filled_rectangle(eT((bx+2)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								draw_filled_rectangle(eT((3*bx+2)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
 								(eT)0.0,
 								(eT)0.0,
 								(eT)blue,
@@ -175,7 +182,11 @@ public:
 					// RGB is default.
 					case ChannelDisplay::Chan_RGB:
 					default:
-					   	// Iterate through matrix elements.
+						// Calculate scale.
+				    	scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(width * batch_width);
+				    	scale_y = (eT)glutGet(GLUT_WINDOW_HEIGHT)/(eT)(height * batch_height);
+
+				    	// Iterate through matrix elements.
 						for (size_t y = 0; y < height; y++) {
 							for (size_t x = 0; x < width; x++) {
 								// Get value - row-major!

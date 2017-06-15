@@ -113,8 +113,17 @@ mic::types::TensorPtr<float> readBMP(const std::string& filename_)
  */
 void test_thread_body (void) {
 
-	mic::types::TensorPtr<float> ptr = readBMP("../data/lena.bmp");
+	mic::types::TensorBatch<float> batch;
 
+	mic::types::TensorPtr<float> ptr = readBMP("../data/lena.bmp");
+	mic::types::TensorPtr<float> ptr2 = readBMP("../data/lena_eye.bmp");
+	mic::types::TensorPtr<float> ptr3 = readBMP("../data/lena_fovea.bmp");
+	mic::types::TensorPtr<float> ptr4 = readBMP("../data/rainbow.bmp");
+
+	batch.add(ptr, 0);
+	batch.add(ptr2, 0);
+	batch.add(ptr3, 0);
+	batch.add(ptr4, 0);
 
 	// Generate a batch.
 	/*mic::types::MNISTBatch batch;
@@ -146,10 +155,10 @@ void test_thread_body (void) {
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 				// Select random image-label pair.
-				//mic::types::MNISTSample sample = batch.getRandomSample();
+				//mic::types::TensorSample<float> sample = batch.getRandomSample();
 
 				// Set sample to be displayed.
-				w_batch->setSampleUnsynchronized(ptr);
+				w_batch->setBatchUnsynchronized(batch.data());
 			}//: end of critical section
 
 		}//: if
@@ -178,7 +187,7 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
-	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_Separate, RGB::Norm_None, RGB::Grid_Batch, 0, 0, 512, 512);
+	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_RGB, RGB::Norm_None, RGB::Grid_Batch, 0, 0, 512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 
