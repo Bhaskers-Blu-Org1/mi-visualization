@@ -20,6 +20,8 @@
 #include <logger/ConsoleOutput.hpp>
 using namespace mic::logger;
 
+#include <data_io/BMPImporter.hpp>
+
 #include <opengl/visualization/WindowManager.hpp>
 #include <opengl/visualization/WindowRGBTensor.hpp>
 using namespace mic::opengl::visualization;
@@ -27,119 +29,17 @@ using namespace mic::opengl::visualization;
 /// Window displaying the image.
 WindowRGBTensor<float>* w_batch;
 
-mic::types::TensorPtr<float> readBMP(const std::string& filename_)
-{
-	   static constexpr size_t HEADER_SIZE = 54;
-
-	    std::ifstream bmp(filename_, std::ios::binary);
-
-	    // Read the header.
-	    std::array<char, HEADER_SIZE> header;
-	    bmp.read(header.data(), header.size());
-
-	    // Get parameters.
-	    // https://www.gamedev.net/resources/_/technical/game-programming/how-to-load-a-bitmap-r1966
-	    // From File information header.
-	    uint32_t bfSize = *reinterpret_cast<uint32_t *>(&header[2]);
-	    uint32_t bfOffBits = *reinterpret_cast<uint32_t *>(&header[10]);
-	    // From Bitmap information header.
-	    uint32_t biWidth = *reinterpret_cast<uint32_t *>(&header[18]);
-	    uint32_t biHeight = *reinterpret_cast<uint32_t *>(&header[22]);
-	    //uint16_t biBitCount = *reinterpret_cast<uint16_t *>(&header[28]);
-
-	    /*std::cout << "fileSize: " << bfSize << std::endl;
-	    std::cout << "dataOffset: " << bfOffBits << std::endl;
-	    std::cout << "width: " << biWidth << std::endl;
-	    std::cout << "height: " << biHeight << std::endl;
-	    std::cout << "depth: " << biBitCount << "-bit" << std::endl;*/
-
-	    // Skip the rest of header.
-	    std::vector<char> rest(bfOffBits - HEADER_SIZE);
-	    bmp.read(rest.data(), rest.size());
-
-	    // Read the "pixels".
-	    std::vector<char> img(bfSize - bfOffBits);
-	    bmp.read(img.data(), img.size());
-
-	    // padWidth is the width of the image plus the extra padding.
-	    // Initially set both to the width of the image.
-	    size_t padWidth= (size_t)(3*biWidth);
-
-	    // And add any extra space to bring each line to a DWORD boundary
-	    while(padWidth%4!=0) {
-	       padWidth++;
-	    }
-	    //std::cout << "padWidth: " << padWidth << std::endl;
-
-	    // Prepare output tensor.
-	    mic::types::TensorPtr<float> ptr = MAKE_TENSOR_PTR(float, biHeight, biWidth, 3 );
-	    ptr->zeros();
-	    // Get data.
-	    float* data_ptr = ptr->data();
-
-	    // Iterate through rows...
-	    for (size_t h =0; h < biHeight; h++){
-	    	// ... and cols.
-	        for (size_t w =0; w < padWidth; w+=3) {
-	        	 // Skip the padding.
-	        	 if (w >= 3*biWidth) {
-	        		 continue;
-	        	 }
-	        	size_t i = h*padWidth + w;
-	 	    	/*std::cout << "h = " << h << "w = " << w << "i = " << i ;
-	 	        std::cout << " R: " << int(img[i+2] & 0xff) << " G: " << int(img[i+1] & 0xff) << " B: " << int(img[i] & 0xff)
-	 	        	<< std::endl;*/
-
-	        	// Red
-	           	//(*ptr)({biHeight-1 - h,w/3,0}) = (int(img[i + 2] & 0xff)) / (255.0);
-	        	data_ptr[(biHeight-1 - h)*biWidth + w/3] = (int(img[i + 2] & 0xff)) / (255.0);
-	           	// Green
-	           	//(*ptr)({biHeight-1 - h,w/3,1}) = (int(img[i + 1] & 0xff)) / (255.0);
-	        	data_ptr[(biHeight-1 - h)*biWidth + w/3 + 1*biWidth*biHeight] = (int(img[i + 1] & 0xff)) / (255.0);
-	           	// Blue
-	           	//(*ptr)({biHeight-1 - h,w/3,2}) = (int(img[i] & 0xff)) / (255.0);
-	        	data_ptr[(biHeight-1 - h)*biWidth + w/3 + 2*biWidth*biHeight] = (int(img[i + 0] & 0xff)) / (255.0);
-
-	        }
-	    }
-
-    //std::cout << " ptr = " << (*ptr) << std::endl;
-    return ptr;
-}
-
 /*!
  * \brief Function for testing ImageEncoder/WindowImage2D classes.
  * \author tkornuta
  */
 void test_thread_body (void) {
 
-	mic::types::TensorBatch<float> batch;
-
-	mic::types::TensorPtr<float> ptr = readBMP("../data/lena.bmp");
-	mic::types::TensorPtr<float> ptr2 = readBMP("../data/lena_eye.bmp");
-	mic::types::TensorPtr<float> ptr3 = readBMP("../data/lena_fovea.bmp");
-	mic::types::TensorPtr<float> ptr4 = readBMP("../data/rainbow.bmp");
-
-	batch.add(ptr, 0);
-	batch.add(ptr2, 0);
-	batch.add(ptr3, 0);
-	batch.add(ptr4, 0);
-
-	// Generate a batch.
-	/*mic::types::MNISTBatch batch;
-	for(size_t i=0; i< 15; i++) {
-		// Generate "data".
-		MatrixXfPtr data (new MatrixXf(3, 5));
-		data->setZero();
-		(*data)(i)=1;
-		batch.data().push_back(data);
-
-		// Generate "label".
-		batch.labels().push_back(std::make_shared<unsigned int>(i));
-
-		// Add index.
-		batch.indices().push_back(i);
-	}//: for*/
+	// Import exemplary BMPs.
+	mic::data_io::BMPImporter<float> importer ("bmp_importer");
+	importer.setDataFilename("../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
+	if (!importer.importData())
+		return;
 
  	// Main application loop.
 	while (!APP_STATE->Quit()) {
@@ -155,10 +55,11 @@ void test_thread_body (void) {
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 				// Select random image-label pair.
-				//mic::types::TensorSample<float> sample = batch.getRandomSample();
+				mic::types::TensorSample<float> sample = importer.getRandomSample();
 
 				// Set sample to be displayed.
-				w_batch->setBatchUnsynchronized(batch.data());
+				//w_batch->setBatchUnsynchronized(importer.data());
+				w_batch->setSampleUnsynchronized(sample.data());
 			}//: end of critical section
 
 		}//: if
@@ -187,7 +88,7 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
-	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_RGB, RGB::Norm_None, RGB::Grid_Batch, 0, 0, 512, 512);
+	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_Separate, RGB::Norm_None, RGB::Grid_Batch, 0, 0, 512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 
