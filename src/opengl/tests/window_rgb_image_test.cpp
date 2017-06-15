@@ -20,6 +20,7 @@
 #include <logger/ConsoleOutput.hpp>
 using namespace mic::logger;
 
+//#include <data_io/CIFARImporter.hpp>
 #include <data_io/BMPImporter.hpp>
 
 #include <opengl/visualization/WindowManager.hpp>
@@ -29,6 +30,7 @@ using namespace mic::opengl::visualization;
 /// Window displaying the image.
 WindowRGBTensor<float>* w_batch;
 
+
 /*!
  * \brief Function for testing ImageEncoder/WindowImage2D classes.
  * \author tkornuta
@@ -36,10 +38,16 @@ WindowRGBTensor<float>* w_batch;
 void test_thread_body (void) {
 
 	// Import exemplary BMPs.
-	mic::data_io::BMPImporter<float> importer ("bmp_importer");
-	importer.setDataFilename("../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
+	mic::data_io::BMPImporter<float> importer;
+		importer.setDataFilename("../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
+		if (!importer.importData())
+			return;
+
+/*	mic::data_io::CIFARImporter<float> importer;
+	importer.setDataFilename("../data/cifar-10-batches-bin/data_batch_1.bin;../data/cifar-10-batches-bin/data_batch_2.bin");
 	if (!importer.importData())
-		return;
+		return;*/
+	importer.setBatchSize(4);
 
  	// Main application loop.
 	while (!APP_STATE->Quit()) {
@@ -54,12 +62,13 @@ void test_thread_body (void) {
 			{ // Enter critical section - with the use of scoped lock from AppState!
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
-				// Select random image-label pair.
-				mic::types::TensorSample<float> sample = importer.getRandomSample();
+				// Select random sample/batch.
+				//mic::types::TensorSample<float> sample = importer.getRandomSample();
+				mic::types::TensorBatch<float> batch = importer.getRandomBatch();
 
-				// Set sample to be displayed.
-				//w_batch->setBatchUnsynchronized(importer.data());
-				w_batch->setSampleUnsynchronized(sample.data());
+				// Set sample/batch to be displayed.
+				w_batch->setBatchUnsynchronized(batch.data());
+				//w_batch->setSampleUnsynchronized(sample.data());
 			}//: end of critical section
 
 		}//: if
