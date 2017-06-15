@@ -38,17 +38,17 @@ WindowRGBTensor<float>* w_batch;
 void test_thread_body (void) {
 
 	// Import exemplary BMPs.
-/*	mic::data_io::BMPImporter<float> importer;
-		importer.setDataFilename("../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
-		if (!importer.importData())
-			return;*/
-
-	mic::data_io::CIFARImporter<float> importer;
-	importer.setDataFilename("../data/cifar-10-batches-bin/data_batch_1.bin;../data/cifar-10-batches-bin/data_batch_2.bin");
+	mic::data_io::BMPImporter<float> importer;
+	importer.setDataFilename("../data/gigapan1.bmp");//../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
 	if (!importer.importData())
 		return;
 
-	importer.setBatchSize(4);
+	/*mic::data_io::CIFARImporter<float> importer;
+	importer.setDataFilename("../data/cifar-10-batches-bin/data_batch_1.bin;../data/cifar-10-batches-bin/data_batch_2.bin");
+	if (!importer.importData())
+		return;*/
+
+	//importer.setBatchSize(4);
 
  	// Main application loop.
 	while (!APP_STATE->Quit()) {
@@ -93,12 +93,13 @@ int main(int argc, char* argv[]) {
 	// Set console output to logger.
 	LOGGER->addOutput(new ConsoleOutput());
 	LOG(LINFO) << "Logger initialized. Starting application";
+	//LOGGER->setSeverityLevel(Debug);
 
 	// Initialize GLUT! :]
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
-	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_RGB, RGB::Norm_None, RGB::Grid_Both, 0, 0, 3*512, 512);
+	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_RGB, RGB::Norm_None, RGB::Grid_Batch, 0, 0, 3*512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 
