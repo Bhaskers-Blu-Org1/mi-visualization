@@ -20,7 +20,7 @@
 #include <logger/ConsoleOutput.hpp>
 using namespace mic::logger;
 
-//#include <data_io/CIFARImporter.hpp>
+#include <data_io/CIFARImporter.hpp>
 #include <data_io/BMPImporter.hpp>
 
 #include <opengl/visualization/WindowManager.hpp>
@@ -38,15 +38,16 @@ WindowRGBTensor<float>* w_batch;
 void test_thread_body (void) {
 
 	// Import exemplary BMPs.
-	mic::data_io::BMPImporter<float> importer;
+/*	mic::data_io::BMPImporter<float> importer;
 		importer.setDataFilename("../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
 		if (!importer.importData())
-			return;
+			return;*/
 
-/*	mic::data_io::CIFARImporter<float> importer;
+	mic::data_io::CIFARImporter<float> importer;
 	importer.setDataFilename("../data/cifar-10-batches-bin/data_batch_1.bin;../data/cifar-10-batches-bin/data_batch_2.bin");
 	if (!importer.importData())
-		return;*/
+		return;
+
 	importer.setBatchSize(4);
 
  	// Main application loop.
@@ -97,7 +98,7 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
-	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_Separate, RGB::Norm_None, RGB::Grid_Batch, 0, 0, 512, 512);
+	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_RGB, RGB::Norm_None, RGB::Grid_Both, 0, 0, 3*512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 

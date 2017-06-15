@@ -30,7 +30,8 @@ public:
 	 * Display mode.
 	 */
 	enum ChannelDisplay {
-		Chan_Separate, //< Displays separate channels.
+		Chan_SeparateColor, //< Displays separate channels - colored according to the channel type (R/G/B)
+		Chan_SeparateGrayscale, //< Displays separate channels - grayscale.
 		Chan_RGB //< Displays RGB image.
 	};
 
@@ -38,8 +39,8 @@ public:
 	 * Normalization of the RGB (three channel) images.
 	 */
 	enum Normalization {
-		Norm_None, //< Displays original image(s), without any normalization (negative values simply won't be visible).
-		Norm_Positive //< Displays image(s) with channels normalized to <0,1>.
+		Norm_None //< Displays original image(s), without any normalization (negative values simply won't be visible).
+		//Norm_Positive //< Displays image(s) with channels normalized to <0,1>.
 	};
 
 	/*!
@@ -68,7 +69,7 @@ public:
 	 * Constructor. Sets window position (x,y), size (width, height) and display properties (normalization, grid).
 	 */
 	WindowRGBTensor(std::string name_ = "WindowRGBTensor",
-			ChannelDisplay channel_display_ = Chan_Separate, Normalization normalization_ = Norm_None, Grid grid_ = Grid_Batch,
+			ChannelDisplay channel_display_ = Chan_RGB, Normalization normalization_ = Norm_None, Grid grid_ = Grid_Batch,
 			unsigned int position_x_ = 0, unsigned int position_y_ = 0,
 			unsigned int width_ = 512,unsigned int height_ = 512,
 			bool draw_batch_grid_ = true, bool draw_sample_grid_ = false) :
@@ -112,16 +113,6 @@ public:
 			// Opengl scale.
 	    	eT scale_x, scale_y;
 
-			// Set scale depending on the channel display mode.
-			switch(channel_display) {
-			case ChannelDisplay::Chan_Separate:
-				break;
-			// RGB is default.
-			case ChannelDisplay::Chan_RGB:
-			default:
-				break;
-			}//: switch
-
 	    	// Iterate through batch elements.
 			for (size_t by=0; by < batch_height; by++)
 				for (size_t bx=0; bx < batch_width; bx++) {
@@ -140,7 +131,7 @@ public:
 
 					// Draw depending on the channel display mode.
 					switch(channel_display) {
-					case ChannelDisplay::Chan_Separate:
+					case ChannelDisplay::Chan_SeparateColor:
 
 						// Calculate scale.
 				    	scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(width * batch_width * 3);
@@ -172,6 +163,46 @@ public:
 								draw_filled_rectangle(eT((3*bx+2)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
 								(eT)0.0,
 								(eT)0.0,
+								(eT)blue,
+								(eT)1.0f);
+
+							}//: for
+						}//: for
+
+						break;
+
+					case ChannelDisplay::Chan_SeparateGrayscale:
+
+						// Calculate scale.
+				    	scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(width * batch_width * 3);
+				    	scale_y = (eT)glutGet(GLUT_WINDOW_HEIGHT)/(eT)(height * batch_height);
+
+					   	// Iterate through matrix elements.
+						for (size_t y = 0; y < height; y++) {
+							for (size_t x = 0; x < width; x++) {
+								// Get value - row-major!
+								eT red = data_ptr[y*width + x]; // first channel
+								eT green = data_ptr[y*width + x + (height*width)];
+								eT blue = data_ptr[y*width + x + 2*(height*width)];
+
+								// Draw red rectangle - (x, y, height, width, color)!!
+								draw_filled_rectangle(eT(3*bx*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								(eT)red,
+								(eT)red,
+								(eT)red,
+								(eT)1.0f);
+
+								// Draw green rectangle - (x, y, height, width, color)!!
+								draw_filled_rectangle(eT((3*bx+1)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								(eT)green,
+								(eT)green,
+								(eT)green,
+								(eT)1.0f);
+
+								// Draw blue rectangle - (x, y, height, width, color)!!
+								draw_filled_rectangle(eT((3*bx+2)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								(eT)blue,
+								(eT)blue,
 								(eT)blue,
 								(eT)1.0f);
 
@@ -213,13 +244,31 @@ public:
 			// Draw grids dividing the cells and batch samples.
 			switch(grid) {
 			case Grid::Grid_Sample :
-				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * width, batch_height * height);
+				// Draw depending on the channel display mode.
+				switch(channel_display) {
+				case ChannelDisplay::Chan_SeparateColor:
+				case ChannelDisplay::Chan_SeparateGrayscale:
+					draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * width * 3, batch_height * height);
+					break;
+				default:
+				case ChannelDisplay::Chan_RGB:
+					draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * width, batch_height * height);
+				}
 				break;
 			case Grid::Grid_Batch:
 				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width, batch_height, 4.0);
 				break;
 			case Grid::Grid_Both:
-				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * width, batch_height * height);
+				// Draw depending on the channel display mode.
+				switch(channel_display) {
+				case ChannelDisplay::Chan_SeparateColor:
+				case ChannelDisplay::Chan_SeparateGrayscale:
+					draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * width * 3, batch_height * height);
+					break;
+				default:
+				case ChannelDisplay::Chan_RGB:
+					draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * width, batch_height * height);
+				}
 				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width, batch_height, 4.0);
 				break;
 			// None is default.
