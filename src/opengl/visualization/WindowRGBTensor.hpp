@@ -78,6 +78,9 @@ public:
 		normalization(normalization_ ),
 		grid(grid_)
 	{
+		// Register additional key handler.
+		REGISTER_KEY_HANDLER('c', "c - toggles channel display mode", &WindowRGBTensor<eT>::keyhandlerToggleChannelDisplayMode);
+		REGISTER_KEY_HANDLER('g', "g - toggles grid mode", &WindowRGBTensor<eT>::keyhandlerGridMode);
 
 	}
 
@@ -85,6 +88,26 @@ public:
 	 * Virtual destructor - empty.
 	 */
 	virtual ~WindowRGBTensor() { }
+
+	/*!
+	 * Changes channel display mode.
+	 */
+	void keyhandlerToggleChannelDisplayMode(void) {
+		// Enter critical section.
+		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+		channel_display = (ChannelDisplay)((channel_display + 1) % 3);
+		// End of critical section.
+	}
+
+	/*!
+	 * Changes grid visualization mode.
+	 */
+	void keyhandlerGridMode(void) {
+		// Enter critical section.
+		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+		grid = (Grid)((grid + 1) % 4);
+		// End of critical section.
+	}
 
 
 	/*!

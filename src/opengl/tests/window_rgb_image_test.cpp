@@ -38,8 +38,8 @@ WindowRGBTensor<float>* w_batch;
 void test_thread_body (void) {
 
 	// Import exemplary BMPs.
-	mic::data_io::BMPImporter<float> importer;
-	importer.setDataFilename("../data/gigapan1.bmp");//../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
+	mic::data_io::BMPImporter<float> importer; // ../data/gigapan1.bmp");//
+	importer.setDataFilename("../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
 	if (!importer.importData())
 		return;
 
@@ -48,7 +48,7 @@ void test_thread_body (void) {
 	if (!importer.importData())
 		return;*/
 
-	//importer.setBatchSize(4);
+	importer.setBatchSize(4);
 
  	// Main application loop.
 	while (!APP_STATE->Quit()) {

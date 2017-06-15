@@ -86,6 +86,9 @@ void Window::reshapeHandler(int width_, int height_){
 
 
 void Window::keyhandlerFullscreen(void) {
+	// Enter critical section.
+	APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+
 	if (!fullscreen_mode) {
 		// Remember window size.
 		previous_height = height;
@@ -105,6 +108,8 @@ void Window::keyhandlerFullscreen(void) {
 		glutPositionWindow(position_x, position_y);
 	}//: if
 	fullscreen_mode = !fullscreen_mode;
+
+	// End of critical section.
 }
 
 
