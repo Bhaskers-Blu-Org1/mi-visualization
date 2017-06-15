@@ -50,3 +50,27 @@ if(${BUILD_TEST_GRAYSCALE_BATCH_VISUALIZATION})
 	install(TARGETS window_grayscale_batch_test RUNTIME DESTINATION bin)
 	
 endif(${BUILD_TEST_GRAYSCALE_BATCH_VISUALIZATION})
+
+# =======================================================================
+# Build executables - grayscale batch visualization test.
+# =======================================================================
+
+set(BUILD_TEST_RGB_IMAGE_VISUALIZATION ON CACHE BOOL "Build the RGB image visualization test application")
+
+if(${BUILD_TEST_RGB_IMAGE_VISUALIZATION})
+	# Create executable.
+	add_executable(window_rgb_image_test window_rgb_image_test.cpp)
+	# Link it with shared libraries.
+	target_link_libraries(window_rgb_image_test 
+		logger
+		application
+		types
+		data_io
+		opengl_application
+		opengl_visualization
+		)
+	
+	# install test to bin directory
+	install(TARGETS window_rgb_image_test RUNTIME DESTINATION bin)
+	
+endif(${BUILD_TEST_RGB_IMAGE_VISUALIZATION})
