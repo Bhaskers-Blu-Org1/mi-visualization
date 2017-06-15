@@ -39,7 +39,7 @@ public:
 	 */
 	enum Normalization {
 		Norm_None, //< Displays original image(s), without any normalization (negative values simply won't be visible).
-		Norm_Positive //< Displays image(s) normalized to <0,1>.
+		Norm_Positive //< Displays image(s) with channels normalized to <0,1>.
 	};
 
 	/*!
@@ -104,16 +104,28 @@ public:
 			size_t batch_width = ceil(sqrt(batch_data.size()));
 			size_t batch_height = ceil((eT)batch_data.size()/batch_width);
 
-			// Get vector.
-			//auto batch_data = batch_ptr->data();
+			// Get tensor dimensions.
+			size_t height = batch_data[0]->dim(0);
+			size_t width = batch_data[0]->dim(1);
+			size_t depth = batch_data[0]->dim(2);
+			assert(depth >= 3); // for now: other dimensions will be skipped.
 
-			// Get image sizes.
-			size_t rows = batch_data[0]->dim(0);
-			size_t cols = batch_data[0]->dim(1);
+			// Set opengl scale related variables...
+	    	eT scale_x, scale_y;
 
-			// Set opengl scale related variables.
-	    	eT scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(cols * batch_width);
-	    	eT scale_y = (eT)glutGet(GLUT_WINDOW_HEIGHT)/(eT)(rows * batch_height);
+			// ... depending on the channel display mode.
+			switch(channel_display) {
+			case ChannelDisplay::Chan_Separate:
+		    	scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(width * batch_width * 3);
+		    	scale_y = (eT)glutGet(GLUT_WINDOW_HEIGHT)/(eT)(height * batch_height);
+				break;
+			// RGB is default.
+			case ChannelDisplay::Chan_RGB:
+			default:
+		    	scale_x = (eT)glutGet(GLUT_WINDOW_WIDTH)/(eT)(width * batch_width);
+		    	scale_y = (eT)glutGet(GLUT_WINDOW_HEIGHT)/(eT)(height * batch_height);
+				break;
+			}//: switch
 
 	    	// Iterate through batch elements.
 			for (size_t by=0; by < batch_height; by++)
@@ -121,43 +133,83 @@ public:
 					// Check if we do not excess size.
 					if ((by*batch_width + bx) >= batch_data.size())
 						break;
-					// Get pointer to a given image.
+					// Get pointer to a given tensor.
 					eT* data_ptr = batch_data[by*batch_width + bx]->data();
 
-					//eT ultimate_max= (max > -min) ? max : -min;
+					// Draw depending on the channel display mode.
+					switch(channel_display) {
+					case ChannelDisplay::Chan_Separate:
+					   	// Iterate through matrix elements.
+						for (size_t y = 0; y < height; y++) {
+							for (size_t x = 0; x < width; x++) {
+								// Get value - row-major!
+								eT red = data_ptr[y*width + x]; // first channel
+								eT green = data_ptr[y*width + x + (height*width)];
+								eT blue = data_ptr[y*width + x + 2*(height*width)];
 
-				   	// Iterate through matrix elements.
-					for (size_t y = 0; y < rows; y++) {
-						for (size_t x = 0; x < cols; x++) {
-							// Get value - REVERSED! as Eigen::Matrix by default is column-major!!
-							//eT val = data_ptr[x*rows + y];
-							eT red = data_ptr[x*rows + y]; // first channel
-							eT green = data_ptr[x*rows + y + (rows*cols)];
-							eT blue = data_ptr[x*rows + y + 2*(rows*cols)];
+								// Draw red rectangle - (x, y, height, width, color)!!
+								draw_filled_rectangle(eT(bx*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								(eT)red,
+								(eT)0.0,
+								(eT)0.0,
+								(eT)1.0f);
 
-							// Draw rectangle - (x, y, height, width, color)!!
-							draw_filled_rectangle(eT(bx*cols+x) * scale_x, eT(by*rows+y) * scale_y, scale_y, scale_x,
-							(eT)red,
-							(eT)green,
-							(eT)blue,
-							(eT)1.0f);
+								// Draw green rectangle - (x, y, height, width, color)!!
+								draw_filled_rectangle(eT((bx+1)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								(eT)0.0,
+								(eT)green,
+								(eT)0.0,
+								(eT)1.0f);
 
+								// Draw blue rectangle - (x, y, height, width, color)!!
+								draw_filled_rectangle(eT((bx+2)*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								(eT)0.0,
+								(eT)0.0,
+								(eT)blue,
+								(eT)1.0f);
+
+							}//: for
 						}//: for
-					}//: for
+
+						break;
+					// RGB is default.
+					case ChannelDisplay::Chan_RGB:
+					default:
+					   	// Iterate through matrix elements.
+						for (size_t y = 0; y < height; y++) {
+							for (size_t x = 0; x < width; x++) {
+								// Get value - row-major!
+								eT red = data_ptr[y*width + x]; // first channel
+								eT green = data_ptr[y*width + x + (height*width)];
+								eT blue = data_ptr[y*width + x + 2*(height*width)];
+
+								// Draw rectangle - (x, y, height, width, color)!!
+								draw_filled_rectangle(eT(bx*width+x) * scale_x, eT(by*height+y) * scale_y, scale_y, scale_x,
+								(eT)red,
+								(eT)green,
+								(eT)blue,
+								(eT)1.0f);
+
+							}//: for
+						}//: for
+
+						break;
+					}//: switch
+
 
 				}//: for images in batch
 
 			// Draw grids dividing the cells and batch samples.
 			switch(grid) {
 			case Grid::Grid_Sample :
-				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * cols, batch_height * rows);
+				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * width, batch_height * height);
 				break;
 			case Grid::Grid_Batch:
-				draw_grid(0.8f, 0.3f, 0.3f, 0.4f, batch_width, batch_height, 4.0);
+				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width, batch_height, 4.0);
 				break;
 			case Grid::Grid_Both:
-				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * cols, batch_height * rows);
-				draw_grid(0.8f, 0.3f, 0.3f, 0.4f, batch_width, batch_height, 4.0);
+				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * width, batch_height * height);
+				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width, batch_height, 4.0);
 				break;
 			// None is default.
 			case Grid::Grid_None:
@@ -228,11 +280,11 @@ private:
 	 */
 	std::vector <mic::types::TensorPtr<eT> > batch_data;
 
-	/// Normalization mode.
-	Normalization normalization;
-
 	/// Grid display mode.
 	ChannelDisplay channel_display;
+
+	/// Normalization mode.
+	Normalization normalization;
 
 	/// Grid display mode.
 	Grid grid;

@@ -45,14 +45,13 @@ mic::types::TensorPtr<float> readBMP(const std::string& filename_)
 	    // From Bitmap information header.
 	    uint32_t biWidth = *reinterpret_cast<uint32_t *>(&header[18]);
 	    uint32_t biHeight = *reinterpret_cast<uint32_t *>(&header[22]);
-	    uint16_t biBitCount = *reinterpret_cast<uint16_t *>(&header[28]);
+	    //uint16_t biBitCount = *reinterpret_cast<uint16_t *>(&header[28]);
 
-
-	    std::cout << "fileSize: " << bfSize << std::endl;
+	    /*std::cout << "fileSize: " << bfSize << std::endl;
 	    std::cout << "dataOffset: " << bfOffBits << std::endl;
 	    std::cout << "width: " << biWidth << std::endl;
 	    std::cout << "height: " << biHeight << std::endl;
-	    std::cout << "depth: " << biBitCount << "-bit" << std::endl;
+	    std::cout << "depth: " << biBitCount << "-bit" << std::endl;*/
 
 	    // Skip the rest of header.
 	    std::vector<char> rest(bfOffBits - HEADER_SIZE);
@@ -70,7 +69,7 @@ mic::types::TensorPtr<float> readBMP(const std::string& filename_)
 	    while(padWidth%4!=0) {
 	       padWidth++;
 	    }
-	    std::cout << "padWidth: " << padWidth << std::endl;
+	    //std::cout << "padWidth: " << padWidth << std::endl;
 
 	    // Prepare output tensor.
 	    mic::types::TensorPtr<float> ptr = MAKE_TENSOR_PTR(float, biHeight, biWidth, 3 );
@@ -78,33 +77,33 @@ mic::types::TensorPtr<float> readBMP(const std::string& filename_)
 	    // Get data.
 	    float* data_ptr = ptr->data();
 
-
-	    char temp = 0;
 	    // Iterate through rows...
 	    for (size_t h =0; h < biHeight; h++){
 	    	// ... and cols.
 	        for (size_t w =0; w < padWidth; w+=3) {
 	        	 // Skip the padding.
-	        	 if (w >= 3*biWidth)
+	        	 if (w >= 3*biWidth) {
 	        		 continue;
+	        	 }
 	        	size_t i = h*padWidth + w;
-/*	 	    	std::cout << "h = " << h << "w = " << w << "i = " << i ;
-	 	        std::cout << " R: " << int(img[i+2] & 0xff) << " G: " << int(img[i+1] & 0xff) << " B: " << int(img[i] & 0xff) << std::endl;
-*/
+	 	    	/*std::cout << "h = " << h << "w = " << w << "i = " << i ;
+	 	        std::cout << " R: " << int(img[i+2] & 0xff) << " G: " << int(img[i+1] & 0xff) << " B: " << int(img[i] & 0xff)
+	 	        	<< std::endl;*/
+
 	        	// Red
-	           	//(*ptr)({biHeight - h,w/3,0}) = (int(img[i + 2] & 0xff)) / (255.0);
-	        	data_ptr[biWidth - h + w * biHeight/3] = (int(img[i + 2] & 0xff)) / (255.0);
+	           	//(*ptr)({biHeight-1 - h,w/3,0}) = (int(img[i + 2] & 0xff)) / (255.0);
+	        	data_ptr[(biHeight-1 - h)*biWidth + w/3] = (int(img[i + 2] & 0xff)) / (255.0);
 	           	// Green
-	           	//(*ptr)({biHeight - h,w/3,1}) = (int(img[i + 1] & 0xff)) / (255.0);
-	        	data_ptr[biWidth - h + w * biHeight/3 + 1*biWidth*biHeight] = (int(img[i + 1] & 0xff)) / (255.0);
+	           	//(*ptr)({biHeight-1 - h,w/3,1}) = (int(img[i + 1] & 0xff)) / (255.0);
+	        	data_ptr[(biHeight-1 - h)*biWidth + w/3 + 1*biWidth*biHeight] = (int(img[i + 1] & 0xff)) / (255.0);
 	           	// Blue
-	           	//(*ptr)({biHeight - h,w/3,2}) = (int(img[i] & 0xff)) / (255.0);
-	        	data_ptr[biWidth - h + w * biHeight/3 + 2*biWidth*biHeight] = (int(img[i + 0] & 0xff)) / (255.0);
+	           	//(*ptr)({biHeight-1 - h,w/3,2}) = (int(img[i] & 0xff)) / (255.0);
+	        	data_ptr[(biHeight-1 - h)*biWidth + w/3 + 2*biWidth*biHeight] = (int(img[i + 0] & 0xff)) / (255.0);
 
 	        }
 	    }
 
-   // std::cout << "\n \n ptr = " << (*ptr) << std::endl;
+    //std::cout << " ptr = " << (*ptr) << std::endl;
     return ptr;
 }
 
@@ -179,7 +178,7 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
-	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_RGB, RGB::Norm_None, RGB::Grid_Batch, 0, 0, 512, 512);
+	w_batch = new WindowRGBTensor<float>("Batch", RGB::Chan_Separate, RGB::Norm_None, RGB::Grid_Batch, 0, 0, 512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 
