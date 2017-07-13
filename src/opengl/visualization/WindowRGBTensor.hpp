@@ -21,7 +21,8 @@ namespace opengl {
 namespace visualization {
 
 /*!
- * Class containing enumerators used in windows displaying RGB images (tensors).
+ * \brief Class containing enumerators used in windows displaying RGB images (tensors).
+ * \author tkornuta
  */
 class RGB {
 public:
@@ -30,10 +31,26 @@ public:
 	 * Display mode.
 	 */
 	enum ChannelDisplay {
-		Chan_SeparateColor, //< Displays separate channels - colored according to the channel type (R/G/B)
-		Chan_SeparateGrayscale, //< Displays separate channels - grayscale.
+		Chan_SeparateColor, //< Displays separate channels, colored according to the channel type (R/G/B)
+		Chan_SeparateGrayscale, //< Displays separate channels, all in grayscale.
 		Chan_RGB //< Displays RGB image.
 	};
+
+	/*!
+	 * Method returning description of a given type of channel display mode.
+	 */
+	std::string chan2str(ChannelDisplay chan_)
+	{
+		switch(chan_) {
+		case(Chan_SeparateColor):
+			return "Displays separate channels, colored according to the channel type (R/G/B)";
+		case(Chan_SeparateGrayscale):
+			return "Displays separate channels, all in grayscale";
+		case(Chan_RGB):
+			return "Displays RGB image";
+		}
+		return "UNDEFINED";
+	}
 
 	/*!
 	 * Normalization of the RGB (three channel) images.
@@ -42,6 +59,18 @@ public:
 		Norm_None //< Displays original image(s), without any normalization (negative values simply won't be visible).
 		//Norm_Positive //< Displays image(s) with channels normalized to <0,1>.
 	};
+
+	/*!
+	 * Method returning description of a given type of normalization.
+	 */
+	std::string norm2str(Normalization norm_)
+	{
+		switch(norm_) {
+		case(Norm_None):
+			return "Display original image(s), without any normalization";
+		}
+		return "UNDEFINED";
+	}
 
 	/*!
 	 * Types of grids to be displayed.
@@ -53,7 +82,23 @@ public:
 		Grid_Both //< Displays both sample and batch grids.
 	};
 
-
+	/*!
+	 * Method returning description of a given grid display mode.
+	 */
+	std::string grid2str(Grid grid_)
+	{
+		switch(grid_) {
+		case(Grid_None):
+			return "Display no grid";
+		case(Grid_Sample):
+			return "Display only grid dividing sample cells";
+		case(Grid_Batch):
+			return "Display grid dividing samples";
+		case(Grid_Both):
+			return "Display both sample and batch grids";
+		}
+		return "UNDEFINED";
+	}
 };
 
 /*!
@@ -96,6 +141,7 @@ public:
 		// Enter critical section.
 		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 		channel_display = (ChannelDisplay)((channel_display + 1) % 3);
+		LOG(LINFO) << chan2str(channel_display);
 		// End of critical section.
 	}
 
@@ -106,6 +152,7 @@ public:
 		// Enter critical section.
 		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 		grid = (Grid)((grid + 1) % 4);
+		LOG(LINFO) << grid2str(grid);
 		// End of critical section.
 	}
 

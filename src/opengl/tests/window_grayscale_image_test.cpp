@@ -18,11 +18,11 @@
 using namespace mic::logger;
 
 #include <opengl/visualization/WindowManager.hpp>
-#include <opengl/visualization/WindowMatrix2D.hpp>
+#include <opengl/visualization/WindowGrayscaleBatch.hpp>
 using namespace mic::opengl::visualization;
 
 /// Window displaying the image.
-WindowMatrix2D* w_batch;
+WindowGrayscaleBatch<float>* w_batch;
 
 /*!
  * \brief Function for testing ImageEncoder/WindowImage2D classes.
@@ -36,7 +36,7 @@ void test_thread_body (void) {
 		// Generate "data".
 		MatrixXfPtr data (new MatrixXf(3, 5));
 		data->setZero();
-		(*data)(i)=-1;
+		(*data)(i)=1;
 		batch.data().push_back(data);
 
 		// Generate "label".
@@ -63,7 +63,7 @@ void test_thread_body (void) {
 				mic::types::MNISTSample sample = batch.getRandomSample();
 
 				// Set sample to be displayed.
-				w_batch->setMatrixPointerUnsynchronized(sample.data());
+				w_batch->setSampleUnsynchronized(sample.data());
 			}//: end of critical section
 
 		}//: if
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 	VGL_MANAGER->initializeGLUT(argc, argv);
 
 	// Create two visualization windows - in the same, main thread :]
-	w_batch = new WindowMatrix2D("Grayscale image", 0, 0, 512, 512);
+	w_batch = new WindowGrayscaleBatch<float>("Grayscale image", Grayscale::Norm_HotCold, Grayscale::Grid_Both, 0, 0, 512, 512);
 
 	boost::thread test_thread(boost::bind(&test_thread_body));
 

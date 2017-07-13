@@ -21,7 +21,8 @@ namespace opengl {
 namespace visualization {
 
 /*!
- * Class containing enumerators used in grayscale windows.
+ * \brief Class containing enumerators used in grayscale windows.
+ * \author tkornuta
  */
 class Grayscale {
 public:
@@ -30,22 +31,57 @@ public:
 	 * Normalization of the grayscale (single channel) images.
 	 */
 	enum Normalization {
-		Norm_None, //< Displays original image(s), without any normalization (negative values simply won't be visible).
-		Norm_Positive, //< Displays image(s) normalized to <0,1>.
-		Norm_HotCold, //< Displays image(s) in a hot-cold normalization <-1,1> i.e. red are positive and blue are negative values.
-		Norm_TensorFLow //< Displays image(s) in a inverted hot-cold normalization <-1,1> i.e. red are negative and blue are positive values.
+		Norm_None, //< Display original image(s), without any normalization (negative values simply won't be visible).
+		Norm_Positive, //< Display image(s) normalized to <0,1>.
+		Norm_HotCold, //< Display image(s) in a hot-cold normalization <-1,1> i.e. red are positive and blue are negative values.
+		Norm_TensorFLow //< Display image(s) in a inverted hot-cold normalization <-1,1> i.e. red are negative and blue are positive values.
 	};
+
+	/*!
+	 * Method returning description of a given type of normalization.
+	 */
+	std::string norm2str(Normalization norm_)
+	{
+		switch(norm_) {
+		case(Norm_None):
+			return "Display original image(s), without any normalization";
+		case(Norm_Positive):
+			return "Display image(s) normalized to <0,1>";
+		case(Norm_HotCold):
+			return "Display image(s) in a hot-cold normalization <-1,1> i.e. red are positive and blue are negative";
+		case(Norm_TensorFLow):
+			return "Display inverted hot-cold normalization <-1,1> i.e. red are negative and blue are positive";
+		}
+		return "UNDEFINED";
+	}
 
 	/*!
 	 * Types of grids to be displayed.
 	 */
 	enum Grid {
 		Grid_None, //< No grid
-		Grid_Sample, //< Displays only grid dividing sample cells.
-		Grid_Batch, //< Displays grid dividing samples.
-		Grid_Both //< Displays both sample and batch grids.
+		Grid_Sample, //< Display only grid dividing sample cells.
+		Grid_Batch, //< Display grid dividing samples.
+		Grid_Both //< Display both sample and batch grids.
 	};
 
+	/*!
+	 * Method returning description of a given grid display mode.
+	 */
+	std::string grid2str(Grid grid_)
+	{
+		switch(grid_) {
+		case(Grid_None):
+			return "Display no grid";
+		case(Grid_Sample):
+			return "Display only grid dividing sample cells";
+		case(Grid_Batch):
+			return "Display grid dividing samples";
+		case(Grid_Both):
+			return "Display both sample and batch grids";
+		}
+		return "UNDEFINED";
+	}
 
 };
 
@@ -70,7 +106,9 @@ public:
 		normalization(normalization_ ),
 		grid(grid_)
 	{
-
+		// Register additional key handler.
+		REGISTER_KEY_HANDLER('n', "n - toggles normalization mode", &WindowGrayscaleBatch<eT>::keyhandlerToggleNormalizationMode);
+		REGISTER_KEY_HANDLER('g', "g - toggles grid mode", &WindowGrayscaleBatch<eT>::keyhandlerGridMode);
 	}
 
 	/*!
@@ -78,6 +116,27 @@ public:
 	 */
 	virtual ~WindowGrayscaleBatch() { }
 
+	/*!
+	 * Changes normalization mode.
+	 */
+	void keyhandlerToggleNormalizationMode(void) {
+		// Enter critical section.
+		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+		normalization = (Normalization)((normalization + 1) % 4);
+		LOG(LINFO) << norm2str(normalization);
+		// End of critical section.
+	}
+
+	/*!
+	 * Changes grid visualization mode.
+	 */
+	void keyhandlerGridMode(void) {
+		// Enter critical section.
+		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+		grid = (Grid)((grid + 1) % 4);
+		LOG(LINFO) << grid2str(grid);
+		// End of critical section.
+	}
 
 	/*!
 	 * Refreshes the content of the window.
@@ -180,11 +239,11 @@ public:
 				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * cols, batch_height * rows);
 				break;
 			case Grid::Grid_Batch:
-				draw_grid(0.8f, 0.3f, 0.3f, 0.4f, batch_width, batch_height, 4.0);
+				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width, batch_height, 4.0);
 				break;
 			case Grid::Grid_Both:
 				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width * cols, batch_height * rows);
-				draw_grid(0.8f, 0.3f, 0.3f, 0.4f, batch_width, batch_height, 4.0);
+				draw_grid(0.3f, 0.8f, 0.3f, 0.3f, batch_width, batch_height, 4.0);
 				break;
 			// None is default.
 			case Grid::Grid_None:
@@ -199,11 +258,38 @@ public:
 		// End of critical section.
 	}
 
+
+	/*!
+	 * Sets pointer to displayed sample.
+	 * @param sample_ptr_ Pointer to a sample (2D matrix) to be displayed.
+	 */
+	void setSampleSynchronized(mic::types::MatrixPtr<eT> sample_ptr_) {
+		// Enter critical section.
+		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
+
+		// Clear - just in case.
+		batch_data.clear();
+		// Add sample.
+		batch_data.push_back(sample_ptr_);
+
+		// End of critical section.
+	}
+
+	/*!
+	 * Sets pointer to displayed sample. Unsynchronized i.e. must be used inside of manually synchronized section.
+	 * @param sample_ptr_ Pointer to a sample (2D matrix) to be displayed.
+	 */
+	void setSampleUnsynchronized(mic::types::MatrixPtr<eT> sample_ptr_) {
+		// Clear - just in case.
+		batch_data.clear();
+		// Add sample.
+		batch_data.push_back(sample_ptr_);
+	}
 	/*!
 	 * Sets displayed batch.
 	 * @param batch_data_ Pointer to a batch to be displayed.
 	 */
-	void setBatchDataSynchronized(std::vector <std::shared_ptr<mic::types::Matrix<eT> > >  & batch_data_) {
+	void setBatchSynchronized(std::vector <std::shared_ptr<mic::types::Matrix<eT> > >  & batch_data_) {
 		// Enter critical section.
 		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
@@ -216,7 +302,7 @@ public:
 	 * Sets displayed batch. Unsynchronized i.e. must be used inside of manually synchronized section.
 	 * @param batch_data_ Pointer to a batch to be displayed.
 	 */
-	void setBatchDataUnsynchronized(std::vector <std::shared_ptr<mic::types::Matrix<eT> > > & batch_data_) {
+	void setBatchUnsynchronized(std::vector <std::shared_ptr<mic::types::Matrix<eT> > > & batch_data_) {
 		batch_data = batch_data_;
 	}
 

@@ -38,15 +38,15 @@ WindowRGBTensor<float>* w_batch;
 void test_thread_body (void) {
 
 	// Import exemplary BMPs.
-	mic::data_io::BMPImporter<float> importer; // ../data/gigapan1.bmp");//
-	importer.setDataFilename("../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
-	if (!importer.importData())
-		return;
-
-	/*mic::data_io::CIFARImporter<float> importer;
-	importer.setDataFilename("../data/cifar-10-batches-bin/data_batch_1.bin;../data/cifar-10-batches-bin/data_batch_2.bin");
+	/*mic::data_io::BMPImporter<float> importer;
+	importer.setDataFilename("../data/gigapan1.bmp");//../data/lena.bmp;../data/lena_eye.bmp;../data/lena_fovea.bmp;../data/rainbow.bmp");
 	if (!importer.importData())
 		return;*/
+
+	mic::data_io::CIFARImporter<float> importer;
+	importer.setDataFilename("../data/cifar-10-batches-bin/data_batch_1.bin;../data/cifar-10-batches-bin/data_batch_2.bin");
+	if (!importer.importData())
+		return;
 
 	importer.setBatchSize(4);
 

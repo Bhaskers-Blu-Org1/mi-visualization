@@ -64,7 +64,7 @@ void test_thread_body (void) {
 				mic::types::MNISTBatch bt = batch.getNextBatch();
 
 				// Set sample to be displayed.
-				w_batch->setBatchDataUnsynchronized(bt.data());
+				w_batch->setBatchUnsynchronized(bt.data());
 			}//: end of critical section
 
 		}//: if
