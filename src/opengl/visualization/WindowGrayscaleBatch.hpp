@@ -188,6 +188,7 @@ public:
 					eT diff = max - min;
 					if (diff == 0.0f) {
 						min = max = 0.0;
+						diff = 1.0f;
 					}
 
 					//eT ultimate_max= (max > -min) ? max : -min;
@@ -197,36 +198,36 @@ public:
 						for (size_t x = 0; x < cols; x++) {
 							// Get value - REVERSED! as Eigen::Matrix by default is column-major!!
 							eT val = data_ptr[x*rows + y];
-							eT red, green, blue;
+							eT red, green, blue, alpha;
 
 							// Color depending on the visualization.
 							switch(normalization) {
 							case Normalization::Norm_Positive:
 								red = green = blue = (val - min)/diff;
+								alpha = 1.0f;
 								break;
 							case Normalization::Norm_HotCold:
 								red = (val > 0.0) ? val/max : 0.0f;
 								green = 0.0f;
 								blue = (val < 0.0) ? val/min : 0.0f;
+								alpha = 1.0f;
 								break;
 							case Normalization::Norm_TensorFLow:
 								blue = (val > 0.0) ? val/max : 0.0f;
 								green = 0.0f;
 								red = (val < 0.0) ? val/min : 0.0f;
+								alpha = 1.0f;
 								break;
 							// None is default.
 							case Normalization::Norm_None:
 							default:
-								red = green = blue = val;
+								red = green = blue = alpha = val/diff;
 								break;
 							}//: switch
 
 							// Draw rectangle - (x, y, height, width, color)!!
 							draw_filled_rectangle(eT(bx*cols+x) * scale_x, eT(by*rows+y) * scale_y, scale_y, scale_x,
-							(eT)red,
-							(eT)green,
-							(eT)blue,
-							(eT)1.0f);
+									red, green, blue, alpha);
 
 						}//: for
 					}//: for

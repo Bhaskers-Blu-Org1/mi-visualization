@@ -102,6 +102,17 @@ public:
 				color_rgba c = (it->second)->color;
 				eT line_width = (it->second)->line_width;
 
+				// If do not fits in image - Move labels to next "column".
+				//std::cout << glutGet((GLenum) GLUT_WINDOW_HEIGHT) << std::endl;
+				//std::cout << label_y_offset << std::endl;
+				int acc_y = (int)(label_offset_y);
+				int acc_h = (int)(height * chart_height);
+				//std::cout << acc_y + acc_h + label_y_offset << std::endl;
+				if (acc_y + acc_h + label_y_offset > (unsigned int) glutGet((GLenum) GLUT_WINDOW_HEIGHT)) {
+					label_y_offset = 15;
+					label_x_offset += 200;
+				}//: if
+
 				// Draw chart associated with given data container.
 				redrawSingleContainer(l, vector, min_value, max_value, c, line_width, label_x_offset, label_y_offset);
 			}//: end
