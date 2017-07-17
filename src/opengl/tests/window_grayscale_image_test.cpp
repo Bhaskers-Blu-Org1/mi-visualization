@@ -31,7 +31,7 @@ WindowGrayscaleBatch<float>* w_batch;
 void test_thread_body (void) {
 
 	// Generate a batch.
-	mic::types::MNISTBatch batch;
+	mic::types::MNISTBatch<float> batch;
 	for(size_t i=0; i< 15; i++) {
 		// Generate "data".
 		MatrixXfPtr data (new MatrixXf(3, 5));
@@ -60,7 +60,7 @@ void test_thread_body (void) {
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 				// Select random image-label pair.
-				mic::types::MNISTSample sample = batch.getRandomSample();
+				mic::types::MNISTSample<float> sample = batch.getRandomSample();
 
 				// Set sample to be displayed.
 				w_batch->setSampleUnsynchronized(sample.data());

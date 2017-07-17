@@ -32,7 +32,7 @@ WindowGrayscaleBatch<float>* w_batch;
 void test_thread_body (void) {
 
 	// Generate a batch that will be used for returning minibatches of size 5.
-	mic::types::MNISTBatch batch(6);
+	mic::types::MNISTBatch<float> batch(6);
 	for(size_t i=0; i< 18; i++) {
 		// Generate "data".
 		MatrixXfPtr data (new MatrixXf(3, 6));
@@ -61,7 +61,7 @@ void test_thread_body (void) {
 				APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
 				// Retrieve the next minibatch.
-				mic::types::MNISTBatch bt = batch.getNextBatch();
+				mic::types::MNISTBatch<float> bt = batch.getNextBatch();
 
 				// Set sample to be displayed.
 				w_batch->setBatchUnsynchronized(bt.data());
