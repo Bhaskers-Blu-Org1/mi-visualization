@@ -22,8 +22,8 @@
  *
  */
 
-#ifndef WINDOWGRAYSCALEBATCH_H_
-#define WINDOWGRAYSCALEBATCH_H_
+#ifndef WINDOWRGBTENSOR_H_
+#define WINDOWRGBTENSOR_H_
 
 #include <opengl/visualization/Window.hpp>
 #include <opengl/visualization/WindowManager.hpp>
@@ -439,4 +439,4 @@ private:
 } /* namespace opengl */
 } /* namespace mic */
 
-#endif /* WINDOWGRAYSCALEBATCH_H_ */
+#endif /* WINDOWRGBTENSOR_H_ */
