@@ -28,7 +28,7 @@ modules=( "mi-toolchain" "mi-algorithms" )
 versions=( "v1.1.1" "v1.2.2" )
 
 # Prepare dir for dependencies.
-rm -Rf deps # Always delete!
+rm -Rf deps # Always fresh-and-clean!
 mkdir deps
 
 # Prepare target dir.

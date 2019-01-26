@@ -25,13 +25,16 @@ set -e
 # Out-of-source build.
 
 # Read input arguments.
-TARGET_DIR=$1
-echo "Installing to ${TARGET_DIR}"
+if [ $# -eq 0 ]; then
+    TARGET_DIR="mic"
+else
+    TARGET_DIR=$1
+fi
+echo "Installing module to ${TARGET_DIR}"
 
 # Prepare installation dir.
-if [ ! -d build ]; then
-    mkdir build
-fi
+rm -Rf build # Always fresh-and-clean!
+mkdir build
 cd build
 
 # Overwrite compiler!
