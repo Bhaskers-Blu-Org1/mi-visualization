@@ -36,6 +36,9 @@ jobs:
             - libboost-all-dev
             - libeigen3-dev
             - g++-4.8
+            - freeglut3-dev
+            - libxmu-dev
+            - libxi-dev
       env:
         - OS=Ubuntu-14.04
         - COMPILER=g++-4.8
