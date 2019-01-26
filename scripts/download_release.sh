@@ -28,10 +28,9 @@ download_release () {
     version=$3  
     echo "Downloading the ${version} release from: ${user}/${repo}. Please wait..."
 
-    # Find the archive.
+    # Find the archive. (NOT WORKING IN LGTM! :])
     #version=$( curl --silent "https://api.github.com/repos/${user}/${repo}/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/' )
     #echo "Found version: ${version}"
-    #version="v.1.1.0"
 
     # Download the archive.
     curl -sOL "https://github.com/${user}/${repo}/archive/${version}.tar.gz"
