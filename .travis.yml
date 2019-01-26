@@ -100,6 +100,7 @@ jobs:
           packages:   
             - boost 
             - eigen 
+            - glfw3
       before_script:
         - ./scripts/install_mi_deps.sh
       script:
