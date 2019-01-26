@@ -1,4 +1,4 @@
-#Machine Intelligence Core: Visualization
+# Machine Intelligence Core: Visualization
 
 Status of Travis Continuous Integration:
 
