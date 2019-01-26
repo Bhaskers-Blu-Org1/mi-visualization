@@ -1,8 +1,11 @@
 # Machine Intelligence Core: Visualization
 
-Status of Travis Continuous Integration:
-
-[![Build Status](https://travis.ibm.com/tkornut/mi-visualization.svg?token=9XHfj7QaSbmFqHsyaQes&branch=master)](https://travis.ibm.com/tkornut/mi-visualization)
+![Language](https://img.shields.io/badge/language-C%2B%2B-blue.svg)
+[![GitHub license](https://img.shields.io/github/license/IBM/mi-visualization.svg)](https://github.com/IBM/mi-visualization/blob/master/LICENSE)
+![](https://img.shields.io/github/release/IBM/mi-visualization.svg)
+[![Build Status](https://travis-ci.com/IBM/mi-visualization.svg?branch=master)](https://travis-ci.com/IBM/mi-visualization)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/IBM/mi-algorithms.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/IBM/mi-visualization/context:cpp)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/IBM/mi-algorithms.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/IBM/mi-visualization/alerts/)
 
 ## Description
 
@@ -56,9 +59,10 @@ In order to generate a "living" documentation of the code please run Doxygen:
     doxygen mi-visualization.doxyfile
     firefox html/index.html
 
-The current documentation (generated straight from the code and automatically uploaded to GH pages by Travis) is available at:
+The current documentation (generated straight from the code and automatically uploaded to github pages by Travis) is available at:
 
-https://pages.github.ibm.com/tkornut/mi-visualization/
+https://ibm.github.io/mi-visualization/
+
 
 ## Maintainer
 
