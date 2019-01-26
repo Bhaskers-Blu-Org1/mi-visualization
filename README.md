@@ -4,8 +4,8 @@
 [![GitHub license](https://img.shields.io/github/license/IBM/mi-visualization.svg)](https://github.com/IBM/mi-visualization/blob/master/LICENSE)
 ![](https://img.shields.io/github/release/IBM/mi-visualization.svg)
 [![Build Status](https://travis-ci.com/IBM/mi-visualization.svg?branch=master)](https://travis-ci.com/IBM/mi-visualization)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/IBM/mi-algorithms.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/IBM/mi-visualization/context:cpp)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/IBM/mi-algorithms.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/IBM/mi-visualization/alerts/)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/IBM/mi-visualization.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/IBM/mi-visualization/context:cpp)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/IBM/mi-visualization.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/IBM/mi-visualization/alerts/)
 
 ## Description
 
