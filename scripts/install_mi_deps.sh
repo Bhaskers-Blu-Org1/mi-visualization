@@ -15,38 +15,45 @@
 
 # Assumes that:
 # - ROOT_DIR is the root of the project. 
-# - ROOT_DIR/deps/ DOES NOT exist.
-# - ROOT_DIR/mic/ DOES NOT exist.
 # - script is executed in ROOT_DIR (starts and ends in that dir).
+# - ROOT_DIR/build/ - build directory of a given project.
+# - ROOT_DIR/deps/ - directory where all MIC modules/dependencies will be downloaded and build. 
+# - ROOT_DIR/mic/ - target directory (where all MIC modules will be installed).
 
 # Stop the script on first error.
 set -e
 
-source ./scripts/download_release.sh
+# List of MI modules with versions.
 modules=( "mi-toolchain" "mi-algorithms" )
-versions=( "v1.1.1" "v1.2.1" )
+versions=( "v1.1.1" "v1.2.2" )
 
-# Make dirs.
-rm -Rf deps mic # just in case
-mkdir mic
+# Prepare dir for dependencies.
+rm -Rf deps # Always delete!
 mkdir deps
+
+# Prepare target dir.
+if [ $# -eq 0 ]; then
+    TARGET_DIR="mic"
+else
+    TARGET_DIR=$1
+fi
+echo "Installing dependencies to ${TARGET_DIR}/"
+if [ ! -d ${TARGET_DIR} ]; then
+    mkdir ${TARGET_DIR}
+fi
 
 # Iterate over list of modules.
 cd deps
-for ((i=0;i<${#modules[@]};++i))
-do
+for ((i=0;i<${#modules[@]};++i)); do
     module=${modules[i]}
     version=${versions[i]}
     # Clone, configure and install module.
-    download_release IBM ${module} ${version}
-    mkdir ${module}/build
-    cd ${module}/build
-    echo "Compile "
-    # Overwrite compiler!
-    if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
-    cmake .. -DCMAKE_INSTALL_PREFIX=../../../mic/
-    make install
-    cd ../..
+    ./../scripts/download_release.sh IBM ${module} ${version}
+
+    # Build module.
+    cd ${module}
+    ./../../scripts/build_mi_module.sh ../../${TARGET_DIR}
     echo "${module} installed"
+    cd ..
 done
 cd ..
