@@ -63,10 +63,10 @@ find_package( Eigen3 REQUIRED )
 include_directories( ${EIGEN3_INCLUDE_DIR} )
 
 # Find MIC Toolchain
-find_package(MIToolchain 1.1 REQUIRED)
+find_package(MIToolchain 1.3 REQUIRED)
 
 # Find MIC Algorithms
-find_package(MIAlgorithms 1.2 REQUIRED)
+find_package(MIAlgorithms 1.3 REQUIRED)
 
 # =======================================================================
 # RPATH settings
