@@ -25,7 +25,7 @@
 
 #include <opengl/visualization/Window.hpp>
 
-#include <types/image_types.hpp>
+#include <types/Color.hpp>
 
 #include <data_io/DataCollector.hpp>
 
@@ -286,7 +286,7 @@ private:
 };
 
 // Typedef for compatibility.
-//typedef WindowCollectorChart<float> WindowCollectorFloatChart;
+typedef WindowCollectorChart<float> WindowCollectorFloatChart;
 
 
 } /* namespace visualization */

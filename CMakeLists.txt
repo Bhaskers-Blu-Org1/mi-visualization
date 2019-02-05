@@ -17,8 +17,8 @@ project(MIVisualization CXX C)
 
 #  Set current version number.
 set (MIVisualization_MAJOR_VERSION 1)
-set (MIVisualization_MINOR_VERSION 2)
-set (MIVisualization_PATCH_VERSION 2)
+set (MIVisualization_MINOR_VERSION 3)
+set (MIVisualization_PATCH_VERSION 0)
 set (MIVisualization_VERSION ${MIVisualization_MAJOR_VERSION}.${MIVisualization_MINOR_VERSION}.${MIVisualization_PATCH_VERSION})
 
 # CMake required version.

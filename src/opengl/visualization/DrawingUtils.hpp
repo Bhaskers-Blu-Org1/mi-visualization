@@ -41,8 +41,8 @@
 #endif
 
 // Dependencies on core types.
-#include <types/vector_types.hpp>
-#include <types/image_types.hpp>
+//#include <types/vector_types.hpp>
+#include <types/Color.hpp>
 using namespace mic::types;
 
 namespace mic {
@@ -75,7 +75,7 @@ public:
 	 * @param h
 	 * @param show_grid
 	 */
-	void display_image(image* img, unsigned w, unsigned h, bool show_grid = false);
+	//void display_image(image* img, unsigned w, unsigned h, bool show_grid = false);
 
 	/*!
 	 * Draws image ROI.
@@ -91,7 +91,7 @@ public:
 	 * @param b
 	 * @param a
 	 */
-	void display_image_roi(image* img, unsigned w, unsigned h, int x1, int y1, int x2, int y2, float r, float g, float b, float a);
+	//void display_image_roi(image* img, unsigned w, unsigned h, int x1, int y1, int x2, int y2, float r, float g, float b, float a);
 
 	/*!
 	 * Draws frame.
@@ -334,7 +334,7 @@ public:
 	 * @param plane
 	 * @return
 	 */
-	v_3f get_3d_position(int x, int y, float plane);
+	//v_3f get_3d_position(int x, int y, float plane);
 
 };
 
