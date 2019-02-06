@@ -18,7 +18,7 @@ Contains tools for building applications with OpenGL-based visualization of data
    *  visualization_opengl contains window manager and several types of windows, as well as base classes useful for building applications using OpenGL. 
    *  opengl_application contains base classes for building applications using OpenGL windows and controlled by events thrown by those windows.
 
-## Applications (tests)
+### Applications (tests)
 
    *  window_grayscale_image_test grayscale image visualization test application
    *  window_grayscale_batch_test grayscale batch visualization test application
