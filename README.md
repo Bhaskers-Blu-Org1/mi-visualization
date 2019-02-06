@@ -48,7 +48,6 @@ On Linux (Ubuntu 14.04):
    * [MI-Toolchain](https://github.com/IBM/mi-toolchain) - the core of MIC framework.
    * [MI-Algorithms](https://github.com/IBM/mi-algorithms) - contains basic (core) types and algorithms.
 
-
 ### Installation of all MIC dependencies (optional)
 
 This step is required only when not downloaded/installed the listed MIC dependencies earlier.
@@ -57,7 +56,7 @@ In directory scripts one can find script that will download and install all requ
 
     git clone git@github.com:IBM/mi-visualization.git
     cd mi-visualization
-    ./srcipt/install_mic_deps.sh ../mic
+    ./scripts/install_mic_deps.sh ../mic
 
 Then one can install the module by calling the following.
 
@@ -66,7 +65,7 @@ Then one can install the module by calling the following.
 Please note that it will create a directory 'deps' and download all sources into that directory.
 After compilation all dependencies will be installed in the directory '../mic'.
 
-### Installation of MI-Visualization
+## Installation of MI-Visualization
 The following assumes that all MIC dependencies are installed in the directory '../mic'.
 
     git clone git@github.com:IBM/mi-visualization.git
