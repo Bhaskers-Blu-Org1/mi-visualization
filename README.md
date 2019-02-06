@@ -92,4 +92,4 @@ https://ibm.github.io/mi-visualization/
 
 [tkornuta](http://github.com/tkornut)
 
-[![HitCount](http://hits.dwyl.io/tkornut/ibm/mi-algorithms.svg)](http://hits.dwyl.io/tkornut/ibm/mi-algorithms)
+[![HitCount](http://hits.dwyl.io/tkornut/ibm/mi-visualization.svg)](http://hits.dwyl.io/tkornut/ibm/mi-visualization)
