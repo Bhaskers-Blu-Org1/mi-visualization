@@ -35,8 +35,8 @@
 #include <logger/ConsoleOutput.hpp>
 using namespace mic::logger;
 
-#include <data_io/CIFARImporter.hpp>
-#include <data_io/BMPImporter.hpp>
+#include <importers/CIFARImporter.hpp>
+#include <importers/BMPImporter.hpp>
 
 #include <opengl/visualization/WindowManager.hpp>
 #include <opengl/visualization/WindowRGBTensor.hpp>
@@ -53,9 +53,9 @@ WindowRGBTensor<float>* w_batch;
 void test_thread_body (void) {
 
 	// Import exemplary BMPs.
-	mic::data_io::BMPImporter<float> importer;
+	mic::importers::BMPImporter<float> importer;
 	importer.setDataFilename("../../../data/rainbow.bmp");
-	/*mic::data_io::CIFARImporter<float> importer;
+	/*mic::importers::CIFARImporter<float> importer;
 	importer.setDataFilename("../data/cifar-10-batches-bin/data_batch_1.bin;../data/cifar-10-batches-bin/data_batch_2.bin");*/
 	if (!importer.importData())
 		return;

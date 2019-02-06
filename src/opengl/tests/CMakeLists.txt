@@ -28,8 +28,7 @@ if(${BUILD_TEST_GRAYSCALE_IMAGE_VISUALIZATION})
 	target_link_libraries(window_grayscale_image_test 
 		logger
 		application
-		types
-		data_io
+		importers
 		encoders
 		configuration
 		opengl_application
@@ -54,8 +53,7 @@ if(${BUILD_TEST_GRAYSCALE_BATCH_VISUALIZATION})
 	target_link_libraries(window_grayscale_batch_test 
 		logger
 		application
-		types
-		data_io
+		importers
 		opengl_application
 		opengl_visualization
 		)
@@ -78,8 +76,7 @@ if(${BUILD_TEST_RGB_IMAGE_VISUALIZATION})
 	target_link_libraries(window_rgb_image_test 
 		logger
 		application
-		types
-		data_io
+		importers
 		opengl_application
 		opengl_visualization
 		)

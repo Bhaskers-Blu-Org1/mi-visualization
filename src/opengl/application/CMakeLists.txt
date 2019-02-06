@@ -32,7 +32,7 @@ file(GLOB opengl_application_src
 
 add_library(opengl_application SHARED ${opengl_application_src})
 target_link_libraries(opengl_application 
-	logger configuration application types data_utils  
+	logger configuration application data_utils  
 	opengl_visualization
 	${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${Boost_LIBRARIES}
 	)

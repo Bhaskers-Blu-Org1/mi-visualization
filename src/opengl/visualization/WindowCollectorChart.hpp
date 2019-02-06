@@ -25,9 +25,9 @@
 
 #include <opengl/visualization/Window.hpp>
 
-#include <types/image_types.hpp>
+#include <types/Color.hpp>
 
-#include <data_io/DataCollector.hpp>
+#include <utils/DataCollector.hpp>
 
 namespace mic {
 namespace opengl {
@@ -97,13 +97,13 @@ public:
 			redrawMainChartWindow();
 
 			// Get access to data containers.
-			mic::data_io::DataContainers<std::string, eT> containers = collector_ptr->getContainers();
+			mic::utils::DataContainers<std::string, eT> containers = collector_ptr->getContainers();
 
 			// Refresh charts one by one.
 			unsigned int label_x_offset = 10;
 			unsigned int label_y_offset = 15;
 			// Iterate through the data containers and display them 1 by 1.
-			for(mic::data_io::DataContainerIt<std::string, eT> it = containers.begin(); it != containers.end(); it++, label_y_offset+=15) {
+			for(mic::utils::DataContainerIt<std::string, eT> it = containers.begin(); it != containers.end(); it++, label_y_offset+=15) {
 				// Get vector.
 				std::string l =  it->first;
 
@@ -143,7 +143,7 @@ public:
 	 * Sets data collector.
 	 * @param collector_ptr_ Data collector.
 	 */
-	void setDataCollectorPtr(mic::data_io::DataCollectorPtr<std::string, eT> collector_ptr_) {
+	void setDataCollectorPtr(mic::utils::DataCollectorPtr<std::string, eT> collector_ptr_) {
 		// Enter critical section.
 		APP_DATA_SYNCHRONIZATION_SCOPED_LOCK();
 
@@ -242,7 +242,7 @@ public:
 private:
 
 	/// Data collector associated with .
-	mic::data_io::DataCollectorPtr<std::string, eT> collector_ptr;
+	mic::utils::DataCollectorPtr<std::string, eT> collector_ptr;
 
 	/// Zoom factor - used for zoomin in and out in the chart window.
 	float zoom_factor;
@@ -286,7 +286,7 @@ private:
 };
 
 // Typedef for compatibility.
-//typedef WindowCollectorChart<float> WindowCollectorFloatChart;
+typedef WindowCollectorChart<float> WindowCollectorFloatChart;
 
 
 } /* namespace visualization */

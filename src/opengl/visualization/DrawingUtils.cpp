@@ -20,15 +20,17 @@
  * \date Dec 4, 2015
  */
 
-#include <opengl/visualization/DrawingUtils.hpp>
+#include <stdio.h>
 #include <cmath>
 #include <cstring>
+
+#include <opengl/visualization/DrawingUtils.hpp>
 
 namespace mic {
   namespace opengl {
     namespace visualization {
 
-      void DrawingUtils::display_image_roi(image* img, unsigned w, unsigned h, int x1, int y1, int x2, int y2, float r, float g, float b, float a) {
+      /*void DrawingUtils::display_image_roi(image* img, unsigned w, unsigned h, int x1, int y1, int x2, int y2, float r, float g, float b, float a) {
 
         if (img != NULL) {
 
@@ -121,7 +123,7 @@ namespace mic {
           //CHECK(img != NULL && img->image_data != NULL);
         }
 
-      }
+      }*/
 
       void DrawingUtils::draw_frame(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
 
@@ -456,7 +458,7 @@ namespace mic {
         return degrees * (float) (M_PI / 180.0f);
       }
 
-      v_3f DrawingUtils::get_3d_position(int x, int y, float plane) {
+      /*v_3f DrawingUtils::get_3d_position(int x, int y, float plane) {
 
         GLint viewport[4];
         GLdouble modelview[16];
@@ -480,7 +482,7 @@ namespace mic {
         point.z = (float) posZ;
 
         return point;
-      }
+      }*/
 
     } /* namespace visualization */
   } /* namespace opengl */

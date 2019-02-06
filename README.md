@@ -13,10 +13,17 @@ A subproject of Machine Intelligence Core framework.
 
 Contains tools for building applications with OpenGL-based visualization of data, results of execution etc.
 
-## MIC dependencies
+### Main modules
 
-   * MIToolchain - the core of MIC framework.
-   * MIAlgorithms - contains basic (core) types used by MIVisualization.
+   *  visualization_opengl contains window manager and several types of windows, as well as base classes useful for building applications using OpenGL. 
+   *  opengl_application contains base classes for building applications using OpenGL windows and controlled by events thrown by those windows.
+
+### Applications (tests)
+
+   *  window_grayscale_image_test grayscale image visualization test application
+   *  window_grayscale_batch_test grayscale batch visualization test application
+   *  window_rgb_image_test the RGB image visualization test application
+
 
 ## External dependencies
 
@@ -29,41 +36,59 @@ Additionally it depends on the following external libraries:
 
 On Linux (Ubuntu 14.04): 
 
-    sudo apt-get install git cmake cmake-curses-gui doxygen libboost1.54-all-dev libeigen3-dev freeglut3-dev libxmu-dev libxi-dev
+    sudo apt-get install git cmake doxygen libboost1.54-all-dev libeigen3-dev freeglut3-dev libxmu-dev libxi-dev
 
-## Main modules
+#### On Mac (OS X 10.14): (last tested on: Jan/22/2019)
 
-   *  visualization_opengl contains window manager and several types of windows, as well as base classes useful for building applications using OpenGL. 
+    brew install git cmake doxygen boost eigen glfw3
 
-## Applications
 
-   *  image_encoder_test image encoder (with OpenGL-based visualization) test application 
+## MIC dependencies
 
-## Installation
+   * [MI-Toolchain](https://github.com/IBM/mi-toolchain) - the core of MIC framework.
+   * [MI-Algorithms](https://github.com/IBM/mi-algorithms) - contains basic (core) types and algorithms.
 
-In order to download, configure, make and install new "clean" version of mi-visualization please execute the following:
+### Installation of all MIC dependencies (optional)
 
-    cd ~/workspace
-    git clone git@github.ibm.com:tkornut/mi-visualization.git
+This step is required only when not downloaded/installed the listed MIC dependencies earlier.
+
+In directory scripts one can find script that will download and install all required MIC modules.
+
+    git clone git@github.com:IBM/mi-visualization.git
     cd mi-visualization
-    mkdir build
-    cd build
-    cmake .. -DCMAKE_INSTALL_PREFIX=~/workspace/mic/
-    make -j4 install
+    ./scripts/install_mic_deps.sh ../mic
+
+Then one can install the module by calling the following.
+
+    ./scripts/build_mic_module.sh ../mic
+
+Please note that it will create a directory 'deps' and download all sources into that directory.
+After compilation all dependencies will be installed in the directory '../mic'.
+
+## Installation of MI-Visualization
+The following assumes that all MIC dependencies are installed in the directory '../mic'.
+
+    git clone git@github.com:IBM/mi-visualization.git
+    cd mi-visualization
+    ./scripts/build_mic_module.sh ../mic
+
+### Make commands
+
+   * make install - install applications to ../mic/bin, headers to ../mic/include, libraries to ../mic/lib, cmake files to ../mic/share
 
 ## Documentation
 
 In order to generate a "living" documentation of the code please run Doxygen:
 
-    cd ~/workspace/mi-visualization
+    cd mi-visualization
     doxygen mi-visualization.doxyfile
     firefox html/index.html
 
 The current documentation (generated straight from the code and automatically uploaded to github pages by Travis) is available at:
-
 https://ibm.github.io/mi-visualization/
-
 
 ## Maintainer
 
-Tomasz Kornuta (tkornut@us.ibm.com)
+[tkornuta](http://github.com/tkornut)
+
+[![HitCount](http://hits.dwyl.io/tkornut/ibm/mi-visualization.svg)](http://hits.dwyl.io/tkornut/ibm/mi-visualization)
