@@ -1,0 +1,10 @@
+<map id="mic::opengl::visualization::Window" name="mic::opengl::visualization::Window">
+<area shape="rect" id="node4" href="$a00009.html" title="OpenGL&#45;based window responsible for displaying data collected in DataCollector objects in the form of..." alt="" coords="467,5,667,46"/>
+<area shape="rect" id="node5" href="$a00010.html" title="OpenGL&#45;based window responsible for displaying grayscale (singlechannel) batch in a window..." alt="" coords="462,70,671,111"/>
+<area shape="rect" id="node6" href="$a00012.html" title="OpenGL&#45;based window responsible for displaying 2D matrices. " alt="" coords="482,135,651,177"/>
+<area shape="rect" id="node7" href="$a00013.html" title="OpenGL&#45;based window responsible for displaying maze of digits (0&#45;9) in a heat map&#45;like form..." alt="" coords="482,201,651,242"/>
+<area shape="rect" id="node8" href="$a00014.html" title="OpenGL&#45;based window responsible for displaying a MNIST digit with a moving agent on top..." alt="" coords="482,266,651,307"/>
+<area shape="rect" id="node9" href="$a00015.html" title="mic::opengl::visualization\l::WindowProbability" alt="" coords="482,331,651,373"/>
+<area shape="rect" id="node10" href="$a00016.html" title="OpenGL&#45;based window responsible for displaying RGB (three channel) batch in a window. " alt="" coords="474,397,659,438"/>
+<area shape="rect" id="node3" href="$a00001.html" title="Class offering methods for drawing in OpenGL windows. " alt="" coords="15,233,185,274"/>
+</map>

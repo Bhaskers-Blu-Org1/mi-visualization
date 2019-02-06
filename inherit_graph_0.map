@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$a00003.html" title="An abstract class implementing basic functions for two&#45;threaded, OpenGL&#45;based applications. Introduces the execution phases that are typical for all learning/classification applications, imposes fine code granulation. " alt="" coords="142,70,301,111"/>
+<area shape="rect" id="node3" href="$a00004.html" title="mic::opengl::application\l::OpenGLContinuousLearningApplication" alt="" coords="350,5,607,46"/>
+<area shape="rect" id="node4" href="$a00005.html" title="Parent class for all applications basing on episodes, without distinguising learning and training pha..." alt="" coords="383,70,575,111"/>
+<area shape="rect" id="node5" href="$a00006.html" title="mic::opengl::application\l::OpenGLTrainThenTestApplication" alt="" coords="365,135,592,177"/>
+</map>

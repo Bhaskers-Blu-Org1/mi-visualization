@@ -1,0 +1,5 @@
+<map id="mic::opengl::application::OpenGLApplication" name="mic::opengl::application::OpenGLApplication">
+<area shape="rect" id="node3" href="$a00004.html" title="mic::opengl::application\l::OpenGLContinuousLearningApplication" alt="" coords="449,5,706,46"/>
+<area shape="rect" id="node4" href="$a00005.html" title="Parent class for all applications basing on episodes, without distinguising learning and training pha..." alt="" coords="481,70,673,111"/>
+<area shape="rect" id="node5" href="$a00006.html" title="mic::opengl::application\l::OpenGLTrainThenTestApplication" alt="" coords="464,135,691,177"/>
+</map>

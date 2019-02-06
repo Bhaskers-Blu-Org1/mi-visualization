@@ -1,0 +1,5 @@
+<map id="mic::opengl::visualization::WindowCollectorChart::WindowCollectorChart" name="mic::opengl::visualization::WindowCollectorChart::WindowCollectorChart">
+<area shape="rect" id="node2" href="$a00009.html#a022d643255c29520c0f8e9b468d7bf18" title="mic::opengl::visualization\l::WindowCollectorChart::\lkeyhandlerZoomIn" alt="" coords="225,5,394,61"/>
+<area shape="rect" id="node3" href="$a00009.html#a4b9b5bb605d897c76662b6748016dcf4" title="mic::opengl::visualization\l::WindowCollectorChart::\lkeyhandlerZoomOut" alt="" coords="225,85,394,141"/>
+<area shape="rect" id="node4" href="$a00009.html#a9a9addc2cb52ffc59e013331bab00218" title="mic::opengl::visualization\l::WindowCollectorChart::\lkeyhandlerZoomReset" alt="" coords="225,165,394,221"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="src/opengl/visualization/WindowMatrix2D.cpp" name="src/opengl/visualization/WindowMatrix2D.cpp">
+<area shape="rect" id="node2" href="$a00038.html" title="Window displaying 2d matrix (e.g. a grayscale image). " alt="" coords="318,97,468,138"/>
+<area shape="rect" id="node9" href="$a00036.html" title="Declaration of WindowManager class along with a bunch of helpful types and macros. " alt="" coords="570,97,717,138"/>
+<area shape="rect" id="node3" href="$a00032.html" title="Contains declaration of parent class of all OpenGL&#45;based windows. " alt="" coords="156,187,291,229"/>
+<area shape="rect" id="node5" href="$a00030.html" title="Declaration of a class encapsulating methods for drawing in OpenGL windows. " alt="" coords="260,278,395,319"/>
+</map>

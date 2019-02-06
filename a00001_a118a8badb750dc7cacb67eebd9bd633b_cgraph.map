@@ -1,0 +1,6 @@
+<map id="mic::opengl::visualization::DrawingUtils::draw_mark" name="mic::opengl::visualization::DrawingUtils::draw_mark">
+<area shape="rect" id="node2" href="$a00001.html#af3cb9af40881b1548e22a7e27754c86a" title="mic::opengl::visualization\l::DrawingUtils::draw_circle" alt="" coords="236,5,415,46"/>
+<area shape="rect" id="node3" href="$a00001.html#aa446b42fb9afe6de4d4f4b48a382c72a" title="mic::opengl::visualization\l::DrawingUtils::draw_cross" alt="" coords="235,70,415,111"/>
+<area shape="rect" id="node4" href="$a00001.html#af9a76b0058040a84fa88d3f8a51c7adc" title="mic::opengl::visualization\l::DrawingUtils::draw_plus" alt="" coords="239,135,411,177"/>
+<area shape="rect" id="node5" href="$a00001.html#ae0a80937d4d89f30b1b3b133286040b0" title="mic::opengl::visualization\l::DrawingUtils::draw_square" alt="" coords="232,201,419,242"/>
+</map>

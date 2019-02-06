@@ -1,0 +1,3 @@
+<map id="mic::opengl::application::OpenGLContinuousLearningApplication" name="mic::opengl::application::OpenGLContinuousLearningApplication">
+<area shape="rect" id="node2" href="$a00003.html" title="An abstract class implementing basic functions for two&#45;threaded, OpenGL&#45;based applications. Introduces the execution phases that are typical for all learning/classification applications, imposes fine code granulation. " alt="" coords="54,81,212,122"/>
+</map>
